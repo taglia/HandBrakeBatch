@@ -13,8 +13,6 @@
 @private
     NSWindow *window;
     
-    NSArray *presets;
-    
     IBOutlet HBBInputController *inputController;
 }
 

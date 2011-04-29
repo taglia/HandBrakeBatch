@@ -7,6 +7,7 @@
 //
 
 #import "HandBrakeBatchAppDelegate.h"
+#import "HBBInputController.h"
 
 @implementation HandBrakeBatchAppDelegate
 
@@ -14,7 +15,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    presets = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"HandBrakePresets"];
+    window = [[[HBBInputController alloc] init] window];
 }
 
 @end

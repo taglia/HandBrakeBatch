@@ -12,6 +12,11 @@
 @interface HBBInputController : NSWindowController {
 @private
     
+    IBOutlet NSArray *presets;
+    
 }
+
+- (IBAction)chooseOutputFolder:(id)sender;
+- (IBAction)startConversion:(id)sender;
 
 @end

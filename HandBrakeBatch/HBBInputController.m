@@ -11,6 +11,12 @@
 
 @implementation HBBInputController
 
+- (id)init {
+    self = [super initWithWindowNibName:@"HBBInput"];
+    
+    return self;
+}
+
 - (id)initWithWindow:(NSWindow *)window
 {
     self = [super initWithWindow:window];
@@ -30,7 +36,15 @@
 {
     [super windowDidLoad];
     
-    // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+    presets = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"HandBrakePresets"];
+}
+
+- (IBAction)chooseOutputFolder:(id)sender {
+    
+}
+
+- (IBAction)startConversion:(id)sender {
+    
 }
 
 @end

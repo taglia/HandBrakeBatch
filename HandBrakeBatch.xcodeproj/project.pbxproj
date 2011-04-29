@@ -1,0 +1,298 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0EEC80401369B4EA00D05124 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EEC803F1369B4EA00D05124 /* Cocoa.framework */; };
+		0EEC804A1369B4EA00D05124 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80481369B4EA00D05124 /* InfoPlist.strings */; };
+		0EEC804D1369B4EA00D05124 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC804C1369B4EA00D05124 /* main.m */; };
+		0EEC80501369B4EA00D05124 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC804E1369B4EA00D05124 /* Credits.rtf */; };
+		0EEC80531369B4EA00D05124 /* HandBrakeBatchAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */; };
+		0EEC80561369B4EA00D05124 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80541369B4EA00D05124 /* MainMenu.xib */; };
+		0EEC805D1369B5E600D05124 /* HBBInput.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC805C1369B5E600D05124 /* HBBInput.xib */; };
+		0EEC80601369BCD500D05124 /* HBBInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC805F1369BCD500D05124 /* HBBInputController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0EEC803B1369B4EA00D05124 /* HandBrakeBatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HandBrakeBatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0EEC803F1369B4EA00D05124 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		0EEC80421369B4EA00D05124 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		0EEC80431369B4EA00D05124 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		0EEC80441369B4EA00D05124 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		0EEC80471369B4EA00D05124 /* HandBrakeBatch-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HandBrakeBatch-Info.plist"; sourceTree = "<group>"; };
+		0EEC80491369B4EA00D05124 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0EEC804B1369B4EA00D05124 /* HandBrakeBatch-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HandBrakeBatch-Prefix.pch"; sourceTree = "<group>"; };
+		0EEC804C1369B4EA00D05124 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0EEC804F1369B4EA00D05124 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		0EEC80511369B4EA00D05124 /* HandBrakeBatchAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandBrakeBatchAppDelegate.h; sourceTree = "<group>"; };
+		0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HandBrakeBatchAppDelegate.m; sourceTree = "<group>"; };
+		0EEC80551369B4EA00D05124 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		0EEC805C1369B5E600D05124 /* HBBInput.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HBBInput.xib; sourceTree = "<group>"; };
+		0EEC805E1369BCD500D05124 /* HBBInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBInputController.h; sourceTree = "<group>"; };
+		0EEC805F1369BCD500D05124 /* HBBInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBInputController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0EEC80381369B4EA00D05124 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0EEC80401369B4EA00D05124 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0EEC80301369B4EA00D05124 = {
+			isa = PBXGroup;
+			children = (
+				0EEC80451369B4EA00D05124 /* HandBrakeBatch */,
+				0EEC803E1369B4EA00D05124 /* Frameworks */,
+				0EEC803C1369B4EA00D05124 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0EEC803C1369B4EA00D05124 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0EEC803B1369B4EA00D05124 /* HandBrakeBatch.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0EEC803E1369B4EA00D05124 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0EEC803F1369B4EA00D05124 /* Cocoa.framework */,
+				0EEC80411369B4EA00D05124 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0EEC80411369B4EA00D05124 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0EEC80421369B4EA00D05124 /* AppKit.framework */,
+				0EEC80431369B4EA00D05124 /* CoreData.framework */,
+				0EEC80441369B4EA00D05124 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		0EEC80451369B4EA00D05124 /* HandBrakeBatch */ = {
+			isa = PBXGroup;
+			children = (
+				0EEC805E1369BCD500D05124 /* HBBInputController.h */,
+				0EEC805F1369BCD500D05124 /* HBBInputController.m */,
+				0EEC80511369B4EA00D05124 /* HandBrakeBatchAppDelegate.h */,
+				0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */,
+				0EEC80541369B4EA00D05124 /* MainMenu.xib */,
+				0EEC80461369B4EA00D05124 /* Supporting Files */,
+				0EEC805C1369B5E600D05124 /* HBBInput.xib */,
+			);
+			path = HandBrakeBatch;
+			sourceTree = "<group>";
+		};
+		0EEC80461369B4EA00D05124 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0EEC80471369B4EA00D05124 /* HandBrakeBatch-Info.plist */,
+				0EEC80481369B4EA00D05124 /* InfoPlist.strings */,
+				0EEC804B1369B4EA00D05124 /* HandBrakeBatch-Prefix.pch */,
+				0EEC804C1369B4EA00D05124 /* main.m */,
+				0EEC804E1369B4EA00D05124 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0EEC803A1369B4EA00D05124 /* HandBrakeBatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0EEC80591369B4EA00D05124 /* Build configuration list for PBXNativeTarget "HandBrakeBatch" */;
+			buildPhases = (
+				0EEC80371369B4EA00D05124 /* Sources */,
+				0EEC80381369B4EA00D05124 /* Frameworks */,
+				0EEC80391369B4EA00D05124 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HandBrakeBatch;
+			productName = HandBrakeBatch;
+			productReference = 0EEC803B1369B4EA00D05124 /* HandBrakeBatch.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0EEC80321369B4EA00D05124 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Murex SEA";
+			};
+			buildConfigurationList = 0EEC80351369B4EA00D05124 /* Build configuration list for PBXProject "HandBrakeBatch" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 0EEC80301369B4EA00D05124;
+			productRefGroup = 0EEC803C1369B4EA00D05124 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0EEC803A1369B4EA00D05124 /* HandBrakeBatch */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0EEC80391369B4EA00D05124 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0EEC804A1369B4EA00D05124 /* InfoPlist.strings in Resources */,
+				0EEC80501369B4EA00D05124 /* Credits.rtf in Resources */,
+				0EEC80561369B4EA00D05124 /* MainMenu.xib in Resources */,
+				0EEC805D1369B5E600D05124 /* HBBInput.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0EEC80371369B4EA00D05124 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0EEC804D1369B4EA00D05124 /* main.m in Sources */,
+				0EEC80531369B4EA00D05124 /* HandBrakeBatchAppDelegate.m in Sources */,
+				0EEC80601369BCD500D05124 /* HBBInputController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		0EEC80481369B4EA00D05124 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0EEC80491369B4EA00D05124 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		0EEC804E1369B4EA00D05124 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0EEC804F1369B4EA00D05124 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		0EEC80541369B4EA00D05124 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0EEC80551369B4EA00D05124 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0EEC80571369B4EA00D05124 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		0EEC80581369B4EA00D05124 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		0EEC805A1369B4EA00D05124 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HandBrakeBatch/HandBrakeBatch-Prefix.pch";
+				INFOPLIST_FILE = "HandBrakeBatch/HandBrakeBatch-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		0EEC805B1369B4EA00D05124 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HandBrakeBatch/HandBrakeBatch-Prefix.pch";
+				INFOPLIST_FILE = "HandBrakeBatch/HandBrakeBatch-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0EEC80351369B4EA00D05124 /* Build configuration list for PBXProject "HandBrakeBatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0EEC80571369B4EA00D05124 /* Debug */,
+				0EEC80581369B4EA00D05124 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0EEC80591369B4EA00D05124 /* Build configuration list for PBXNativeTarget "HandBrakeBatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0EEC805A1369B4EA00D05124 /* Debug */,
+				0EEC805B1369B4EA00D05124 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0EEC80321369B4EA00D05124 /* Project object */;
+}

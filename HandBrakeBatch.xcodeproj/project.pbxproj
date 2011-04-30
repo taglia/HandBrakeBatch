@@ -7,17 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E108B6B136C47F200168057 /* HBBProgressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E108B6A136C47F200168057 /* HBBProgressController.m */; };
+		0E18546B136C4222004B5558 /* HBBProgressWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E18546A136C4222004B5558 /* HBBProgressWindow.xib */; };
+		0E54925F136C49890094563F /* HBBInputFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E54925E136C49890094563F /* HBBInputFile.m */; };
 		0EEC80401369B4EA00D05124 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EEC803F1369B4EA00D05124 /* Cocoa.framework */; };
 		0EEC804A1369B4EA00D05124 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80481369B4EA00D05124 /* InfoPlist.strings */; };
 		0EEC804D1369B4EA00D05124 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC804C1369B4EA00D05124 /* main.m */; };
 		0EEC80501369B4EA00D05124 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC804E1369B4EA00D05124 /* Credits.rtf */; };
 		0EEC80531369B4EA00D05124 /* HandBrakeBatchAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */; };
 		0EEC80561369B4EA00D05124 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80541369B4EA00D05124 /* MainMenu.xib */; };
-		0EEC805D1369B5E600D05124 /* HBBInput.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC805C1369B5E600D05124 /* HBBInput.xib */; };
-		0EEC80601369BCD500D05124 /* HBBInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC805F1369BCD500D05124 /* HBBInputController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E108B69136C47F200168057 /* HBBProgressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBProgressController.h; sourceTree = "<group>"; };
+		0E108B6A136C47F200168057 /* HBBProgressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBProgressController.m; sourceTree = "<group>"; };
+		0E18546A136C4222004B5558 /* HBBProgressWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HBBProgressWindow.xib; sourceTree = "<group>"; };
+		0E54925D136C49890094563F /* HBBInputFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBInputFile.h; sourceTree = "<group>"; };
+		0E54925E136C49890094563F /* HBBInputFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBInputFile.m; sourceTree = "<group>"; };
 		0EEC803B1369B4EA00D05124 /* HandBrakeBatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HandBrakeBatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EEC803F1369B4EA00D05124 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		0EEC80421369B4EA00D05124 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -31,9 +37,6 @@
 		0EEC80511369B4EA00D05124 /* HandBrakeBatchAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandBrakeBatchAppDelegate.h; sourceTree = "<group>"; };
 		0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HandBrakeBatchAppDelegate.m; sourceTree = "<group>"; };
 		0EEC80551369B4EA00D05124 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		0EEC805C1369B5E600D05124 /* HBBInput.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HBBInput.xib; sourceTree = "<group>"; };
-		0EEC805E1369BCD500D05124 /* HBBInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBInputController.h; sourceTree = "<group>"; };
-		0EEC805F1369BCD500D05124 /* HBBInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBInputController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +51,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E549260136C49BD0094563F /* xib */ = {
+			isa = PBXGroup;
+			children = (
+				0EEC80541369B4EA00D05124 /* MainMenu.xib */,
+				0E18546A136C4222004B5558 /* HBBProgressWindow.xib */,
+			);
+			name = xib;
+			sourceTree = "<group>";
+		};
 		0EEC80301369B4EA00D05124 = {
 			isa = PBXGroup;
 			children = (
@@ -87,13 +99,14 @@
 		0EEC80451369B4EA00D05124 /* HandBrakeBatch */ = {
 			isa = PBXGroup;
 			children = (
-				0EEC805E1369BCD500D05124 /* HBBInputController.h */,
-				0EEC805F1369BCD500D05124 /* HBBInputController.m */,
+				0E54925D136C49890094563F /* HBBInputFile.h */,
+				0E54925E136C49890094563F /* HBBInputFile.m */,
 				0EEC80511369B4EA00D05124 /* HandBrakeBatchAppDelegate.h */,
 				0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */,
-				0EEC80541369B4EA00D05124 /* MainMenu.xib */,
+				0E108B69136C47F200168057 /* HBBProgressController.h */,
+				0E108B6A136C47F200168057 /* HBBProgressController.m */,
+				0E549260136C49BD0094563F /* xib */,
 				0EEC80461369B4EA00D05124 /* Supporting Files */,
-				0EEC805C1369B5E600D05124 /* HBBInput.xib */,
 			);
 			path = HandBrakeBatch;
 			sourceTree = "<group>";
@@ -163,7 +176,7 @@
 				0EEC804A1369B4EA00D05124 /* InfoPlist.strings in Resources */,
 				0EEC80501369B4EA00D05124 /* Credits.rtf in Resources */,
 				0EEC80561369B4EA00D05124 /* MainMenu.xib in Resources */,
-				0EEC805D1369B5E600D05124 /* HBBInput.xib in Resources */,
+				0E18546B136C4222004B5558 /* HBBProgressWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,7 +189,8 @@
 			files = (
 				0EEC804D1369B4EA00D05124 /* main.m in Sources */,
 				0EEC80531369B4EA00D05124 /* HandBrakeBatchAppDelegate.m in Sources */,
-				0EEC80601369BCD500D05124 /* HBBInputController.m in Sources */,
+				0E108B6B136C47F200168057 /* HBBProgressController.m in Sources */,
+				0E54925F136C49890094563F /* HBBInputFile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,6 +229,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
@@ -233,6 +248,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -291,6 +307,7 @@
 				0EEC805B1369B4EA00D05124 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

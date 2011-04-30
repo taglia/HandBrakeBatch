@@ -10,6 +10,7 @@
 		0E108B6B136C47F200168057 /* HBBProgressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E108B6A136C47F200168057 /* HBBProgressController.m */; };
 		0E18546B136C4222004B5558 /* HBBProgressWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E18546A136C4222004B5558 /* HBBProgressWindow.xib */; };
 		0E54925F136C49890094563F /* HBBInputFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E54925E136C49890094563F /* HBBInputFile.m */; };
+		0E9B490A136C874000FCDC68 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E9B4909136C874000FCDC68 /* Icon.icns */; };
 		0EEC80401369B4EA00D05124 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EEC803F1369B4EA00D05124 /* Cocoa.framework */; };
 		0EEC804A1369B4EA00D05124 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80481369B4EA00D05124 /* InfoPlist.strings */; };
 		0EEC804D1369B4EA00D05124 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC804C1369B4EA00D05124 /* main.m */; };
@@ -24,6 +25,7 @@
 		0E18546A136C4222004B5558 /* HBBProgressWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HBBProgressWindow.xib; sourceTree = "<group>"; };
 		0E54925D136C49890094563F /* HBBInputFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBInputFile.h; sourceTree = "<group>"; };
 		0E54925E136C49890094563F /* HBBInputFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBInputFile.m; sourceTree = "<group>"; };
+		0E9B4909136C874000FCDC68 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		0EEC803B1369B4EA00D05124 /* HandBrakeBatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HandBrakeBatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EEC803F1369B4EA00D05124 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		0EEC80421369B4EA00D05124 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -114,6 +116,7 @@
 		0EEC80461369B4EA00D05124 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0E9B4909136C874000FCDC68 /* Icon.icns */,
 				0EEC80471369B4EA00D05124 /* HandBrakeBatch-Info.plist */,
 				0EEC80481369B4EA00D05124 /* InfoPlist.strings */,
 				0EEC804B1369B4EA00D05124 /* HandBrakeBatch-Prefix.pch */,
@@ -177,6 +180,7 @@
 				0EEC80501369B4EA00D05124 /* Credits.rtf in Resources */,
 				0EEC80561369B4EA00D05124 /* MainMenu.xib in Resources */,
 				0E18546B136C4222004B5558 /* HBBProgressWindow.xib in Resources */,
+				0E9B490A136C874000FCDC68 /* Icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,10 +14,29 @@
 		0EEC80401369B4EA00D05124 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EEC803F1369B4EA00D05124 /* Cocoa.framework */; };
 		0EEC804A1369B4EA00D05124 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80481369B4EA00D05124 /* InfoPlist.strings */; };
 		0EEC804D1369B4EA00D05124 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC804C1369B4EA00D05124 /* main.m */; };
-		0EEC80501369B4EA00D05124 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC804E1369B4EA00D05124 /* Credits.rtf */; };
 		0EEC80531369B4EA00D05124 /* HandBrakeBatchAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */; };
 		0EEC80561369B4EA00D05124 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80541369B4EA00D05124 /* MainMenu.xib */; };
+		0EF72315136CFCE100D223F4 /* gpl-3.0.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0EF72314136CFCE100D223F4 /* gpl-3.0.txt */; };
+		0EF8EF95136CFEB700884AE8 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0EF8EF93136CFEB700884AE8 /* Credits.rtf */; };
+		0EF8EF98136D07EB00884AE8 /* HandBrakeCLI_32 in Resources */ = {isa = PBXBuildFile; fileRef = 0EF8EF96136D07EB00884AE8 /* HandBrakeCLI_32 */; };
+		0EF8EF99136D07EB00884AE8 /* HandBrakeCLI_64 in Resources */ = {isa = PBXBuildFile; fileRef = 0EF8EF97136D07EB00884AE8 /* HandBrakeCLI_64 */; };
+		0EF8EFB1136D981000884AE8 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EF8EFB0136D981000884AE8 /* Sparkle.framework */; };
+		0EF8EFB6136D9D2200884AE8 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EF8EFB0136D981000884AE8 /* Sparkle.framework */; };
+		0EF8EFB8136DA11700884AE8 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 0EF8EFB7136DA11700884AE8 /* dsa_pub.pem */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0EF8EFB5136D9D1600884AE8 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0EF8EFB6136D9D2200884AE8 /* Sparkle.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0E108B69136C47F200168057 /* HBBProgressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBProgressController.h; sourceTree = "<group>"; };
@@ -35,10 +54,15 @@
 		0EEC80491369B4EA00D05124 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0EEC804B1369B4EA00D05124 /* HandBrakeBatch-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HandBrakeBatch-Prefix.pch"; sourceTree = "<group>"; };
 		0EEC804C1369B4EA00D05124 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		0EEC804F1369B4EA00D05124 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		0EEC80511369B4EA00D05124 /* HandBrakeBatchAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandBrakeBatchAppDelegate.h; sourceTree = "<group>"; };
 		0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HandBrakeBatchAppDelegate.m; sourceTree = "<group>"; };
 		0EEC80551369B4EA00D05124 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		0EF72314136CFCE100D223F4 /* gpl-3.0.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "gpl-3.0.txt"; sourceTree = "<group>"; };
+		0EF8EF94136CFEB700884AE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		0EF8EF96136D07EB00884AE8 /* HandBrakeCLI_32 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = HandBrakeCLI_32; sourceTree = "<group>"; };
+		0EF8EF97136D07EB00884AE8 /* HandBrakeCLI_64 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = HandBrakeCLI_64; sourceTree = "<group>"; };
+		0EF8EFB0136D981000884AE8 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		0EF8EFB7136DA11700884AE8 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +71,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EEC80401369B4EA00D05124 /* Cocoa.framework in Frameworks */,
+				0EF8EFB1136D981000884AE8 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +116,7 @@
 		0EEC80411369B4EA00D05124 /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0EF8EFB0136D981000884AE8 /* Sparkle.framework */,
 				0EEC80421369B4EA00D05124 /* AppKit.framework */,
 				0EEC80431369B4EA00D05124 /* CoreData.framework */,
 				0EEC80441369B4EA00D05124 /* Foundation.framework */,
@@ -101,6 +127,7 @@
 		0EEC80451369B4EA00D05124 /* HandBrakeBatch */ = {
 			isa = PBXGroup;
 			children = (
+				0EEC804C1369B4EA00D05124 /* main.m */,
 				0E54925D136C49890094563F /* HBBInputFile.h */,
 				0E54925E136C49890094563F /* HBBInputFile.m */,
 				0EEC80511369B4EA00D05124 /* HandBrakeBatchAppDelegate.h */,
@@ -116,12 +143,15 @@
 		0EEC80461369B4EA00D05124 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0EF8EFB7136DA11700884AE8 /* dsa_pub.pem */,
+				0EF8EF96136D07EB00884AE8 /* HandBrakeCLI_32 */,
+				0EF8EF97136D07EB00884AE8 /* HandBrakeCLI_64 */,
+				0EF8EF93136CFEB700884AE8 /* Credits.rtf */,
+				0EF72314136CFCE100D223F4 /* gpl-3.0.txt */,
 				0E9B4909136C874000FCDC68 /* Icon.icns */,
 				0EEC80471369B4EA00D05124 /* HandBrakeBatch-Info.plist */,
 				0EEC80481369B4EA00D05124 /* InfoPlist.strings */,
 				0EEC804B1369B4EA00D05124 /* HandBrakeBatch-Prefix.pch */,
-				0EEC804C1369B4EA00D05124 /* main.m */,
-				0EEC804E1369B4EA00D05124 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -136,6 +166,7 @@
 				0EEC80371369B4EA00D05124 /* Sources */,
 				0EEC80381369B4EA00D05124 /* Frameworks */,
 				0EEC80391369B4EA00D05124 /* Resources */,
+				0EF8EFB5136D9D1600884AE8 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -177,10 +208,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EEC804A1369B4EA00D05124 /* InfoPlist.strings in Resources */,
-				0EEC80501369B4EA00D05124 /* Credits.rtf in Resources */,
 				0EEC80561369B4EA00D05124 /* MainMenu.xib in Resources */,
 				0E18546B136C4222004B5558 /* HBBProgressWindow.xib in Resources */,
 				0E9B490A136C874000FCDC68 /* Icon.icns in Resources */,
+				0EF72315136CFCE100D223F4 /* gpl-3.0.txt in Resources */,
+				0EF8EF95136CFEB700884AE8 /* Credits.rtf in Resources */,
+				0EF8EF98136D07EB00884AE8 /* HandBrakeCLI_32 in Resources */,
+				0EF8EF99136D07EB00884AE8 /* HandBrakeCLI_64 in Resources */,
+				0EF8EFB8136DA11700884AE8 /* dsa_pub.pem in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,20 +244,20 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		0EEC804E1369B4EA00D05124 /* Credits.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0EEC804F1369B4EA00D05124 /* en */,
-			);
-			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
 		0EEC80541369B4EA00D05124 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				0EEC80551369B4EA00D05124 /* en */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		0EF8EF93136CFEB700884AE8 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0EF8EF94136CFEB700884AE8 /* en */,
+			);
+			name = Credits.rtf;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -267,6 +302,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -283,6 +322,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HandBrakeBatch/HandBrakeBatch-Prefix.pch";

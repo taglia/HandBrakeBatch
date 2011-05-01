@@ -2,8 +2,10 @@
 //  main.m
 //  HandBrakeBatch
 //
-//  Created by Cesare Tagliaferri on 28/04/2011.
-//  Copyright 2011 Murex SEA. All rights reserved.
+//  Created by Cesare Tagliaferri
+//  This file is part of the HandBrakeBatch source code.
+//  Homepage: <http://www.osomac.com/>.
+//  It may be used under the terms of the GNU General Public License.
 //
 
 #import <Cocoa/Cocoa.h>

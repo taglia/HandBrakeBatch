@@ -2,12 +2,15 @@
 //  HandBrakeBatchAppDelegate.m
 //  HandBrakeBatch
 //
-//  Created by Cesare Tagliaferri on 28/04/2011.
-//  Copyright 2011 Cesare Tagliaferri. All rights reserved.
+//  Created by Cesare Tagliaferri
+//  This file is part of the HandBrakeBatch source code.
+//  Homepage: <http://www.osomac.com/>.
+//  It may be used under the terms of the GNU General Public License.
 //
 
 #import "HandBrakeBatchAppDelegate.h"
 #import "HBBInputFile.h"
+#import "HBBProgressController.h"
 
 @implementation HandBrakeBatchAppDelegate
 
@@ -20,6 +23,10 @@
     inputFiles = [[NSMutableArray alloc] init];
     
     self = [super init];
+    
+    // Subscribe to the Progress Window Notification
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(conversionCompleted:) name:COMPLETE_NOTIFICATION object:nil];
+    
     return self;
 }
 
@@ -27,6 +34,10 @@
 {
     [fileNamesView registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
     [fileNamesView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
+}
+
+- (void)windowWillClose:(NSNotification *)notification {
+    [NSApp terminate:nil];
 }
 
 #pragma mark Button Actions
@@ -54,9 +65,18 @@
 - (IBAction)startConversion:(id)sender {
     // Warn the user if there are no files to convert
     if ([inputFiles count] == 0) {
-        [[NSAlert alertWithMessageText:@"No files to convert" defaultButton:@"Ok" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Please drag some files in the table."] runModal];
+        NSBeginAlertSheet(@"No files to convert", @"Ok", NULL, NULL, [self window], NULL, NULL, NULL, NULL, @"Please drag some files in the table.");
         return;
     }
+    
+    progressController = [[HBBProgressController alloc] init];
+    
+    [progressController loadWindow];
+    
+    [[self window] orderOut:nil];
+    
+    [progressController setQueue:inputFiles];
+    [progressController processQueue];
 }
 
 #pragma mark Drag & Drop
@@ -108,6 +128,15 @@
 - (CGFloat)splitView:(NSSplitView *)splitView constrainMaxCoordinate:(CGFloat)proposedMax ofSubviewAt:(NSInteger)dividerIndex {
     NSRect frame = [[self window] frame];
     return frame.size.width - 250.0;
+}
+
+#pragma mark Notifications
+-(void) conversionCompleted:(NSNotification *)notification {
+    [[self window] makeKeyAndOrderFront:nil];
+    NSArray *newArray = [[notification userInfo] objectForKey:CURRENT_QUEUE_KEY];
+    
+    [fileNamesController removeObjects:inputFiles];
+    [fileNamesController addObjects:newArray];
 }
 
 @end

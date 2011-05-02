@@ -40,7 +40,7 @@
     [NSApp terminate:nil];
 }
 
-#pragma mark Button Actions
+#pragma mark Button & Menu Actions
 
 ///////////////////////////////////////
 //                                   //
@@ -77,6 +77,10 @@
     
     [progressController setQueue:inputFiles];
     [progressController processQueue];
+}
+
+- (IBAction)displayLicense:(id)sender {
+    [[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"gpl-3.0" ofType:@"txt"]];
 }
 
 #pragma mark Drag & Drop
@@ -133,10 +137,9 @@
 #pragma mark Notifications
 -(void) conversionCompleted:(NSNotification *)notification {
     [[self window] makeKeyAndOrderFront:nil];
-    NSArray *newArray = [[notification userInfo] objectForKey:CURRENT_QUEUE_KEY];
+    NSArray *processed = [[notification userInfo] objectForKey:PROCESSED_QUEUE_KEY];
     
-    [fileNamesController removeObjects:inputFiles];
-    [fileNamesController addObjects:newArray];
+    [fileNamesController removeObjects:processed];
 }
 
 @end

@@ -29,5 +29,6 @@
 
 - (IBAction)chooseOutputFolder:(id)sender;
 - (IBAction)startConversion:(id)sender;
+- (IBAction)displayLicense:(id)sender;
 
 @end

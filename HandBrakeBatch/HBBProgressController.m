@@ -10,9 +10,6 @@
 
 #import "HBBProgressController.h"
 
-#define EMPTY_QUEUE FALSE
-#define NON_EMPTY_QUEUE TRUE
-
 @implementation HBBProgressController
 
 @synthesize queue;
@@ -38,12 +35,7 @@
     NSBeginAlertSheet(@"Operation canceled", @"Ok", NULL, NULL, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"%d files have been converted, %d remaining.", [processedQueue count], [currentQueue count]);
 }
 
--(BOOL) prepareTask {
-    if (currentQueue == nil || [currentQueue count] == 0) {
-        [[self window] orderOut:nil];
-        return EMPTY_QUEUE;
-    }
-    
+-(void) prepareTask {
     // Initialize NSTask
     backgroundTask = [[NSTask alloc] init];
     [backgroundTask setStandardOutput: [NSPipe pipe]];
@@ -75,12 +67,13 @@
                                                  name: NSTaskDidTerminateNotification
                                                object: nil];
     
+    //Set the current file name in the progress window
+    [messageField setStringValue:[[currentQueue objectAtIndex:0] name]];
+    
     // We tell the file handle to go ahead and read in the background asynchronously, and notify
     // us via the callback registered above when we signed up as an observer.  The file handle will
     // send a NSFileHandleReadCompletionNotification when it has data that is available.
     [[[backgroundTask standardOutput] fileHandleForReading] readInBackgroundAndNotify];
-    
-    return NON_EMPTY_QUEUE;
 }
 
 - (void)processQueue {
@@ -97,7 +90,7 @@
     
     // Set appropriate HandBrakeCLI binary
     if ([[NSRunningApplication currentApplication] executableArchitecture] == NSBundleExecutableArchitectureX86_64) {
-        handBrakeCLI = [[NSBundle mainBundle] pathForResource:@"HandBrakeCLI_32" ofType:@""];
+        handBrakeCLI = [[NSBundle mainBundle] pathForResource:@"HandBrakeCLI_64" ofType:@""];
     } else {
         handBrakeCLI = [[NSBundle mainBundle] pathForResource:@"HandBrakeCLI_32" ofType:@""];
     }
@@ -119,29 +112,29 @@
     
     [self prepareTask];
     
-    //Set file name
-    [messageField setStringValue:[[currentQueue objectAtIndex:0] name]];
-    
     [backgroundTask launch];
 }
 
 #pragma mark Notification methods
 
 -(void) taskCompleted:(NSNotification *)notification {
-    if (cancel)
+    if ([notification object] != backgroundTask || cancel)
         return;
+        
     // Remove processed file from the queue
-    NSLog (@"File conversion completed");
     [processedQueue addObject:[currentQueue objectAtIndex:0]];
     [currentQueue removeObjectAtIndex:0];
-    
-    // Process next file (if any)
-    if ([self prepareTask] == NON_EMPTY_QUEUE) {
-        [backgroundTask launch];
-    } else {
+
+    // Check if all files have been processed
+    if ([currentQueue count] == 0) {
         [progressWheel stopAnimation:self];
         NSBeginAlertSheet(@"Conversion Complete", @"Ok", NULL, NULL, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"%d files have been converted.", [processedQueue count]);
-        }
+        return;
+    }
+        
+    // Process next file
+    [self prepareTask];
+    [backgroundTask launch];
 }
 
 - (void) getData: (NSNotification *)aNotification
@@ -156,8 +149,12 @@
             NSString *percentString = [message substringWithRange:NSMakeRange(24, 5)];
             double percent = [percentString floatValue];
             double overallPercent = percent + [processedQueue count]*100.0;
-            [taskProgressBar setDoubleValue:percent];
-            [overallProgressBar setDoubleValue:overallPercent];
+            
+            // Simple filter
+            if (overallPercent > [overallProgressBar doubleValue]) {
+                [taskProgressBar setDoubleValue:percent];
+                [overallProgressBar setDoubleValue:overallPercent];
+            }
         }
     }
     

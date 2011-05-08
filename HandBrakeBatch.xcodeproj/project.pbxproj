@@ -27,7 +27,6 @@
 		0EF8EF99136D07EB00884AE8 /* HandBrakeCLI_64 in Resources */ = {isa = PBXBuildFile; fileRef = 0EF8EF97136D07EB00884AE8 /* HandBrakeCLI_64 */; };
 		0EF8EFB1136D981000884AE8 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EF8EFB0136D981000884AE8 /* Sparkle.framework */; };
 		0EF8EFB6136D9D2200884AE8 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EF8EFB0136D981000884AE8 /* Sparkle.framework */; };
-		0EF8EFB8136DA11700884AE8 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 0EF8EFB7136DA11700884AE8 /* dsa_pub.pem */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -84,7 +83,6 @@
 		0EF8EF96136D07EB00884AE8 /* HandBrakeCLI_32 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = HandBrakeCLI_32; sourceTree = "<group>"; };
 		0EF8EF97136D07EB00884AE8 /* HandBrakeCLI_64 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = HandBrakeCLI_64; sourceTree = "<group>"; };
 		0EF8EFB0136D981000884AE8 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
-		0EF8EFB7136DA11700884AE8 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,7 +185,6 @@
 			isa = PBXGroup;
 			children = (
 				0E49A7581376428F00FB3B77 /* hb_manicure */,
-				0EF8EFB7136DA11700884AE8 /* dsa_pub.pem */,
 				0EF8EF96136D07EB00884AE8 /* HandBrakeCLI_32 */,
 				0EF8EF97136D07EB00884AE8 /* HandBrakeCLI_64 */,
 				0EF8EF93136CFEB700884AE8 /* Credits.rtf */,
@@ -260,7 +257,6 @@
 				0EF8EF95136CFEB700884AE8 /* Credits.rtf in Resources */,
 				0EF8EF98136D07EB00884AE8 /* HandBrakeCLI_32 in Resources */,
 				0EF8EF99136D07EB00884AE8 /* HandBrakeCLI_64 in Resources */,
-				0EF8EFB8136DA11700884AE8 /* dsa_pub.pem in Resources */,
 				0E49A761137642B700FB3B77 /* manicure.rb in Resources */,
 				0E49A762137642B700FB3B77 /* plist.rb in Resources */,
 			);

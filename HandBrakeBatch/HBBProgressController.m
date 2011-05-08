@@ -9,6 +9,7 @@
 //
 
 #import "HBBProgressController.h"
+#import "HBBPresets.h"
 
 @implementation HBBProgressController
 
@@ -43,16 +44,28 @@
     [backgroundTask setLaunchPath: handBrakeCLI];
     
     // Build HandBrakeCLI arguments
-    NSArray *presets = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"HandBrakePresets"];
-    NSInteger selectedPreset = [[[NSUserDefaults standardUserDefaults] objectForKey:@"HBPreset"] intValue];
-    NSString *preset = [presets objectAtIndex:selectedPreset];
+    NSDictionary *presets = [[HBBPresets hbbPresets] presets];
+    NSString *selectedPresetName = [[NSUserDefaults standardUserDefaults] objectForKey:@"PresetName"];
+    NSString *preset = [presets objectForKey:selectedPresetName];
+    // Parsing arguments from preset line
+    NSString *fileExtension = [NSString stringWithString:@"m4v"];
+    NSMutableArray *arguments = [[NSMutableArray alloc] init];
+    
+    for (NSString *currentArg in [preset componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]) {
+        [arguments addObject:currentArg];
+        
+        // In case a preset specifies an mkv container as output format
+        if ([currentArg isEqual:@"mkv"])
+            fileExtension = [NSString stringWithString:@"mkv"];
+    }
+    
     NSString *outputFolder = [[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"];
     
     NSString *inputFilePath = [[currentQueue objectAtIndex:0] path];
     
-    NSString *outputFilePath = [outputFolder stringByAppendingPathComponent:[[[inputFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:@"m4v"] lastPathComponent]];
+    NSString *outputFilePath = [outputFolder stringByAppendingPathComponent:[[[inputFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:fileExtension] lastPathComponent]];
     
-    NSArray *arguments = [NSArray arrayWithObjects:@"--preset", preset, @"-i", inputFilePath, @"-o", outputFilePath, nil];
+    [arguments addObjectsFromArray:[NSArray arrayWithObjects:@"-i", inputFilePath, @"-o", outputFilePath, nil]];
     
     [backgroundTask setArguments: arguments];
     

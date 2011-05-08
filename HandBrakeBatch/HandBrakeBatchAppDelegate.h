@@ -21,6 +21,9 @@
     IBOutlet NSTableView *fileNamesView;
     IBOutlet NSArrayController *fileNamesController;
     
+    IBOutlet NSArrayController *presetNamesController;
+    IBOutlet NSPopUpButton *presetPopUp;
+    
     HBBProgressController *progressController;
 }
 
@@ -30,5 +33,6 @@
 - (IBAction)chooseOutputFolder:(id)sender;
 - (IBAction)startConversion:(id)sender;
 - (IBAction)displayLicense:(id)sender;
+- (IBAction)presetSelected:(id)sender;
 
 @end

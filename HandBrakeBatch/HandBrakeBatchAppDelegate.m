@@ -11,6 +11,7 @@
 #import "HandBrakeBatchAppDelegate.h"
 #import "HBBInputFile.h"
 #import "HBBProgressController.h"
+#import "HBBPresets.h"
 
 @implementation HandBrakeBatchAppDelegate
 
@@ -19,7 +20,7 @@
 #pragma mark Initialization
 
 - (id) init {
-    presets = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"HandBrakePresets"];
+    //presets = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"HandBrakePresets"];
     inputFiles = [[NSMutableArray alloc] init];
     
     self = [super init];
@@ -27,13 +28,23 @@
     // Subscribe to the Progress Window Notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(conversionCompleted:) name:COMPLETE_NOTIFICATION object:nil];
     
+    // Initialize preset names
+    presets = [[[HBBPresets hbbPresets] presets] allKeys];
+    
     return self;
+}
+
+- (void)awakeFromNib {
+
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     [fileNamesView registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
     [fileNamesView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
+    
+    NSString *selectedPreset = [[NSUserDefaults standardUserDefaults] objectForKey:@"PresetName"];
+    [presetPopUp selectItemWithTitle:selectedPreset];
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
@@ -69,6 +80,12 @@
         return;
     }
     
+    // Warn the user if the output folder is not set
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"] length] == 0) {
+        NSBeginAlertSheet(@"No output folder", @"Ok", NULL, NULL, [self window], NULL, NULL, NULL, NULL, @"Please select an output folder.");
+        return;
+    }
+    
     progressController = [[HBBProgressController alloc] init];
     
     [progressController loadWindow];
@@ -81,6 +98,13 @@
 
 - (IBAction)displayLicense:(id)sender {
     [[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"gpl-3.0" ofType:@"txt"]];
+}
+
+- (IBAction)presetSelected:(id)sender {
+    NSPopUpButton *control = sender;
+    
+    NSString *selectedPreset = [[control selectedItem] title];
+    [[NSUserDefaults standardUserDefaults] setObject:selectedPreset forKey:@"PresetName"];
 }
 
 #pragma mark Drag & Drop

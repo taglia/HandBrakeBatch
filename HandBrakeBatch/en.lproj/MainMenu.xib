@@ -832,7 +832,7 @@
 				<bool key="NSSharedInstance">YES</bool>
 			</object>
 			<object class="NSArrayController" id="261880392">
-				<bool key="NSEditable">YES</bool>
+				<string key="NSObjectClassName">NSArray</string>
 				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
 				<bool key="NSAvoidsEmptySelection">YES</bool>
 				<bool key="NSPreservesSelection">YES</bool>
@@ -959,22 +959,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentArray: presets</string>
-						<reference key="source" ref="261880392"/>
-						<reference key="destination" ref="976324537"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="261880392"/>
-							<reference key="NSDestination" ref="976324537"/>
-							<string key="NSLabel">contentArray: presets</string>
-							<string key="NSBinding">contentArray</string>
-							<string key="NSKeyPath">presets</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">589</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">content: arrangedObjects</string>
 						<reference key="source" ref="909836452"/>
 						<reference key="destination" ref="261880392"/>
@@ -994,7 +978,7 @@
 						<string key="label">contentValues: arrangedObjects</string>
 						<reference key="source" ref="909836452"/>
 						<reference key="destination" ref="261880392"/>
-						<object class="NSNibBindingConnector" key="connector" id="323042661">
+						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="909836452"/>
 							<reference key="NSDestination" ref="261880392"/>
 							<string key="NSLabel">contentValues: arrangedObjects</string>
@@ -1005,23 +989,6 @@
 						</object>
 					</object>
 					<int key="connectionID">595</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">selectedIndex: values.HBPreset</string>
-						<reference key="source" ref="909836452"/>
-						<reference key="destination" ref="811208413"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="909836452"/>
-							<reference key="NSDestination" ref="811208413"/>
-							<string key="NSLabel">selectedIndex: values.HBPreset</string>
-							<string key="NSBinding">selectedIndex</string>
-							<string key="NSKeyPath">values.HBPreset</string>
-							<reference key="NSPreviousConnector" ref="323042661"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">596</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1174,6 +1141,46 @@
 						<reference key="destination" ref="378305930"/>
 					</object>
 					<int key="connectionID">682</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">contentArray: presets</string>
+						<reference key="source" ref="261880392"/>
+						<reference key="destination" ref="976324537"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="261880392"/>
+							<reference key="NSDestination" ref="976324537"/>
+							<string key="NSLabel">contentArray: presets</string>
+							<string key="NSBinding">contentArray</string>
+							<string key="NSKeyPath">presets</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">684</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">presetNamesController</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="261880392"/>
+					</object>
+					<int key="connectionID">685</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">presetSelected:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="909836452"/>
+					</object>
+					<int key="connectionID">693</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">presetPopUp</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="909836452"/>
+					</object>
+					<int key="connectionID">694</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1896,7 +1903,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">682</int>
+			<int key="maxID">694</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1910,10 +1917,12 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>chooseOutputFolder:</string>
 							<string>displayLicense:</string>
+							<string>presetSelected:</string>
 							<string>startConversion:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -1925,6 +1934,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>chooseOutputFolder:</string>
 							<string>displayLicense:</string>
+							<string>presetSelected:</string>
 							<string>startConversion:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -1935,6 +1945,10 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">displayLicense:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">presetSelected:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -1949,6 +1963,8 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>fileNamesController</string>
 							<string>fileNamesView</string>
+							<string>presetNamesController</string>
+							<string>presetPopUp</string>
 							<string>presets</string>
 							<string>window</string>
 						</object>
@@ -1956,6 +1972,8 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSArrayController</string>
 							<string>NSTableView</string>
+							<string>NSArrayController</string>
+							<string>NSPopUpButton</string>
 							<string>NSArray</string>
 							<string>NSWindow</string>
 						</object>
@@ -1966,6 +1984,8 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>fileNamesController</string>
 							<string>fileNamesView</string>
+							<string>presetNamesController</string>
+							<string>presetPopUp</string>
 							<string>presets</string>
 							<string>window</string>
 						</object>
@@ -1978,6 +1998,14 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">fileNamesView</string>
 								<string key="candidateClassName">NSTableView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">presetNamesController</string>
+								<string key="candidateClassName">NSArrayController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">presetPopUp</string>
+								<string key="candidateClassName">NSPopUpButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">presets</string>

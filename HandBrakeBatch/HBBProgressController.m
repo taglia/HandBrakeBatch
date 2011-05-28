@@ -8,6 +8,7 @@
 //  It may be used under the terms of the GNU General Public License.
 //
 
+#import <Growl/Growl.h>
 #import "HBBProgressController.h"
 #import "HBBPresets.h"
 
@@ -80,8 +81,17 @@
                                                  name: NSTaskDidTerminateNotification
                                                object: nil];
     
-    //Set the current file name in the progress window
+    // Set the current file name in the progress window
     [messageField setStringValue:[[currentQueue objectAtIndex:0] name]];
+    
+    // Growl notification
+    [GrowlApplicationBridge notifyWithTitle:@"HandBrakeBatch"
+                                description:[NSString stringWithFormat:@"Starting conversion of %@", [inputFilePath lastPathComponent]]
+                           notificationName:@"Starting new video conversion"
+                                   iconData:[NSData data]
+                                   priority:-1
+                                   isSticky:NO
+                               clickContext:nil];
     
     // We tell the file handle to go ahead and read in the background asynchronously, and notify
     // us via the callback registered above when we signed up as an observer.  The file handle will
@@ -133,18 +143,27 @@
 -(void) taskCompleted:(NSNotification *)notification {
     if ([notification object] != backgroundTask || cancel)
         return;
-        
+    
     // Remove processed file from the queue
     [processedQueue addObject:[currentQueue objectAtIndex:0]];
     [currentQueue removeObjectAtIndex:0];
 
     // Check if all files have been processed
     if ([currentQueue count] == 0) {
+        // Growl notification
+        [GrowlApplicationBridge notifyWithTitle:@"HandBrakeBatch"
+                                    description:@"All files have been converted"
+                               notificationName:@"All files converted"
+                                       iconData:[NSData data]
+                                       priority:-1
+                                       isSticky:NO
+                                   clickContext:nil];
+        
         [progressWheel stopAnimation:self];
         NSBeginAlertSheet(@"Conversion Complete", @"Ok", NULL, NULL, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"%d files have been converted.", [processedQueue count]);
         return;
     }
-        
+    
     // Process next file
     [self prepareTask];
     [backgroundTask launch];

@@ -34,8 +34,13 @@
     return self;
 }
 
-- (void)awakeFromNib {
+- (NSDictionary *)registrationDictionaryForGrowl {
+    return [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Growl Registration Ticket" ofType:@"growlRegDict"]];
+}
 
+- (void)awakeFromNib {
+    // Workaround for Growl bug (need a delegate defined)
+    [GrowlApplicationBridge setGrowlDelegate:self];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -105,6 +110,15 @@
     
     NSString *selectedPreset = [[control selectedItem] title];
     [[NSUserDefaults standardUserDefaults] setObject:selectedPreset forKey:@"PresetName"];
+}
+
+#pragma mark Managing supported files
+
+-(BOOL) application:(NSApplication *)sender openFile:(NSString *)filename {
+    NSURL *completeFileName = [NSURL fileURLWithPath:filename];
+    HBBInputFile *file = [[HBBInputFile alloc] initWithURL:completeFileName];
+    [fileNamesController insertObject:file atArrangedObjectIndex:0];
+    return TRUE;
 }
 
 #pragma mark Drag & Drop

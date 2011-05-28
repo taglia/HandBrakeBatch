@@ -16,6 +16,9 @@
 		0E49A76813764A1500FB3B77 /* HBBPresets.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E49A76713764A1500FB3B77 /* HBBPresets.m */; };
 		0E54925F136C49890094563F /* HBBInputFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E54925E136C49890094563F /* HBBInputFile.m */; };
 		0E9B490A136C874000FCDC68 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E9B4909136C874000FCDC68 /* Icon.icns */; };
+		0EDBC5741390AFB300D88A0B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EDBC5731390AFB300D88A0B /* Growl.framework */; };
+		0EDBC5771390B05500D88A0B /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 0EDBC5761390B05500D88A0B /* Growl Registration Ticket.growlRegDict */; };
+		0EDBC5781390B57600D88A0B /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EDBC5731390AFB300D88A0B /* Growl.framework */; };
 		0EEC80401369B4EA00D05124 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EEC803F1369B4EA00D05124 /* Cocoa.framework */; };
 		0EEC804A1369B4EA00D05124 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80481369B4EA00D05124 /* InfoPlist.strings */; };
 		0EEC804D1369B4EA00D05124 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC804C1369B4EA00D05124 /* main.m */; };
@@ -48,6 +51,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				0EF8EFB6136D9D2200884AE8 /* Sparkle.framework in CopyFiles */,
+				0EDBC5781390B57600D88A0B /* Growl.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +70,8 @@
 		0E54925D136C49890094563F /* HBBInputFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBInputFile.h; sourceTree = "<group>"; };
 		0E54925E136C49890094563F /* HBBInputFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBInputFile.m; sourceTree = "<group>"; };
 		0E9B4909136C874000FCDC68 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
+		0EDBC5731390AFB300D88A0B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		0EDBC5761390B05500D88A0B /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		0EEC803B1369B4EA00D05124 /* HandBrakeBatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HandBrakeBatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EEC803F1369B4EA00D05124 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		0EEC80421369B4EA00D05124 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -92,6 +98,7 @@
 			files = (
 				0EEC80401369B4EA00D05124 /* Cocoa.framework in Frameworks */,
 				0EF8EFB1136D981000884AE8 /* Sparkle.framework in Frameworks */,
+				0EDBC5741390AFB300D88A0B /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,6 +162,7 @@
 		0EEC80411369B4EA00D05124 /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0EDBC5731390AFB300D88A0B /* Growl.framework */,
 				0EF8EFB0136D981000884AE8 /* Sparkle.framework */,
 				0EEC80421369B4EA00D05124 /* AppKit.framework */,
 				0EEC80431369B4EA00D05124 /* CoreData.framework */,
@@ -193,6 +201,7 @@
 				0EEC80471369B4EA00D05124 /* HandBrakeBatch-Info.plist */,
 				0EEC80481369B4EA00D05124 /* InfoPlist.strings */,
 				0EEC804B1369B4EA00D05124 /* HandBrakeBatch-Prefix.pch */,
+				0EDBC5761390B05500D88A0B /* Growl Registration Ticket.growlRegDict */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -259,6 +268,7 @@
 				0EF8EF99136D07EB00884AE8 /* HandBrakeCLI_64 in Resources */,
 				0E49A761137642B700FB3B77 /* manicure.rb in Resources */,
 				0E49A762137642B700FB3B77 /* plist.rb in Resources */,
+				0EDBC5771390B05500D88A0B /* Growl Registration Ticket.growlRegDict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

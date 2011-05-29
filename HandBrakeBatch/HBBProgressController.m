@@ -31,6 +31,7 @@
 
 - (IBAction) cancelButton:(id)sender {
     cancel = TRUE;
+    [timer invalidate];
     [backgroundTask terminate];
     [progressWheel stopAnimation:self];
     
@@ -84,6 +85,8 @@
     // Set the current file name in the progress window
     [messageField setStringValue:[[currentQueue objectAtIndex:0] name]];
     
+    currentStartDate = [NSDate date];
+    
     // Growl notification
     [GrowlApplicationBridge notifyWithTitle:@"HandBrakeBatch"
                                 description:[NSString stringWithFormat:@"Starting conversion of %@", [inputFilePath lastPathComponent]]
@@ -101,6 +104,8 @@
 
 - (void)processQueue {
     cancel = FALSE;
+    
+    overallStartDate = [NSDate date];
     
     // Initialize queue mutable copy
     currentQueue = [queue mutableCopy];
@@ -133,9 +138,52 @@
     
     [progressWheel startAnimation:self];
     
+    // Prepare timer for the ETA estimation
+    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(estimateETA:) userInfo:nil repeats:YES];
+    
+    // Initialize total size to be converted (used to estimate the ETA)
+    totalSize = 0;
+    for (HBBInputFile *curFile in currentQueue) {
+        totalSize += [curFile size];
+    }
+    remainingSize = totalSize;
+    
     [self prepareTask];
     
     [backgroundTask launch];
+}
+
+// Format a number of seconds as hh:mm:ss
+-(NSString *) formatTime:(NSInteger)seconds {
+    NSInteger h = seconds / 3600;
+    NSInteger m = seconds / 60 - (h*60);
+    NSInteger s = seconds % 60;
+    
+    return [NSString stringWithFormat:@"%0.2d:%0.2d:%0.2d", h, m, s];
+}
+
+-(void)estimateETA:(NSTimer *)theTimer {
+    NSInteger overallElapsedTime = [[NSDate date] timeIntervalSinceDate:overallStartDate];
+    NSInteger currentElapsedTime = [[NSDate date] timeIntervalSinceDate:currentStartDate];
+    
+    [elapsed setStringValue:[self formatTime:overallElapsedTime]];
+    
+    // Estimate ETA for the current task
+    if (currentElapsedTime > 10) {
+        NSInteger estimatedCurrentETA = (currentElapsedTime / [taskProgressBar doubleValue] * 100) - currentElapsedTime;
+        [currentETA setStringValue:[self formatTime:estimatedCurrentETA]];
+    } else {
+        [currentETA setStringValue:@"--:--:--"];
+    }
+    
+    // Estimate overall ETA
+    if (overallElapsedTime > 10) {
+        NSInteger remaining = remainingSize - [(HBBInputFile *)[currentQueue objectAtIndex:0] size] * ([taskProgressBar doubleValue]/100.0);
+        NSInteger estimatedOverallETA = overallElapsedTime * (remaining / (totalSize - remaining));
+        [overallETA setStringValue:[self formatTime:estimatedOverallETA]];
+    } else {
+        [overallETA setStringValue:@"--:--:--"];
+    }
 }
 
 #pragma mark Notification methods
@@ -145,6 +193,7 @@
         return;
     
     // Remove processed file from the queue
+    remainingSize -= [(HBBInputFile *)[currentQueue objectAtIndex:0] size];
     [processedQueue addObject:[currentQueue objectAtIndex:0]];
     [currentQueue removeObjectAtIndex:0];
 
@@ -160,6 +209,7 @@
                                    clickContext:nil];
         
         [progressWheel stopAnimation:self];
+        [timer invalidate];
         NSBeginAlertSheet(@"Conversion Complete", @"Ok", NULL, NULL, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"%d files have been converted.", [processedQueue count]);
         return;
     }

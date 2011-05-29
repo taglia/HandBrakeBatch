@@ -14,11 +14,15 @@
 
 @interface HBBInputFile : NSObject {
     NSURL *url;
+    
+    // Used to compute the ETA
+    NSInteger size;
 }
 
 @property (readonly)NSString *name;
 @property (readonly)NSString *path;
 @property (assign)NSURL *url;
+@property (readonly)NSInteger size;
 
 - (id)initWithURL:(NSURL *)u;
 

@@ -18,7 +18,7 @@
 @interface HBBProgressController : NSWindowController {
 @private
     NSArray *queue;
-    // Items remainint in the queue, to be processed
+    // Items remaining in the queue, to be processed
     NSMutableArray *currentQueue;
     
     // Processed items
@@ -33,7 +33,19 @@
     IBOutlet NSProgressIndicator *progressWheel;
     IBOutlet NSTextField *messageField;
     
+    IBOutlet NSTextField *currentETA;
+    IBOutlet NSTextField *overallETA;
+    IBOutlet NSTextField *elapsed;
+    
     BOOL cancel;
+    
+    // Start times
+    NSDate *overallStartDate;
+    NSDate *currentStartDate;
+    NSInteger totalSize;
+    NSInteger remainingSize;
+    
+    NSTimer *timer;
 }
 
 @property (assign) NSArray *queue;

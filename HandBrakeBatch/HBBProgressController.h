@@ -46,6 +46,14 @@
     NSInteger remainingSize;
     
     NSTimer *timer;
+    
+    // Common parameters
+    NSDictionary *presets;
+    NSString *selectedPresetName;
+    NSString *preset;
+    NSString *fileExtension;
+    NSMutableArray *arguments;
+    NSString *outputFolder;
 }
 
 @property (assign) NSArray *queue;

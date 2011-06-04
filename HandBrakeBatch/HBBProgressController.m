@@ -12,6 +12,10 @@
 #import "HBBProgressController.h"
 #import "HBBPresets.h"
 
+#define FILES_OK            0
+#define FILE_EXISTS         1
+#define INPUT_EQUALS_OUTPUT 2
+
 @implementation HBBProgressController
 
 @synthesize queue;
@@ -44,24 +48,6 @@
     [backgroundTask setStandardOutput: [NSPipe pipe]];
     [backgroundTask setStandardError: [backgroundTask standardOutput]];
     [backgroundTask setLaunchPath: handBrakeCLI];
-    
-    // Build HandBrakeCLI arguments
-    NSDictionary *presets = [[HBBPresets hbbPresets] presets];
-    NSString *selectedPresetName = [[NSUserDefaults standardUserDefaults] objectForKey:@"PresetName"];
-    NSString *preset = [presets objectForKey:selectedPresetName];
-    // Parsing arguments from preset line
-    NSString *fileExtension = [NSString stringWithString:@"m4v"];
-    NSMutableArray *arguments = [[NSMutableArray alloc] init];
-    
-    for (NSString *currentArg in [preset componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]) {
-        [arguments addObject:currentArg];
-        
-        // In case a preset specifies an mkv container as output format
-        if ([currentArg isEqual:@"mkv"])
-            fileExtension = [NSString stringWithString:@"mkv"];
-    }
-    
-    NSString *outputFolder = [[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"];
     
     NSString *inputFilePath = [[currentQueue objectAtIndex:0] path];
     
@@ -102,27 +88,33 @@
     [[[backgroundTask standardOutput] fileHandleForReading] readInBackgroundAndNotify];
 }
 
-- (void)processQueue {
-    cancel = FALSE;
-    
-    overallStartDate = [NSDate date];
-    
-    // Initialize queue mutable copy
-    currentQueue = [queue mutableCopy];
-    
-    // Check if we have a valid queue
-    if (currentQueue == nil || [currentQueue count] == 0) {
-        [[self window] orderOut:nil];
-        return;
+// Check whether some files will be over-written during the conversion
+- (BOOL)checkFiles {
+    for (HBBInputFile *input in currentQueue) {
+        NSFileManager *fm = [NSFileManager defaultManager];
+        if ([fm fileExistsAtPath:[input path]])
+            return FALSE;
     }
-    
-    // Set appropriate HandBrakeCLI binary
-    if ([[NSRunningApplication currentApplication] executableArchitecture] == NSBundleExecutableArchitectureX86_64) {
-        handBrakeCLI = [[NSBundle mainBundle] pathForResource:@"HandBrakeCLI_64" ofType:@""];
-    } else {
-        handBrakeCLI = [[NSBundle mainBundle] pathForResource:@"HandBrakeCLI_32" ofType:@""];
+    return TRUE;
+}
+
+// Check whether the output folder contains some input files (not supported) and
+// whether some files will be over-written during the conversion (warning displayed)
+- (int) inputFilesChecks {
+    for (HBBInputFile *input in currentQueue) {
+        NSFileManager *fm = [NSFileManager defaultManager];
+
+        NSString *inputFilePath = [input path];
+        NSString *outputFilePath = [outputFolder stringByAppendingPathComponent:[[[inputFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:fileExtension] lastPathComponent]];
+        if ([inputFilePath isEqual:outputFilePath])
+            return INPUT_EQUALS_OUTPUT;
+        else if ([fm fileExistsAtPath:outputFilePath])
+            return FILE_EXISTS; 
     }
-    
+    return FILES_OK;
+}
+
+- (void) startConversion {
     // Initialize progress bars
     [taskProgressBar setMinValue:0.0];
     [taskProgressBar setDoubleValue:0.0];
@@ -153,6 +145,66 @@
     [backgroundTask launch];
 }
 
+// Entry point
+- (void)processQueue {
+    cancel = FALSE;
+    
+    overallStartDate = [NSDate date];
+    
+    // Initialize queue mutable copy
+    currentQueue = [queue mutableCopy];
+    
+    // Check if we have a valid queue
+    if (currentQueue == nil || [currentQueue count] == 0) {
+        [[self window] orderOut:nil];
+        return;
+    }
+    
+    // Set appropriate HandBrakeCLI binary
+    if ([[NSRunningApplication currentApplication] executableArchitecture] == NSBundleExecutableArchitectureX86_64) {
+        handBrakeCLI = [[NSBundle mainBundle] pathForResource:@"HandBrakeCLI_64" ofType:@""];
+    } else {
+        handBrakeCLI = [[NSBundle mainBundle] pathForResource:@"HandBrakeCLI_32" ofType:@""];
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Initialization of common parameters
+    // Build HandBrakeCLI arguments
+    presets = [[HBBPresets hbbPresets] presets];
+    selectedPresetName = [[NSUserDefaults standardUserDefaults] objectForKey:@"PresetName"];
+    preset = [presets objectForKey:selectedPresetName];
+    // Parsing arguments from preset line
+    fileExtension = [NSString stringWithString:@"m4v"];
+    arguments = [[NSMutableArray alloc] init];
+    
+    for (NSString *currentArg in [preset componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]) {
+        [arguments addObject:currentArg];
+        
+        // In case a preset specifies an mkv container as output format
+        if ([currentArg isEqual:@"mkv"])
+            fileExtension = [NSString stringWithString:@"mkv"];
+    }
+    
+    outputFolder = [[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"];
+    // Initialization of common parameters complete
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    int filesCheckResult = [self inputFilesChecks];
+    switch (filesCheckResult) {
+        case INPUT_EQUALS_OUTPUT:
+            NSBeginCriticalAlertSheet(@"Input files in the output folder", @"Ok", NULL, NULL, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, @"Stop", @"Some or all of the input files are in the output folder, please change the output folder!");
+            break;
+        
+        case FILE_EXISTS:
+            NSBeginAlertSheet(@"Existing files", @"Ok", @"Cancel", NULL, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, @"Warning", @"Some or all of the output files already exist. Are you sure you want to overwrite them?");
+            break;
+        
+        default:
+            [self startConversion];
+            break;
+    }
+}
+
 // Format a number of seconds as hh:mm:ss
 -(NSString *) formatTime:(NSInteger)seconds {
     NSInteger h = seconds / 3600;
@@ -165,21 +217,30 @@
 -(void)estimateETA:(NSTimer *)theTimer {
     NSInteger overallElapsedTime = [[NSDate date] timeIntervalSinceDate:overallStartDate];
     NSInteger currentElapsedTime = [[NSDate date] timeIntervalSinceDate:currentStartDate];
+    double estimatedCurrentETA;
+    double estimatedOverallETA;
     
     [elapsed setStringValue:[self formatTime:overallElapsedTime]];
     
     // Estimate ETA for the current task
     if (currentElapsedTime > 10) {
-        NSInteger estimatedCurrentETA = (currentElapsedTime / [taskProgressBar doubleValue] * 100) - currentElapsedTime;
+        estimatedCurrentETA = (currentElapsedTime / [taskProgressBar doubleValue] * 100) - currentElapsedTime;
         [currentETA setStringValue:[self formatTime:estimatedCurrentETA]];
     } else {
         [currentETA setStringValue:@"--:--:--"];
     }
     
     // Estimate overall ETA
-    if (overallElapsedTime > 10) {
+    if (overallElapsedTime > 12) {
+        if (currentElapsedTime < 12)
+            return;
         NSInteger remaining = remainingSize - [(HBBInputFile *)[currentQueue objectAtIndex:0] size] * ([taskProgressBar doubleValue]/100.0);
-        NSInteger estimatedOverallETA = overallElapsedTime * (remaining / (totalSize - remaining));
+        estimatedOverallETA = overallElapsedTime * (remaining / (totalSize - remaining));
+        
+        // Trying to avoid clearly wrong output
+        if (estimatedOverallETA < estimatedCurrentETA || [currentQueue count] == 1)
+            estimatedOverallETA = estimatedCurrentETA;
+
         [overallETA setStringValue:[self formatTime:estimatedOverallETA]];
     } else {
         [overallETA setStringValue:@"--:--:--"];
@@ -246,6 +307,13 @@
 
 // Called when the alert sheet is dismissed
 -(void) sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
+    if ([(NSString *)contextInfo isEqual:@"Warning"]) {
+        if (returnCode == NSAlertDefaultReturn) {
+            [self startConversion];
+            return;
+        }
+    }
+        
     NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:processedQueue, currentQueue, nil]
                                                          forKeys:[NSArray arrayWithObjects:PROCESSED_QUEUE_KEY, CURRENT_QUEUE_KEY, nil]];
     

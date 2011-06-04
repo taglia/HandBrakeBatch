@@ -21,7 +21,7 @@
         [self setUrl:u];
         NSFileManager *man = [[NSFileManager alloc] init];
         NSDictionary *attrs = [man attributesOfItemAtPath: [u path] error: NULL];
-        size = [attrs fileSize];
+        size = (NSInteger)[attrs fileSize];
 
     }
     return self;

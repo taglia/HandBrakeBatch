@@ -283,6 +283,7 @@
 - (void) getData: (NSNotification *)aNotification
 {
     NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+    
     if ([data length])
     {
         NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -302,7 +303,8 @@
     }
     
     // we need to schedule the file handle go read more data in the background again.
-    [[aNotification object] readInBackgroundAndNotify];
+    if ([backgroundTask isRunning])
+        [[aNotification object] readInBackgroundAndNotify];
 }
 
 // Called when the alert sheet is dismissed

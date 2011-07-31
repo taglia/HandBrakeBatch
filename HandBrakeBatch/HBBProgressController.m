@@ -16,6 +16,8 @@
 #define FILE_EXISTS         1
 #define INPUT_EQUALS_OUTPUT 2
 
+#define M4V_EXTENSION       0
+
 @implementation HBBProgressController
 
 @synthesize queue;
@@ -39,7 +41,7 @@
     [backgroundTask terminate];
     [progressWheel stopAnimation:self];
     
-    NSBeginAlertSheet(@"Operation canceled", @"Ok", NULL, NULL, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"%d files have been converted, %d remaining.", [processedQueue count], [currentQueue count]);
+    NSBeginAlertSheet(@"Operation canceled", @"Ok", nil, nil, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"%d files have been converted, %d remaining.", [processedQueue count], [currentQueue count]);
 }
 
 -(void) prepareTask {
@@ -49,9 +51,12 @@
     [backgroundTask setStandardError: [backgroundTask standardOutput]];
     [backgroundTask setLaunchPath: handBrakeCLI];
     
-    NSString *inputFilePath = [[currentQueue objectAtIndex:0] path];
+    NSString *inputFilePath = [[currentQueue objectAtIndex:0] inputPath];
     
     NSString *outputFilePath = [outputFolder stringByAppendingPathComponent:[[[inputFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:fileExtension] lastPathComponent]];
+    
+    // Storing output path to quickly access it in case we need to tweek the timestamps
+    [[currentQueue objectAtIndex:0] setOutputURL:[NSURL fileURLWithPath:outputFilePath]];
     
     [arguments addObjectsFromArray:[NSArray arrayWithObjects:@"-i", inputFilePath, @"-o", outputFilePath, nil]];
     
@@ -92,7 +97,7 @@
 - (BOOL)checkFiles {
     for (HBBInputFile *input in currentQueue) {
         NSFileManager *fm = [NSFileManager defaultManager];
-        if ([fm fileExistsAtPath:[input path]])
+        if ([fm fileExistsAtPath:[input inputPath]])
             return FALSE;
     }
     return TRUE;
@@ -104,7 +109,7 @@
     for (HBBInputFile *input in currentQueue) {
         NSFileManager *fm = [NSFileManager defaultManager];
 
-        NSString *inputFilePath = [input path];
+        NSString *inputFilePath = [input inputPath];
         NSString *outputFilePath = [outputFolder stringByAppendingPathComponent:[[[inputFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:fileExtension] lastPathComponent]];
         if ([inputFilePath isEqual:outputFilePath])
             return INPUT_EQUALS_OUTPUT;
@@ -174,7 +179,12 @@
     selectedPresetName = [[NSUserDefaults standardUserDefaults] objectForKey:@"PresetName"];
     preset = [presets objectForKey:selectedPresetName];
     // Parsing arguments from preset line
-    fileExtension = [NSString stringWithString:@"m4v"];
+    // The MPEG-4 file extension can be configured in the preferences
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBMPEG4Extension"] == M4V_EXTENSION)
+        fileExtension = [NSString stringWithString:@"m4v"];
+    else
+        fileExtension = [NSString stringWithString:@"mp4"];
+    
     arguments = [[NSMutableArray alloc] init];
     
     for (NSString *currentArg in [preset componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]) {
@@ -196,7 +206,7 @@
             break;
         
         case FILE_EXISTS:
-            NSBeginAlertSheet(@"Existing files", @"Ok", @"Cancel", NULL, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, @"Warning", @"Some or all of the output files already exist. Are you sure you want to overwrite them?");
+            NSBeginAlertSheet(@"Existing files", @"Ok", @"Cancel", nil, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, @"Warning", @"Some or all of the output files already exist. Are you sure you want to overwrite them?");
             break;
         
         default:
@@ -250,8 +260,26 @@
 #pragma mark Notification methods
 
 -(void) taskCompleted:(NSNotification *)notification {
-    if ([notification object] != backgroundTask || cancel)
+    if ([notification object] != backgroundTask || cancel || [currentQueue count] == 0)
         return;
+    
+    // Modify timestamps if required
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBMaintainTimestamps"]) {
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSDictionary *sourceAttrs = [fm attributesOfItemAtPath:[[currentQueue objectAtIndex:0] inputPath] error:NULL];
+        NSDictionary *destAttrs = [fm attributesOfItemAtPath:[[currentQueue objectAtIndex:0] outputPath] error:NULL];
+        
+        if (sourceAttrs && destAttrs) {
+            NSDate *creationDate = [sourceAttrs objectForKey:NSFileCreationDate];
+            NSDate *modificationDate = [sourceAttrs objectForKey:NSFileModificationDate];
+            
+            NSMutableDictionary *destMutableAttrs = [destAttrs mutableCopy];
+            [destMutableAttrs setObject:creationDate forKey:NSFileCreationDate];
+            [destMutableAttrs setObject:modificationDate forKey:NSFileModificationDate];
+            
+            [fm setAttributes:destMutableAttrs ofItemAtPath:[[currentQueue objectAtIndex:0] outputPath] error:NULL];
+        }
+    }
     
     // Remove processed file from the queue
     remainingSize -= [(HBBInputFile *)[currentQueue objectAtIndex:0] size];
@@ -271,7 +299,7 @@
         
         [progressWheel stopAnimation:self];
         [timer invalidate];
-        NSBeginAlertSheet(@"Conversion Complete", @"Ok", NULL, NULL, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"%d files have been converted.", [processedQueue count]);
+        NSBeginAlertSheet(@"Conversion Complete", @"Ok", nil, nil, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"%d files have been converted.", [processedQueue count]);
         return;
     }
     

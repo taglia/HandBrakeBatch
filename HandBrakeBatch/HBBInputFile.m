@@ -12,13 +12,13 @@
 
 
 @implementation HBBInputFile
-@synthesize url, size;
+@synthesize inputURL, outputURL, size;
 
 - (id)initWithURL:(NSURL *)u {
     self = [super init];
     
     if (self) {
-        [self setUrl:u];
+        [self setInputURL:u];
         NSFileManager *man = [[NSFileManager alloc] init];
         NSDictionary *attrs = [man attributesOfItemAtPath: [u path] error: NULL];
         size = (NSInteger)[attrs fileSize];
@@ -28,11 +28,15 @@
 }
 
 - (NSString *)name {
-    return [url lastPathComponent];
+    return [inputURL lastPathComponent];
 }
 
-- (NSString *)path {
-    return [url path];
+- (NSString *)inputPath {
+    return [inputURL path];
+}
+
+- (NSString *) outputPath {
+    return [outputURL path];
 }
 
 - (id)copyWithZone:(NSZone *)zone {    

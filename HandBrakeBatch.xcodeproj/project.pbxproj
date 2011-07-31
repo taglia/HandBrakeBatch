@@ -15,6 +15,8 @@
 		0E49A7651376437400FB3B77 /* parser.rb in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E49A75C137642B700FB3B77 /* parser.rb */; };
 		0E49A76813764A1500FB3B77 /* HBBPresets.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E49A76713764A1500FB3B77 /* HBBPresets.m */; };
 		0E54925F136C49890094563F /* HBBInputFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E54925E136C49890094563F /* HBBInputFile.m */; };
+		0E987E2113E4062C00A99716 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E987E2013E4062C00A99716 /* Preferences.xib */; };
+		0E987E2413E4083900A99716 /* HBBPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E987E2313E4083900A99716 /* HBBPreferencesController.m */; };
 		0E9B490A136C874000FCDC68 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E9B4909136C874000FCDC68 /* Icon.icns */; };
 		0EDBC5741390AFB300D88A0B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EDBC5731390AFB300D88A0B /* Growl.framework */; };
 		0EDBC5771390B05500D88A0B /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 0EDBC5761390B05500D88A0B /* Growl Registration Ticket.growlRegDict */; };
@@ -69,6 +71,9 @@
 		0E49A76713764A1500FB3B77 /* HBBPresets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBPresets.m; sourceTree = "<group>"; };
 		0E54925D136C49890094563F /* HBBInputFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBInputFile.h; sourceTree = "<group>"; };
 		0E54925E136C49890094563F /* HBBInputFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBInputFile.m; sourceTree = "<group>"; };
+		0E987E2013E4062C00A99716 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
+		0E987E2213E4083900A99716 /* HBBPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBPreferencesController.h; sourceTree = "<group>"; };
+		0E987E2313E4083900A99716 /* HBBPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBPreferencesController.m; sourceTree = "<group>"; };
 		0E9B4909136C874000FCDC68 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		0EDBC5731390AFB300D88A0B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
 		0EDBC5761390B05500D88A0B /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
@@ -129,6 +134,7 @@
 			children = (
 				0EEC80541369B4EA00D05124 /* MainMenu.xib */,
 				0E18546A136C4222004B5558 /* HBBProgressWindow.xib */,
+				0E987E2013E4062C00A99716 /* Preferences.xib */,
 			);
 			name = xib;
 			sourceTree = "<group>";
@@ -179,6 +185,8 @@
 				0E54925E136C49890094563F /* HBBInputFile.m */,
 				0EEC80511369B4EA00D05124 /* HandBrakeBatchAppDelegate.h */,
 				0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */,
+				0E987E2213E4083900A99716 /* HBBPreferencesController.h */,
+				0E987E2313E4083900A99716 /* HBBPreferencesController.m */,
 				0E49A76613764A1500FB3B77 /* HBBPresets.h */,
 				0E49A76713764A1500FB3B77 /* HBBPresets.m */,
 				0E108B69136C47F200168057 /* HBBProgressController.h */,
@@ -234,6 +242,7 @@
 		0EEC80321369B4EA00D05124 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "Murex SEA";
 			};
 			buildConfigurationList = 0EEC80351369B4EA00D05124 /* Build configuration list for PBXProject "HandBrakeBatch" */;
@@ -269,6 +278,7 @@
 				0E49A761137642B700FB3B77 /* manicure.rb in Resources */,
 				0E49A762137642B700FB3B77 /* plist.rb in Resources */,
 				0EDBC5771390B05500D88A0B /* Growl Registration Ticket.growlRegDict in Resources */,
+				0E987E2113E4062C00A99716 /* Preferences.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +294,7 @@
 				0E108B6B136C47F200168057 /* HBBProgressController.m in Sources */,
 				0E54925F136C49890094563F /* HBBInputFile.m in Sources */,
 				0E49A76813764A1500FB3B77 /* HBBPresets.m in Sources */,
+				0E987E2413E4083900A99716 /* HBBPreferencesController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,6 +332,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_ARC_MIGRATION = donothing;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -340,6 +352,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_ARC_MIGRATION = donothing;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -355,6 +368,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -365,7 +379,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HandBrakeBatch/HandBrakeBatch-Prefix.pch";
 				INFOPLIST_FILE = "HandBrakeBatch/HandBrakeBatch-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -374,6 +390,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -384,7 +401,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HandBrakeBatch/HandBrakeBatch-Prefix.pch";
 				INFOPLIST_FILE = "HandBrakeBatch/HandBrakeBatch-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

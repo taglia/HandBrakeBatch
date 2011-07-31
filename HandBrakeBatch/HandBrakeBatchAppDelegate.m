@@ -70,8 +70,10 @@
     [panel setCanChooseFiles:NO];
     [panel setCanChooseDirectories:YES];
     [panel setAllowsMultipleSelection:NO];
+    [panel setDirectoryURL:[NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"]]];
     
-    [panel runModalForDirectory:[[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"] file:nil];
+//    [panel runModalForDirectory:[[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"] file:nil];
+    [panel runModal];
     
     NSString *path = [[panel directoryURL] path];
     
@@ -81,13 +83,13 @@
 - (IBAction)startConversion:(id)sender {
     // Warn the user if there are no files to convert
     if ([inputFiles count] == 0) {
-        NSBeginAlertSheet(@"No files to convert", @"Ok", NULL, NULL, [self window], NULL, NULL, NULL, NULL, @"Please drag some files in the table.");
+        NSBeginAlertSheet(@"No files to convert", @"Ok", nil, nil, [self window], nil, NULL, NULL, NULL, @"Please drag some files in the table.");
         return;
     }
     
     // Warn the user if the output folder is not set
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"] length] == 0) {
-        NSBeginAlertSheet(@"No output folder", @"Ok", NULL, NULL, [self window], NULL, NULL, NULL, NULL, @"Please select an output folder.");
+        NSBeginAlertSheet(@"No output folder", @"Ok", nil, nil, [self window], nil, NULL, NULL, NULL, @"Please select an output folder.");
         return;
     }
     
@@ -172,12 +174,25 @@
     return frame.size.width - 250.0;
 }
 
-#pragma mark Notifications
+#pragma mark Other
 -(void) conversionCompleted:(NSNotification *)notification {
     [[self window] makeKeyAndOrderFront:nil];
     NSArray *processed = [[notification userInfo] objectForKey:PROCESSED_QUEUE_KEY];
     
     [fileNamesController removeObjects:processed];
+}
+
+///////////////////////////////////////
+//                                   //
+// Preference Windows                //
+//                                   //
+///////////////////////////////////////
+
+- (IBAction)showPreferences:(id)sender
+{
+    if (!preferencesController)
+        preferencesController = [[HBBPreferencesController alloc] init];
+    [preferencesController showWindow:self];
 }
 
 @end

@@ -70,14 +70,15 @@
     [panel setCanChooseFiles:NO];
     [panel setCanChooseDirectories:YES];
     [panel setAllowsMultipleSelection:NO];
-    [panel setDirectoryURL:[NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"]]];
+    NSString *outputFolder = [[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"];
     
-//    [panel runModalForDirectory:[[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"] file:nil];
-    [panel runModal];
+    if (outputFolder)
+        [panel setDirectoryURL:[NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"]]];
     
-    NSString *path = [[panel directoryURL] path];
-    
-    [[NSUserDefaults standardUserDefaults] setValue:path forKey:@"OutputFolder"];
+    if ([panel runModal] == NSOKButton) {
+        NSString *path = [[panel directoryURL] path];
+        [[NSUserDefaults standardUserDefaults] setValue:path forKey:@"OutputFolder"];
+    }
 }
 
 - (IBAction)startConversion:(id)sender {

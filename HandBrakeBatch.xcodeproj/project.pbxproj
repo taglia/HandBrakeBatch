@@ -381,7 +381,7 @@
 				INFOPLIST_FILE = "HandBrakeBatch/HandBrakeBatch-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.6;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -403,7 +403,7 @@
 				INFOPLIST_FILE = "HandBrakeBatch/HandBrakeBatch-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.6;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

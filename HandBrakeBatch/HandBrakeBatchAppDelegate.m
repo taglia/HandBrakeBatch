@@ -20,7 +20,6 @@
 #pragma mark Initialization
 
 - (id) init {
-    //presets = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"HandBrakePresets"];
     inputFiles = [[NSMutableArray alloc] init];
     
     self = [super init];
@@ -28,8 +27,8 @@
     // Subscribe to the Progress Window Notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(conversionCompleted:) name:COMPLETE_NOTIFICATION object:nil];
     
-    // Initialize preset names
-    presets = [[[HBBPresets hbbPresets] presets] allKeys];
+    // Initialize sorted preset names
+    presets = [[[[HBBPresets hbbPresets] presets] allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     
     return self;
 }

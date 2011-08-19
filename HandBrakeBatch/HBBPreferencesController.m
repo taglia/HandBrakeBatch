@@ -3,7 +3,9 @@
 //  HandBrakeBatch
 //
 //  Created by Cesare Tagliaferri on 30/07/2011.
-//  Copyright 2011 Cesare Tagliaferri. All rights reserved.
+//  This file is part of the HandBrakeBatch source code.
+//  Homepage: <http://www.osomac.com/>.
+//  It may be used under the terms of the GNU General Public License.
 //
 
 #import "HBBPreferencesController.h"

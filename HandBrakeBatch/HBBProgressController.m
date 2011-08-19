@@ -55,6 +55,19 @@
     
     NSString *outputFilePath = [outputFolder stringByAppendingPathComponent:[[[inputFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:fileExtension] lastPathComponent]];
     
+    // Deal with EyeTV files
+    if ([[inputFilePath pathExtension] isEqualToString:@"eyetv"]) {
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSString *name;
+        NSEnumerator *folderEnumerator = [fm enumeratorAtPath:inputFilePath];
+        while (name = [folderEnumerator nextObject]) {
+            if ([[name pathExtension] isEqualToString:@"mpg"]) {
+                inputFilePath = [inputFilePath stringByAppendingPathComponent:name];
+                break;
+            }
+        }
+    }
+    
     // Storing output path to quickly access it in case we need to tweek the timestamps
     [[currentQueue objectAtIndex:0] setOutputURL:[NSURL fileURLWithPath:outputFilePath]];
     

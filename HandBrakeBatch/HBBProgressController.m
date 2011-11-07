@@ -209,6 +209,16 @@
     }
     
     outputFolder = [[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"];
+    
+    // Check whether the output folder exists
+    BOOL exists;
+    BOOL isDir;
+    exists = [[NSFileManager defaultManager] fileExistsAtPath:outputFolder isDirectory:&isDir];
+    if (!exists || !isDir) {
+        NSBeginAlertSheet(@"Output Folder does not exist", @"Ok", NULL, NULL, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"Please make sure that the selected output folder exists.");
+        return;
+    }
+    
     // Initialization of common parameters complete
     ////////////////////////////////////////////////////////////////////////////////////////////////
     

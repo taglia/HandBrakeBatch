@@ -25,12 +25,14 @@
     NSMutableArray *processedQueue;
     
     NSTask *backgroundTask;
+    BOOL suspended;
 
     NSString *handBrakeCLI;
     
     IBOutlet NSProgressIndicator *taskProgressBar;
     IBOutlet NSProgressIndicator *overallProgressBar;
     IBOutlet NSProgressIndicator *progressWheel;
+    IBOutlet NSTextField *pausedLabel;
     IBOutlet NSTextField *messageField;
     
     IBOutlet NSTextField *currentETA;
@@ -58,7 +60,8 @@
 
 @property (assign) NSArray *queue;
 
-- (IBAction) cancelButton:(id)sender;
+- (IBAction) cancelButtonAction:(id)sender;
+- (IBAction) pauseButtonAction:(id)sender;
 - (void) processQueue;
 
 @end

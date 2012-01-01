@@ -26,6 +26,7 @@
     self = [super initWithWindowNibName:@"HBBProgressWindow"];
 
     processedQueue = [[NSMutableArray alloc] init];
+    suspended = false;
     
     return self;
 }
@@ -35,13 +36,27 @@
     [super windowDidLoad];
 }
 
-- (IBAction) cancelButton:(id)sender {
+- (IBAction) cancelButtonAction:(id)sender {
     cancel = TRUE;
     [timer invalidate];
     [backgroundTask terminate];
     [progressWheel stopAnimation:self];
     
     NSBeginAlertSheet(@"Operation canceled", @"Ok", nil, nil, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"%d files have been converted, %d remaining.", [processedQueue count], [currentQueue count]);
+}
+
+- (IBAction)pauseButtonAction:(id)sender {
+    if (suspended) {
+        [backgroundTask resume];
+        [progressWheel startAnimation:self];
+        [pausedLabel setHidden:true];
+        suspended = false;
+    } else {
+        [backgroundTask suspend];
+        [progressWheel stopAnimation:self];
+        [pausedLabel setHidden:false];
+        suspended = true;
+    }
 }
 
 -(void) prepareTask {
@@ -254,6 +269,13 @@
     double estimatedOverallETA;
     
     [elapsed setStringValue:[self formatTime:overallElapsedTime]];
+    
+    if(suspended) {
+        [currentETA setStringValue:@"--:--:--"];
+        [overallETA setStringValue:@"--:--:--"];
+        [pausedLabel setHidden:![pausedLabel isHidden]];
+        return;
+    }
     
     // Estimate ETA for the current task
     if (currentElapsedTime > 10) {

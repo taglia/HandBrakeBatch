@@ -61,7 +61,7 @@ static HBBPresets *instance;
         	[simpleTask waitUntilExit];
         	
         	NSFileHandle *output = [outputPipe fileHandleForReading];
-        	NSData *data = [output availableData];
+        	NSData *data = [output readDataToEndOfFile];
         	NSString *rawOutput = [NSString stringWithUTF8String:[data bytes]];
         	NSArray *outputLines = [rawOutput componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
         	
@@ -69,18 +69,21 @@ static HBBPresets *instance;
         	    // Ignore empty lines and folders (all preset lines contain a +)
         	    // Only one level of folders is supported
         	    if ([currentLine length] > 4) {
-        	        int offset=0;
-        	        if ([currentLine characterAtIndex:3] == '+')
+                    int offset;
+                    
+        	        if ([currentLine characterAtIndex:0] == '+')
+                        offset=0;
+        	        else if ([currentLine characterAtIndex:3] == '+')
         	            offset=3;
+                    else
+                        continue;
         	        
-        	        if ([currentLine characterAtIndex:0] == '+' || [currentLine characterAtIndex:3] == '+') {
-        	            NSRange separator = [currentLine rangeOfString:@": "];
+       	            NSRange separator = [currentLine rangeOfString:@": "];
         	            
-        	            NSString *name = [[currentLine substringToIndex:separator.location] substringFromIndex:offset+2];
-        	            NSString *args = [currentLine substringFromIndex:separator.location+separator.length];
-        	            
-        	            [tempDict setObject:args forKey:name];
-        	        }
+       	            NSString *name = [[currentLine substringToIndex:separator.location] substringFromIndex:offset+2];
+       	            NSString *args = [currentLine substringFromIndex:separator.location+separator.length];
+                    
+       	            [tempDict setObject:args forKey:name];
         	    }
         	}
             retries--;

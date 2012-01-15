@@ -9,11 +9,15 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "HBBLangData.h"
 
-@interface HBBPreferencesController : NSWindowController {
+@interface HBBPreferencesController : NSWindowController <NSComboBoxDataSource> {
 
     IBOutlet NSButton * maintainTimestamps;
     IBOutlet NSPopUpButton *mpeg4Extension;
+    
+    HBBLangData *langData;
+    NSArray *languages;
 
 }
 

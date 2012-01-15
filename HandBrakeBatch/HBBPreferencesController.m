@@ -15,6 +15,19 @@
 - (id)init
 {
 	self = [super initWithWindowNibName:@"Preferences"];
+    
+    // Language radio buttons initialization
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"HBBAudioSelection"] == nil) {
+        [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"HBBAudioSelection"];
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"HBBSubtitleSelection"] == nil) {
+        [[NSUserDefaults standardUserDefaults] setInteger:2 forKey:@"HBBSubtitleSelection"];
+    }
+    
+    langData = [HBBLangData defaultHBBLangData];
+    languages = [langData languageList];
+    
 	return self;
 }
 
@@ -33,6 +46,14 @@
     [super windowDidLoad];
     
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+}
+
+- (NSInteger)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+    return [languages count];
+}
+
+- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)index {
+    return [languages objectAtIndex:index];
 }
 
 @end

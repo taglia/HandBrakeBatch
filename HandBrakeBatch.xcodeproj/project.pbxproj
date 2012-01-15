@@ -15,6 +15,9 @@
 		0E49A7651376437400FB3B77 /* parser.rb in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E49A75C137642B700FB3B77 /* parser.rb */; };
 		0E49A76813764A1500FB3B77 /* HBBPresets.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E49A76713764A1500FB3B77 /* HBBPresets.m */; };
 		0E54925F136C49890094563F /* HBBInputFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E54925E136C49890094563F /* HBBInputFile.m */; };
+		0E6C285C14C288BC004A0FE5 /* iso639-2.db in Resources */ = {isa = PBXBuildFile; fileRef = 0E6C285B14C288BC004A0FE5 /* iso639-2.db */; };
+		0E6C285F14C289DE004A0FE5 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E6C285E14C289DE004A0FE5 /* libsqlite3.dylib */; };
+		0E6C286214C29515004A0FE5 /* HBBLangData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E6C286114C29515004A0FE5 /* HBBLangData.m */; };
 		0E987E2113E4062C00A99716 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E987E2013E4062C00A99716 /* Preferences.xib */; };
 		0E987E2413E4083900A99716 /* HBBPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E987E2313E4083900A99716 /* HBBPreferencesController.m */; };
 		0E9B490A136C874000FCDC68 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E9B4909136C874000FCDC68 /* Icon.icns */; };
@@ -71,6 +74,10 @@
 		0E49A76713764A1500FB3B77 /* HBBPresets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBPresets.m; sourceTree = "<group>"; };
 		0E54925D136C49890094563F /* HBBInputFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBInputFile.h; sourceTree = "<group>"; };
 		0E54925E136C49890094563F /* HBBInputFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBInputFile.m; sourceTree = "<group>"; };
+		0E6C285B14C288BC004A0FE5 /* iso639-2.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iso639-2.db"; sourceTree = "<group>"; };
+		0E6C285E14C289DE004A0FE5 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = SDKs/MacOSX10.6.sdk/usr/lib/libsqlite3.dylib; sourceTree = DEVELOPER_DIR; };
+		0E6C286014C29515004A0FE5 /* HBBLangData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBLangData.h; sourceTree = "<group>"; };
+		0E6C286114C29515004A0FE5 /* HBBLangData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBLangData.m; sourceTree = "<group>"; };
 		0E987E2013E4062C00A99716 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		0E987E2213E4083900A99716 /* HBBPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBPreferencesController.h; sourceTree = "<group>"; };
 		0E987E2313E4083900A99716 /* HBBPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBPreferencesController.m; sourceTree = "<group>"; };
@@ -101,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E6C285F14C289DE004A0FE5 /* libsqlite3.dylib in Frameworks */,
 				0EEC80401369B4EA00D05124 /* Cocoa.framework in Frameworks */,
 				0EF8EFB1136D981000884AE8 /* Sparkle.framework in Frameworks */,
 				0EDBC5741390AFB300D88A0B /* Growl.framework in Frameworks */,
@@ -159,6 +167,7 @@
 		0EEC803E1369B4EA00D05124 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0E6C285E14C289DE004A0FE5 /* libsqlite3.dylib */,
 				0EEC803F1369B4EA00D05124 /* Cocoa.framework */,
 				0EEC80411369B4EA00D05124 /* Other Frameworks */,
 			);
@@ -187,6 +196,8 @@
 				0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */,
 				0E987E2213E4083900A99716 /* HBBPreferencesController.h */,
 				0E987E2313E4083900A99716 /* HBBPreferencesController.m */,
+				0E6C286014C29515004A0FE5 /* HBBLangData.h */,
+				0E6C286114C29515004A0FE5 /* HBBLangData.m */,
 				0E49A76613764A1500FB3B77 /* HBBPresets.h */,
 				0E49A76713764A1500FB3B77 /* HBBPresets.m */,
 				0E108B69136C47F200168057 /* HBBProgressController.h */,
@@ -210,6 +221,7 @@
 				0EEC80481369B4EA00D05124 /* InfoPlist.strings */,
 				0EEC804B1369B4EA00D05124 /* HandBrakeBatch-Prefix.pch */,
 				0EDBC5761390B05500D88A0B /* Growl Registration Ticket.growlRegDict */,
+				0E6C285B14C288BC004A0FE5 /* iso639-2.db */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -279,6 +291,7 @@
 				0E49A762137642B700FB3B77 /* plist.rb in Resources */,
 				0EDBC5771390B05500D88A0B /* Growl Registration Ticket.growlRegDict in Resources */,
 				0E987E2113E4062C00A99716 /* Preferences.xib in Resources */,
+				0E6C285C14C288BC004A0FE5 /* iso639-2.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +308,7 @@
 				0E54925F136C49890094563F /* HBBInputFile.m in Sources */,
 				0E49A76813764A1500FB3B77 /* HBBPresets.m in Sources */,
 				0E987E2413E4083900A99716 /* HBBPreferencesController.m in Sources */,
+				0E6C286214C29515004A0FE5 /* HBBLangData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -3,7 +3,7 @@
 //  HandBrakeBatch
 //
 //  Created by Cesare Tagliaferri on 15/01/2012.
-//  Copyright (c) 2012 Murex SEA. All rights reserved.
+//  Copyright (c) 2012 Cesare Tagliaferri. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

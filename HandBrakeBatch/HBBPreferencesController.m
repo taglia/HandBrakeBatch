@@ -56,4 +56,19 @@
     return [languages objectAtIndex:index];
 }
 
+-(IBAction)languageSelected:(id)sender {
+    NSComboBox *box = sender;
+    
+    if ( [languages containsObject:[box stringValue]] )
+        return;
+    
+    NSBeginAlertSheet(@"Unknown Language!", @"Ok", nil, nil, [self window], nil, NULL, NULL, NULL, @"Please select a language from the dropdown list.");
+    [box setStringValue:@"English"];
+    
+    if (sender == audioBox)
+        [[NSUserDefaults standardUserDefaults] setValue:@"English" forKey:@"HBBAudioPreferredLanguage"];
+    else
+        [[NSUserDefaults standardUserDefaults] setValue:@"English" forKey:@"HBBSubtitlePreferredLanguage"];
+}
+
 @end

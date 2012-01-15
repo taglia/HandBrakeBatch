@@ -16,9 +16,14 @@
     IBOutlet NSButton * maintainTimestamps;
     IBOutlet NSPopUpButton *mpeg4Extension;
     
+    IBOutlet NSComboBox *audioBox;
+    IBOutlet NSComboBox *subtitleBox;
+    
     HBBLangData *langData;
     NSArray *languages;
 
 }
+
+-(IBAction)languageSelected:(id)sender;
 
 @end

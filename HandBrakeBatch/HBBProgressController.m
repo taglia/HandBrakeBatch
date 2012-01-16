@@ -11,6 +11,7 @@
 #import <Growl/Growl.h>
 #import "HBBProgressController.h"
 #import "HBBPresets.h"
+#import "HBBVideoScan.h"
 
 #define FILES_OK            0
 #define FILE_EXISTS         1
@@ -67,6 +68,10 @@
     [backgroundTask setLaunchPath: handBrakeCLI];
     
     NSString *inputFilePath = [[currentQueue objectAtIndex:0] inputPath];
+    
+    // Scan input file
+    HBBVideoScan *scanner = [[HBBVideoScan alloc] initWithFile:inputFilePath];
+    [scanner scan];
     
     NSString *outputFilePath = [outputFolder stringByAppendingPathComponent:[[[inputFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:fileExtension] lastPathComponent]];
     

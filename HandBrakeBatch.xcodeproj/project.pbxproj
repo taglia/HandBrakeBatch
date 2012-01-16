@@ -18,6 +18,7 @@
 		0E6C285C14C288BC004A0FE5 /* iso639-2.db in Resources */ = {isa = PBXBuildFile; fileRef = 0E6C285B14C288BC004A0FE5 /* iso639-2.db */; };
 		0E6C285F14C289DE004A0FE5 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E6C285E14C289DE004A0FE5 /* libsqlite3.dylib */; };
 		0E6C286214C29515004A0FE5 /* HBBLangData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E6C286114C29515004A0FE5 /* HBBLangData.m */; };
+		0E933F9D14C47C8000A5BB1D /* HBBVideoScan.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E933F9C14C47C8000A5BB1D /* HBBVideoScan.m */; };
 		0E987E2113E4062C00A99716 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E987E2013E4062C00A99716 /* Preferences.xib */; };
 		0E987E2413E4083900A99716 /* HBBPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E987E2313E4083900A99716 /* HBBPreferencesController.m */; };
 		0E9B490A136C874000FCDC68 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E9B4909136C874000FCDC68 /* Icon.icns */; };
@@ -78,6 +79,8 @@
 		0E6C285E14C289DE004A0FE5 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = SDKs/MacOSX10.6.sdk/usr/lib/libsqlite3.dylib; sourceTree = DEVELOPER_DIR; };
 		0E6C286014C29515004A0FE5 /* HBBLangData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBLangData.h; sourceTree = "<group>"; };
 		0E6C286114C29515004A0FE5 /* HBBLangData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBLangData.m; sourceTree = "<group>"; };
+		0E933F9B14C47C8000A5BB1D /* HBBVideoScan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBVideoScan.h; sourceTree = "<group>"; };
+		0E933F9C14C47C8000A5BB1D /* HBBVideoScan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBVideoScan.m; sourceTree = "<group>"; };
 		0E987E2013E4062C00A99716 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		0E987E2213E4083900A99716 /* HBBPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBPreferencesController.h; sourceTree = "<group>"; };
 		0E987E2313E4083900A99716 /* HBBPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBPreferencesController.m; sourceTree = "<group>"; };
@@ -202,6 +205,8 @@
 				0E49A76713764A1500FB3B77 /* HBBPresets.m */,
 				0E108B69136C47F200168057 /* HBBProgressController.h */,
 				0E108B6A136C47F200168057 /* HBBProgressController.m */,
+				0E933F9B14C47C8000A5BB1D /* HBBVideoScan.h */,
+				0E933F9C14C47C8000A5BB1D /* HBBVideoScan.m */,
 				0E549260136C49BD0094563F /* xib */,
 				0EEC80461369B4EA00D05124 /* Supporting Files */,
 			);
@@ -309,6 +314,7 @@
 				0E49A76813764A1500FB3B77 /* HBBPresets.m in Sources */,
 				0E987E2413E4083900A99716 /* HBBPreferencesController.m in Sources */,
 				0E6C286214C29515004A0FE5 /* HBBLangData.m in Sources */,
+				0E933F9D14C47C8000A5BB1D /* HBBVideoScan.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

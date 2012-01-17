@@ -17,6 +17,8 @@
 
 +(HBBLangData *)defaultHBBLangData;
 -(NSArray *)languageList;
--(NSString *)langCode: (NSString *)langName;
+-(NSString *)langTCode: (NSString *)langName;
+-(NSString *)langBCode: (NSString *)langName;
+-(NSString *)langName: (NSString *)langCode;
 
 @end

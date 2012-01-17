@@ -16,6 +16,9 @@
     NSURL *inputURL;
     NSURL *outputURL;
     
+    NSArray *audioLanguages;
+    NSArray *subtitleLanguages;
+    
     // Used to compute the ETA
     NSInteger size;
 }
@@ -26,6 +29,8 @@
 @property (assign)NSURL *inputURL;
 @property (assign)NSURL *outputURL;
 @property (readonly)NSInteger size;
+@property (readonly)NSArray *audioLanguages;
+@property (readonly)NSArray *subtitleLanguages;
 
 - (id)initWithURL:(NSURL *)u;
 

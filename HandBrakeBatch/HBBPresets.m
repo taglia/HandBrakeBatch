@@ -79,7 +79,7 @@ static HBBPresets *instance;
         	            
    	            NSString *name = [[currentLine substringToIndex:separator.location] substringFromIndex:offset+2];
    	            NSString *args = [currentLine substringFromIndex:separator.location+separator.length];
-                    
+
    	            [tempDict setObject:args forKey:name];
        	    }
        	}

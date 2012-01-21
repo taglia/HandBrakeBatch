@@ -87,7 +87,8 @@
     // Storing output path to quickly access it in case we need to tweek the timestamps
     [[currentQueue objectAtIndex:0] setOutputURL:[NSURL fileURLWithPath:outputFilePath]];
     
-    [arguments addObjectsFromArray:[NSArray arrayWithObjects:@"-i", inputFilePath, @"-o", outputFilePath, nil]];
+    // Additional Arguments
+    NSMutableArray *allArguments = [NSMutableArray arrayWithArray:arguments];
     
     // Audio language arguments
     NSArray *audioLanguages = [[currentQueue objectAtIndex:0] audioLanguages];
@@ -96,14 +97,14 @@
         for (int i = 2; i <= [audioLanguages count]; ++i) {
             [audioLanguageIDs appendFormat:@",%d", i];
         }
-        [arguments addObjectsFromArray:[NSArray arrayWithObjects:@"-a", audioLanguageIDs, nil]];
+        [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-a", audioLanguageIDs, nil]];
     } else { // Preferred language (if available)
         NSString *bCode = [[HBBLangData defaultHBBLangData] langBCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBAudioPreferredLanguage"]];
         NSString *tCode = [[HBBLangData defaultHBBLangData] langTCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBAudioPreferredLanguage"]];
         int i=1;
         for (NSString *lang in audioLanguages) {
             if ([lang isEqualToString:bCode] || [lang isEqualToString:tCode]) {
-                [arguments addObjectsFromArray:[NSArray arrayWithObjects:@"-a", [NSString stringWithFormat:@"%d", i], nil]];
+                [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-a", [NSString stringWithFormat:@"%d", i], nil]];
                 break;
             }
             ++i;
@@ -117,23 +118,23 @@
         for (int i = 2; i <= [subtitleLanguages count]; ++i) {
             [subtitleLanguageIDs appendFormat:@",%d", i];
         }
-        [arguments addObjectsFromArray:[NSArray arrayWithObjects:@"-s", subtitleLanguageIDs, nil]];
+        [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-s", subtitleLanguageIDs, nil]];
     } else if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBSubtitleSelection"] == 1) { // Preferred language (if available)
         NSString *bCode = [[HBBLangData defaultHBBLangData] langBCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBSubtitlePreferredLanguage"]];
         NSString *tCode = [[HBBLangData defaultHBBLangData] langTCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBSubtitlePreferredLanguage"]];
         int i=1;
         for (NSString *lang in subtitleLanguages) {
             if ([lang isEqualToString:bCode] || [lang isEqualToString:tCode]) {
-                [arguments addObjectsFromArray:[NSArray arrayWithObjects:@"-s", [NSString stringWithFormat:@"%d", i], nil]];
+                [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-s", [NSString stringWithFormat:@"%d", i], nil]];
                 break;
             }
             ++i;
         }
     } // Else no subtitle, thus no need for any arguments
     
-    NSLog(@"HB CLI args: %@", [arguments description]);
+    [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-i", inputFilePath, @"-o", outputFilePath, nil]];
     
-    [backgroundTask setArguments: arguments];
+    [backgroundTask setArguments: allArguments];
     
     // Set Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self 
@@ -259,13 +260,25 @@
         fileExtension = [NSString stringWithString:@"mp4"];
     
     arguments = [[NSMutableArray alloc] init];
+
+    BOOL ignoreFollowing = false;
     
     for (NSString *currentArg in [preset componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]) {
-        [arguments addObject:currentArg];
         
-        // In case a preset specifies an mkv container as output format
-        if ([currentArg isEqual:@"mkv"])
-            fileExtension = [NSString stringWithString:@"mkv"];
+        // We filter out the -a x,y,z argument: added later depending on the audio language preferences
+        if (!ignoreFollowing) {
+            if ([currentArg isEqualToString:@"-a"]) {
+                ignoreFollowing = true;
+            } else {
+                [arguments addObject:currentArg];
+                
+                // In case a preset specifies an mkv container as output format
+                if ([currentArg isEqualToString:@"mkv"])
+                    fileExtension = [NSString stringWithString:@"mkv"];
+            }
+        } else {
+            ignoreFollowing = false;
+        }
     }
     
     outputFolder = [[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"];

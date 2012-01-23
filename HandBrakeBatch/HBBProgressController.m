@@ -153,13 +153,15 @@
     currentStartDate = [NSDate date];
     
     // Growl notification
-    [GrowlApplicationBridge notifyWithTitle:@"HandBrakeBatch"
-                                description:[NSString stringWithFormat:@"Starting conversion of %@", [inputFilePath lastPathComponent]]
-                           notificationName:@"Starting new video conversion"
-                                   iconData:[NSData data]
-                                   priority:-1
-                                   isSticky:NO
-                               clickContext:nil];
+    if ( ![[NSUserDefaults standardUserDefaults] boolForKey:@"HBBNotificationsDisabled"] ) {
+        [GrowlApplicationBridge notifyWithTitle:@"HandBrakeBatch"
+                                    description:[NSString stringWithFormat:@"Starting conversion of %@", [inputFilePath lastPathComponent]]
+                               notificationName:@"Starting new video conversion"
+                                       iconData:nil
+                                       priority:-1
+                                       isSticky:NO
+                                   clickContext:nil];
+    }
     
     // We tell the file handle to go ahead and read in the background asynchronously, and notify
     // us via the callback registered above when we signed up as an observer.  The file handle will
@@ -392,13 +394,15 @@
     // Check if all files have been processed
     if ([currentQueue count] == 0) {
         // Growl notification
-        [GrowlApplicationBridge notifyWithTitle:@"HandBrakeBatch"
-                                    description:@"All files have been converted"
-                               notificationName:@"All files converted"
-                                       iconData:[NSData data]
-                                       priority:-1
-                                       isSticky:NO
-                                   clickContext:nil];
+        if ( ![[NSUserDefaults standardUserDefaults] boolForKey:@"HBBNotificationsDisabled"] ) {
+            [GrowlApplicationBridge notifyWithTitle:@"HandBrakeBatch"
+                                        description:@"All files have been converted"
+                                   notificationName:@"All files converted"
+                                           iconData:nil
+                                           priority:-1
+                                           isSticky:NO
+                                       clickContext:nil];
+        }
         
         [progressWheel stopAnimation:self];
         [timer invalidate];

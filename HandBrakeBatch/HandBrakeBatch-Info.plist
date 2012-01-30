@@ -9,6 +9,22 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>mod</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Movie-MOD</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>MOD</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSIsAppleDefaultForType</key>
+			<string>Yes</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
 				<string>aac</string>
 				<string>adts</string>
 			</array>
@@ -1092,11 +1108,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1</string>
+	<string>2.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.1</string>
+	<string>2.2</string>
 	<key>HandBrakePresets</key>
 	<array>
 		<string>Universal</string>

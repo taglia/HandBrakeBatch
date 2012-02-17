@@ -63,13 +63,18 @@
     [audioLanguages removeAllObjects];
     [subtitleLanguages removeAllObjects];
     
-    while ([[outputLines objectAtIndex:++audioIndex] characterAtIndex:4] == '+') {
-        NSRange range = [[outputLines objectAtIndex:audioIndex] rangeOfString:@"iso639-2: "];
-        [audioLanguages addObject:[[outputLines objectAtIndex:audioIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
+    if (audioIndex != NSNotFound) {
+        while ([[outputLines objectAtIndex:++audioIndex] characterAtIndex:4] == '+') {
+            NSRange range = [[outputLines objectAtIndex:audioIndex] rangeOfString:@"iso639-2: "];
+            [audioLanguages addObject:[[outputLines objectAtIndex:audioIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
+        }
     }
-    while ([[outputLines objectAtIndex:++subtitleIndex] characterAtIndex:4] == '+') {
-        NSRange range = [[outputLines objectAtIndex:subtitleIndex] rangeOfString:@"iso639-2: "];
-        [subtitleLanguages addObject:[[outputLines objectAtIndex:subtitleIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
+    
+    if (subtitleIndex != NSNotFound) {
+        while ([[outputLines objectAtIndex:++subtitleIndex] characterAtIndex:4] == '+') {
+            NSRange range = [[outputLines objectAtIndex:subtitleIndex] rangeOfString:@"iso639-2: "];
+            [subtitleLanguages addObject:[[outputLines objectAtIndex:subtitleIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
+        }
     }
 }
 

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0E108B6B136C47F200168057 /* HBBProgressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E108B6A136C47F200168057 /* HBBProgressController.m */; };
 		0E18546B136C4222004B5558 /* HBBProgressWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E18546A136C4222004B5558 /* HBBProgressWindow.xib */; };
-		0E49A761137642B700FB3B77 /* manicure.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0E49A75D137642B700FB3B77 /* manicure.rb */; };
 		0E49A762137642B700FB3B77 /* plist.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0E49A75E137642B700FB3B77 /* plist.rb */; };
 		0E49A7641376437400FB3B77 /* generator.rb in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E49A75B137642B700FB3B77 /* generator.rb */; };
 		0E49A7651376437400FB3B77 /* parser.rb in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E49A75C137642B700FB3B77 /* parser.rb */; };
@@ -22,6 +21,8 @@
 		0E987E2113E4062C00A99716 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E987E2013E4062C00A99716 /* Preferences.xib */; };
 		0E987E2413E4083900A99716 /* HBBPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E987E2313E4083900A99716 /* HBBPreferencesController.m */; };
 		0E9B490A136C874000FCDC68 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E9B4909136C874000FCDC68 /* Icon.icns */; };
+		0EDB6D5A1501DE5F003E3F09 /* manicure.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0EDB6D591501DE5F003E3F09 /* manicure.rb */; };
+		0EDB6D5C1501DF09003E3F09 /* HandBrakeCLI_64 in Resources */ = {isa = PBXBuildFile; fileRef = 0EDB6D5B1501DF09003E3F09 /* HandBrakeCLI_64 */; };
 		0EDBC5741390AFB300D88A0B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EDBC5731390AFB300D88A0B /* Growl.framework */; };
 		0EDBC5771390B05500D88A0B /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 0EDBC5761390B05500D88A0B /* Growl Registration Ticket.growlRegDict */; };
 		0EDBC5781390B57600D88A0B /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EDBC5731390AFB300D88A0B /* Growl.framework */; };
@@ -33,7 +34,6 @@
 		0EF72315136CFCE100D223F4 /* gpl-3.0.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0EF72314136CFCE100D223F4 /* gpl-3.0.txt */; };
 		0EF8EF95136CFEB700884AE8 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0EF8EF93136CFEB700884AE8 /* Credits.rtf */; };
 		0EF8EF98136D07EB00884AE8 /* HandBrakeCLI_32 in Resources */ = {isa = PBXBuildFile; fileRef = 0EF8EF96136D07EB00884AE8 /* HandBrakeCLI_32 */; };
-		0EF8EF99136D07EB00884AE8 /* HandBrakeCLI_64 in Resources */ = {isa = PBXBuildFile; fileRef = 0EF8EF97136D07EB00884AE8 /* HandBrakeCLI_64 */; };
 		0EF8EFB1136D981000884AE8 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EF8EFB0136D981000884AE8 /* Sparkle.framework */; };
 		0EF8EFB6136D9D2200884AE8 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EF8EFB0136D981000884AE8 /* Sparkle.framework */; };
 /* End PBXBuildFile section */
@@ -69,7 +69,6 @@
 		0E18546A136C4222004B5558 /* HBBProgressWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HBBProgressWindow.xib; sourceTree = "<group>"; };
 		0E49A75B137642B700FB3B77 /* generator.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = generator.rb; sourceTree = "<group>"; };
 		0E49A75C137642B700FB3B77 /* parser.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = parser.rb; sourceTree = "<group>"; };
-		0E49A75D137642B700FB3B77 /* manicure.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = manicure.rb; sourceTree = "<group>"; };
 		0E49A75E137642B700FB3B77 /* plist.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = plist.rb; sourceTree = "<group>"; };
 		0E49A76613764A1500FB3B77 /* HBBPresets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBPresets.h; sourceTree = "<group>"; };
 		0E49A76713764A1500FB3B77 /* HBBPresets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBPresets.m; sourceTree = "<group>"; };
@@ -85,6 +84,8 @@
 		0E987E2213E4083900A99716 /* HBBPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBPreferencesController.h; sourceTree = "<group>"; };
 		0E987E2313E4083900A99716 /* HBBPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBPreferencesController.m; sourceTree = "<group>"; };
 		0E9B4909136C874000FCDC68 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
+		0EDB6D591501DE5F003E3F09 /* manicure.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = manicure.rb; sourceTree = "<group>"; };
+		0EDB6D5B1501DF09003E3F09 /* HandBrakeCLI_64 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = HandBrakeCLI_64; sourceTree = "<group>"; };
 		0EDBC5731390AFB300D88A0B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
 		0EDBC5761390B05500D88A0B /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		0EEC803B1369B4EA00D05124 /* HandBrakeBatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HandBrakeBatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,7 +103,6 @@
 		0EF72314136CFCE100D223F4 /* gpl-3.0.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "gpl-3.0.txt"; sourceTree = "<group>"; };
 		0EF8EF94136CFEB700884AE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		0EF8EF96136D07EB00884AE8 /* HandBrakeCLI_32 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = HandBrakeCLI_32; sourceTree = "<group>"; };
-		0EF8EF97136D07EB00884AE8 /* HandBrakeCLI_64 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = HandBrakeCLI_64; sourceTree = "<group>"; };
 		0EF8EFB0136D981000884AE8 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -125,7 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				0E49A75A137642B700FB3B77 /* plist */,
-				0E49A75D137642B700FB3B77 /* manicure.rb */,
+				0EDB6D591501DE5F003E3F09 /* manicure.rb */,
 				0E49A75E137642B700FB3B77 /* plist.rb */,
 			);
 			name = hb_manicure;
@@ -218,7 +218,7 @@
 			children = (
 				0E49A7581376428F00FB3B77 /* hb_manicure */,
 				0EF8EF96136D07EB00884AE8 /* HandBrakeCLI_32 */,
-				0EF8EF97136D07EB00884AE8 /* HandBrakeCLI_64 */,
+				0EDB6D5B1501DF09003E3F09 /* HandBrakeCLI_64 */,
 				0EF8EF93136CFEB700884AE8 /* Credits.rtf */,
 				0EF72314136CFCE100D223F4 /* gpl-3.0.txt */,
 				0E9B4909136C874000FCDC68 /* Icon.icns */,
@@ -291,12 +291,12 @@
 				0EF72315136CFCE100D223F4 /* gpl-3.0.txt in Resources */,
 				0EF8EF95136CFEB700884AE8 /* Credits.rtf in Resources */,
 				0EF8EF98136D07EB00884AE8 /* HandBrakeCLI_32 in Resources */,
-				0EF8EF99136D07EB00884AE8 /* HandBrakeCLI_64 in Resources */,
-				0E49A761137642B700FB3B77 /* manicure.rb in Resources */,
 				0E49A762137642B700FB3B77 /* plist.rb in Resources */,
 				0EDBC5771390B05500D88A0B /* Growl Registration Ticket.growlRegDict in Resources */,
 				0E987E2113E4062C00A99716 /* Preferences.xib in Resources */,
 				0E6C285C14C288BC004A0FE5 /* iso639-2.db in Resources */,
+				0EDB6D5A1501DE5F003E3F09 /* manicure.rb in Resources */,
+				0EDB6D5C1501DF09003E3F09 /* HandBrakeCLI_64 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

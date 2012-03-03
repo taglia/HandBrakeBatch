@@ -287,6 +287,8 @@ class Display
         commandString << "x264"
       when /Theora/
         commandString << "theora"
+      when /MPEG/
+        commandString << "ffmpeg2"
       end
     end
 
@@ -311,10 +313,13 @@ class Display
       else
         commandString << " -r " << hash["VideoFramerate"]
       end
-      
-      if hash["VideoFrameratePFR"] == 1
+      # not same as source: pfr, else default (cfr)
+      if hash["VideoFramerateMode"] == "pfr"
         commandString << " --pfr "
       end
+    # same as source: cfr, else default (vfr)
+    elsif hash["VideoFramerateMode"] == "cfr"
+      commandString << " --cfr "
     end
     
     #Audio tracks
@@ -337,13 +342,25 @@ class Display
         when /AC3 Pass/
           audioEncoders << "copy:ac3"
         when /AC3/
-          audioEncoders << "ac3"
+          audioEncoders << "ffac3"
+        when /DTS Pass/
+          audioEncoders << "copy:dts"
+        when /DTS-HD Pass/
+          audioEncoders << "copy:dtshd"
+        when /AAC Pass/
+          audioEncoders << "copy:aac"
+        when "AAC (ffmpeg)"
+          audioEncoders << "ffaac"
         when /AAC/
           audioEncoders << "faac"
         when /Vorbis/
           audioEncoders << "vorbis"
+        when /MP3 Pass/
+          audioEncoders << "copy:mp3"
         when /MP3/
           audioEncoders << "lame"
+        when /FLAC/
+          audioEncoders << "ffflac"
       end
       
       #Mixdowns
@@ -358,7 +375,7 @@ class Display
         audioMixdowns << "dpl2"
       when /discrete/
         audioMixdowns << "6ch"
-      when /Passthru/
+      when /None/
         audioMixdowns << "auto"
       end
       
@@ -536,6 +553,8 @@ class Display
         commandString << "x264"
       when /Theora/
         commandString << "theora"
+      when /MPEG/
+        commandString << "ffmpeg2"
       end
     end
 
@@ -560,10 +579,13 @@ class Display
       else
         commandString << " -r " << hash["VideoFramerate"]
       end
-      
-      if hash["VideoFrameratePFR"] == 1
+      # not same as source: pfr, else default (cfr)
+      if hash["VideoFramerateMode"] == "pfr"
         commandString << " --pfr "
       end
+    # same as source: cfr, else default (vfr)
+    elsif hash["VideoFramerateMode"] == "cfr"
+      commandString << " --cfr "
     end
     
     #Audio tracks
@@ -586,13 +608,25 @@ class Display
         when /AC3 Pass/
           audioEncoders << "copy:ac3"
         when /AC3/
-          audioEncoders << "ac3"
+          audioEncoders << "ffac3"
+        when /DTS Pass/
+          audioEncoders << "copy:dts"
+        when /DTS-HD Pass/
+          audioEncoders << "copy:dtshd"
+        when /AAC Pass/
+          audioEncoders << "copy:aac"
+        when "AAC (ffmpeg)"
+          audioEncoders << "ffaac"
         when /AAC/
           audioEncoders << "faac"
         when /Vorbis/
           audioEncoders << "vorbis"
+        when /MP3 Pass/
+          audioEncoders << "copy:mp3"
         when /MP3/
           audioEncoders << "lame"
+        when /FLAC/
+          audioEncoders << "ffflac"
       end
       
       #Mixdowns
@@ -607,7 +641,7 @@ class Display
         audioMixdowns << "dpl2"
       when /discrete/
         audioMixdowns << "6ch"
-      when /Passthru/
+      when /None/
         audioMixdowns << "auto"
       end
       
@@ -779,6 +813,8 @@ class Display
         commandString << "HB_VCODEC_X264;\n    "
       when /Theora/
         commandString << "HB_VCODEC_THEORA;\n    "        
+      when /MPEG/
+        commandString << "HB_VCODEC_FFMPEG_MPEG2;\n    "
       end
     end
 
@@ -802,12 +838,15 @@ class Display
         commandString << "job->vrate_base = " << "1080000\n    "
       # Gotta add the rest of the framerates for completion's sake.
       end
-      
-      if hash["VideoFrameratePFR"] == 1
+      # not same as source: pfr, else default (cfr)
+      if hash["VideoFramerateMode"] == "pfr"
         commandString << "job->cfr = 2;\n    "
       else
         commandString << "job->cfr = 1;\n    "
       end
+    # same as source: cfr, else default (vfr)
+    elsif hash["VideoFramerateMode"] == "cfr"
+      commandString << "job->cfr = 1;\n    "
     end
     
     #Audio tracks
@@ -830,13 +869,25 @@ class Display
         when /AC3 Pass/
           audioEncoders << "copy:ac3"
         when /AC3/
-          audioEncoders << "ac3"
+          audioEncoders << "ffac3"
+        when /DTS Pass/
+          audioEncoders << "copy:dts"
+        when /DTS-HD Pass/
+          audioEncoders << "copy:dtshd"
+        when /AAC Pass/
+          audioEncoders << "copy:aac"
+        when "AAC (ffmpeg)"
+          audioEncoders << "ffaac"
         when /AAC/
           audioEncoders << "faac"
         when /Vorbis/
           audioEncoders << "vorbis"
+        when /MP3 Pass/
+          audioEncoders << "copy:mp3"
         when /MP3/
           audioEncoders << "lame"
+        when /FLAC/
+          audioEncoders << "ffflac"
       end
 
       #Mixdowns
@@ -851,7 +902,7 @@ class Display
         audioMixdowns << "dpl2"
       when /discrete/
         audioMixdowns << "6ch"
-      when /Passthru/
+      when /None/
         audioMixdowns << "auto"
       end
 
@@ -888,8 +939,8 @@ class Display
 
     commandString << "if( !abitrates )\n    "
     commandString << "{\n    "
-    commandString << "    abitrates = strdup(\"" << audioBitrates
-    commandString << "\");\n    "
+    commandString << "    abitrates = str_split(\"" << audioBitrates
+    commandString << "\", ',');\n    "
     commandString << "}\n    "
 
     commandString << "if( !mixdowns )\n    "
@@ -1061,6 +1112,8 @@ class Display
         commandString << "x264 "
       when /Theora/
         commandString << "theora "
+      when /MPEG/
+        commandString << "ffmpeg2 "
       end
     end
 
@@ -1085,10 +1138,13 @@ class Display
       else
         commandString << " -r " << hash["VideoFramerate"]
       end
-      
-      if hash["VideoFrameratePFR"] == 1
+      # not same as source: pfr, else default (cfr)
+      if hash["VideoFramerateMode"] == "pfr"
         commandString << " --pfr "
       end
+    # same as source: cfr, else default (vfr)
+    elsif hash["VideoFramerateMode"] == "cfr"
+      commandString << " --cfr "
     end
     
     #Audio tracks
@@ -1111,13 +1167,25 @@ class Display
         when /AC3 Pass/
           audioEncoders << "copy:ac3"
         when /AC3/
-          audioEncoders << "ac3"
+          audioEncoders << "ffac3"
+        when /DTS Pass/
+          audioEncoders << "copy:dts"
+        when /DTS-HD Pass/
+          audioEncoders << "copy:dtshd"
+        when /AAC Pass/
+          audioEncoders << "copy:aac"
+        when "AAC (ffmpeg)"
+          audioEncoders << "ffaac"
         when /AAC/
           audioEncoders << "faac"
         when /Vorbis/
           audioEncoders << "vorbis"
+        when /MP3 Pass/
+          audioEncoders << "copy:mp3"
         when /MP3/
           audioEncoders << "lame"
+        when /FLAC/
+          audioEncoders << "ffflac"
       end
       
       #Mixdowns
@@ -1132,7 +1200,7 @@ class Display
         audioMixdowns << "dpl2"
       when /discrete/
         audioMixdowns << "6ch"
-      when /Passthru/
+      when /None/
         audioMixdowns << "auto"
       end
       

@@ -61,8 +61,8 @@
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
-				<string key="NSWindowContentMaxSize">{431, 86}</string>
-				<string key="NSWindowContentMinSize">{431, 241}</string>
+				<string key="NSWindowContentMaxSize">{431, 299}</string>
+				<string key="NSWindowContentMinSize">{431, 299}</string>
 				<object class="NSView" key="NSWindowView" id="1006">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
@@ -73,7 +73,6 @@
 							<int key="NSvFlags">12</int>
 							<string key="NSFrame">{{13, 10}, {405, 283}}</string>
 							<reference key="NSSuperview" ref="1006"/>
-							<reference key="NSNextKeyView" ref="69207900"/>
 							<string key="NSReuseIdentifierKey">_NS:608</string>
 							<object class="NSMutableArray" key="NSTabViewItems">
 								<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1040,7 +1039,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 												<int key="NSvFlags">268</int>
 												<string key="NSFrame">{{6, 218}, {145, 18}}</string>
 												<reference key="NSSuperview" ref="69207900"/>
-												<reference key="NSNextKeyView"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSButtonCell" key="NSCell" id="619207465">
@@ -1087,8 +1085,8 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<reference key="NSNextKeyView" ref="5057029"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {2560, 1418}}</string>
-				<string key="NSMinSize">{431, 263}</string>
-				<string key="NSMaxSize">{431, 108}</string>
+				<string key="NSMinSize">{431, 321}</string>
+				<string key="NSMaxSize">{431, 321}</string>
 				<string key="NSFrameAutosaveName">HBBPreferenceWindow</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>

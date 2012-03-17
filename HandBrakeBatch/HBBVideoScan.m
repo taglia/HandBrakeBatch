@@ -52,6 +52,10 @@
         [NSThread sleepForTimeInterval: .5];
     }
     
+    // If the scan is not completed in 2 seconds, let's kill it
+    if ([task isRunning])
+        [task terminate];
+    
     NSData *output = [[stdOutPipe fileHandleForReading] readDataToEndOfFile];
     
     NSString *stringData = [NSString stringWithCString:[output bytes] encoding:NSASCIIStringEncoding];

@@ -12,17 +12,17 @@
 #import <Growl/Growl.h>
 #import "HBBProgressController.h"
 #import "HBBPreferencesController.h"
+#import "RSRTVArrayController.h"
 
 @interface HandBrakeBatchAppDelegate : NSObject <NSApplicationDelegate, NSSplitViewDelegate, NSWindowDelegate, GrowlApplicationBridgeDelegate> {
 @private
     NSWindow *window;
     
-    IBOutlet NSArray *presets;
-    
     NSMutableArray *inputFiles;
     IBOutlet NSTableView *fileNamesView;
-    IBOutlet NSArrayController *fileNamesController;
+    IBOutlet RSRTVArrayController *fileNamesController;
     
+    NSArray *presets;
     IBOutlet NSArrayController *presetNamesController;
     IBOutlet NSPopUpButton *presetPopUp;
     

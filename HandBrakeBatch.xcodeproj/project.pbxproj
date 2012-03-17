@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0E108B6B136C47F200168057 /* HBBProgressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E108B6A136C47F200168057 /* HBBProgressController.m */; };
 		0E18546B136C4222004B5558 /* HBBProgressWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E18546A136C4222004B5558 /* HBBProgressWindow.xib */; };
+		0E337A4715144FCC006150DD /* RSRTVArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E337A4615144FCC006150DD /* RSRTVArrayController.m */; };
 		0E49A762137642B700FB3B77 /* plist.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0E49A75E137642B700FB3B77 /* plist.rb */; };
 		0E49A7641376437400FB3B77 /* generator.rb in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E49A75B137642B700FB3B77 /* generator.rb */; };
 		0E49A7651376437400FB3B77 /* parser.rb in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E49A75C137642B700FB3B77 /* parser.rb */; };
@@ -67,6 +68,8 @@
 		0E108B69136C47F200168057 /* HBBProgressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBProgressController.h; sourceTree = "<group>"; };
 		0E108B6A136C47F200168057 /* HBBProgressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBProgressController.m; sourceTree = "<group>"; };
 		0E18546A136C4222004B5558 /* HBBProgressWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HBBProgressWindow.xib; sourceTree = "<group>"; };
+		0E337A4515144FCC006150DD /* RSRTVArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSRTVArrayController.h; sourceTree = "<group>"; };
+		0E337A4615144FCC006150DD /* RSRTVArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSRTVArrayController.m; sourceTree = "<group>"; };
 		0E49A75B137642B700FB3B77 /* generator.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = generator.rb; sourceTree = "<group>"; };
 		0E49A75C137642B700FB3B77 /* parser.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = parser.rb; sourceTree = "<group>"; };
 		0E49A75E137642B700FB3B77 /* plist.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = plist.rb; sourceTree = "<group>"; };
@@ -121,6 +124,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E337A4415144FCC006150DD /* RSRTVArrayController */ = {
+			isa = PBXGroup;
+			children = (
+				0E337A4515144FCC006150DD /* RSRTVArrayController.h */,
+				0E337A4615144FCC006150DD /* RSRTVArrayController.m */,
+			);
+			path = RSRTVArrayController;
+			sourceTree = "<group>";
+		};
 		0E49A7581376428F00FB3B77 /* hb_manicure */ = {
 			isa = PBXGroup;
 			children = (
@@ -192,6 +204,7 @@
 		0EEC80451369B4EA00D05124 /* HandBrakeBatch */ = {
 			isa = PBXGroup;
 			children = (
+				0E337A4415144FCC006150DD /* RSRTVArrayController */,
 				0EEC804C1369B4EA00D05124 /* main.m */,
 				0E54925D136C49890094563F /* HBBInputFile.h */,
 				0E54925E136C49890094563F /* HBBInputFile.m */,
@@ -315,6 +328,7 @@
 				0E987E2413E4083900A99716 /* HBBPreferencesController.m in Sources */,
 				0E6C286214C29515004A0FE5 /* HBBLangData.m in Sources */,
 				0E933F9D14C47C8000A5BB1D /* HBBVideoScan.m in Sources */,
+				0E337A4715144FCC006150DD /* RSRTVArrayController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +367,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_ARC_MIGRATION = donothing;
+				CODE_SIGN_IDENTITY = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -373,6 +388,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_ARC_MIGRATION = donothing;
+				CODE_SIGN_IDENTITY = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -388,7 +404,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -410,7 +425,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (

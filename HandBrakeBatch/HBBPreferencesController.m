@@ -12,6 +12,20 @@
 
 @implementation HBBPreferencesController
 
+- (void)toggleLanguage: (bool)enable {
+    if (enable) {
+        [subtitleBox setEnabled:true];
+        [audioBox setEnabled:true];
+        [subtitleMatrix setEnabled:true];
+        [audioMatrix setEnabled:true];
+    } else {
+        [subtitleBox setEnabled:false];
+        [audioBox setEnabled:false];
+        [subtitleMatrix setEnabled:false];
+        [audioMatrix setEnabled:false];
+    }
+}
+
 - (id)init
 {
 	self = [super initWithWindowNibName:@"Preferences"];
@@ -23,6 +37,10 @@
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"HBBSubtitleSelection"] == nil) {
         [[NSUserDefaults standardUserDefaults] setInteger:2 forKey:@"HBBSubtitleSelection"];
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"HBBScanEnabled"] == nil) {
+        [[NSUserDefaults standardUserDefaults] setBool:true forKey:@"HBBScanEnabled"];
     }
     
     langData = [HBBLangData defaultHBBLangData];
@@ -45,7 +63,11 @@
 {
     [super windowDidLoad];
     
-    // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBScanEnabled"]) {
+        [self toggleLanguage:true];
+    } else {
+        [self toggleLanguage:false];
+    }
 }
 
 - (NSInteger)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
@@ -69,6 +91,14 @@
         [[NSUserDefaults standardUserDefaults] setValue:@"English" forKey:@"HBBAudioPreferredLanguage"];
     else
         [[NSUserDefaults standardUserDefaults] setValue:@"English" forKey:@"HBBSubtitlePreferredLanguage"];
+}
+
+-(IBAction)toggleLanguageScan:(id)sender {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBScanEnabled"]) {
+        [self toggleLanguage:true];
+    } else {
+        [self toggleLanguage:false];
+    }
 }
 
 @end

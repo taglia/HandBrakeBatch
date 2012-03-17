@@ -44,8 +44,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    [fileNamesView registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
-    [fileNamesView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
+    [self.window registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
     
     NSString *selectedPreset = [[NSUserDefaults standardUserDefaults] objectForKey:@"PresetName"];
     [presetPopUp selectItemWithTitle:selectedPreset];
@@ -100,7 +99,7 @@
     
     [[self window] orderOut:nil];
     
-    [progressController setQueue:inputFiles];
+    [progressController setQueue:[fileNamesController arrangedObjects]];
     [progressController processQueue];
 }
 
@@ -133,27 +132,24 @@
 ///////////////////////////////////////
 
 // Validate Drop
-- (NSDragOperation)tableView:(NSTableView*)pTableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)op
-{
+- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
     return NSDragOperationEvery;
 }
 
 // Accept Drop
-- (BOOL)tableView:(NSTableView *)pTableView 
-	   acceptDrop:(id <NSDraggingInfo>)info
-			  row:(NSInteger)pRow 
-	dropOperation:(NSTableViewDropOperation)operation
-{
-	if (pRow < 0) pRow = 0;
+- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
+    NSPasteboard *pboard;
+    NSDragOperation sourceDragMask;
     
-    NSPasteboard* pboard = [info draggingPasteboard];
-	
-	NSArray* draggedItems = [pboard propertyListForType:NSFilenamesPboardType];
+    sourceDragMask = [sender draggingSourceOperationMask];
+    pboard = [sender draggingPasteboard];
+    
+    NSArray* draggedItems = [pboard propertyListForType:NSFilenamesPboardType];
     
 	for (NSString *item in draggedItems) {
 		NSURL *completeFileName = [NSURL fileURLWithPath:item];
         HBBInputFile *file = [[HBBInputFile alloc] initWithURL:completeFileName];
-		[fileNamesController insertObject:file atArrangedObjectIndex:pRow];
+		[fileNamesController addObject:file];
 	}
 	
 	return YES;

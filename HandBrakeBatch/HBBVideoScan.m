@@ -48,7 +48,9 @@
     
     // Executing scan
     [task launch];
-    [task waitUntilExit];
+    for (int i = 0; i < 4 && [task isRunning]; ++i) {
+        [NSThread sleepForTimeInterval: .5];
+    }
     
     NSData *output = [[stdOutPipe fileHandleForReading] readDataToEndOfFile];
     

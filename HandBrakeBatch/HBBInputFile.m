@@ -24,12 +24,17 @@
         NSDictionary *attrs = [man attributesOfItemAtPath: [u path] error: NULL];
         size = (NSInteger)[attrs fileSize];
 
-        HBBVideoScan *scan = [[HBBVideoScan alloc] initWithFile:[u path]];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBScanEnabled"]) {
+            HBBVideoScan *scan = [[HBBVideoScan alloc] initWithFile:[u path]];
         
-        [scan scan];
+            [scan scan];
         
-        audioLanguages = [[scan audioLanguages] copy];
-        subtitleLanguages = [[scan subtitleLanguages] copy];
+            audioLanguages = [[scan audioLanguages] copy];
+            subtitleLanguages = [[scan subtitleLanguages] copy];
+        } else {
+            audioLanguages = [[NSArray alloc] init];
+            subtitleLanguages = [[NSArray alloc] init];
+        }
     }
     return self;
 }

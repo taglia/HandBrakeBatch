@@ -18,6 +18,8 @@
     
     IBOutlet NSComboBox *audioBox;
     IBOutlet NSComboBox *subtitleBox;
+    IBOutlet NSMatrix *audioMatrix;
+    IBOutlet NSMatrix *subtitleMatrix;
     
     HBBLangData *langData;
     NSArray *languages;
@@ -25,5 +27,6 @@
 }
 
 -(IBAction)languageSelected:(id)sender;
+-(IBAction)toggleLanguageScan:(id)sender;
 
 @end

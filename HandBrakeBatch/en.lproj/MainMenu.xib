@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">11C74</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1138.23</string>
-		<string key="IBDocument.HIToolboxVersion">567.00</string>
+		<string key="IBDocument.SystemVersion">11D50b</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
+		<string key="IBDocument.AppKitVersion">1138.32</string>
+		<string key="IBDocument.HIToolboxVersion">568.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1938</string>
+			<string key="NS.object.0">2182</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -573,10 +573,11 @@
 																</object>
 															</object>
 															<double key="NSRowHeight">17</double>
-															<int key="NSTvFlags">1514143744</int>
+															<int key="NSTvFlags">-96468992</int>
 															<reference key="NSDelegate"/>
 															<reference key="NSDataSource"/>
-															<int key="NSColumnAutoresizingStyle">4</int>
+															<int key="NSGridStyleMask">8</int>
+															<int key="NSColumnAutoresizingStyle">5</int>
 															<int key="NSDraggingSourceMaskForLocal">15</int>
 															<int key="NSDraggingSourceMaskForNonLocal">0</int>
 															<bool key="NSAllowsTypeSelect">YES</bool>
@@ -869,6 +870,7 @@
 				<string key="NSScreenRect">{{0, 0}, {2560, 1418}}</string>
 				<string key="NSMinSize">{480, 292}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
+				<string key="NSFrameAutosaveName">HBBMainWindow</string>
 				<int key="NSWindowCollectionBehavior">128</int>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
@@ -898,6 +900,7 @@
 				<bool key="NSSelectsInsertedObjects">YES</bool>
 				<bool key="NSFilterRestrictsInsertion">YES</bool>
 				<bool key="NSClearsFilterPredicateOnInsertion">YES</bool>
+				<bool key="NSAutomaticallyRearrangesObjects">YES</bool>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -1132,9 +1135,9 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">dataSource</string>
 						<reference key="source" ref="341487667"/>
-						<reference key="destination" ref="976324537"/>
+						<reference key="destination" ref="237503056"/>
 					</object>
-					<int key="connectionID">633</int>
+					<int key="connectionID">711</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1199,6 +1202,14 @@
 						<reference key="destination" ref="1011396504"/>
 					</object>
 					<int key="connectionID">645</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">oTableView</string>
+						<reference key="source" ref="237503056"/>
+						<reference key="destination" ref="341487667"/>
+					</object>
+					<int key="connectionID">712</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1853,6 +1864,7 @@
 					<string>57.IBPluginDependency</string>
 					<string>58.IBPluginDependency</string>
 					<string>587.IBPluginDependency</string>
+					<string>601.CustomClassName</string>
 					<string>601.IBPluginDependency</string>
 					<string>605.IBPluginDependency</string>
 					<string>606.IBPluginDependency</string>
@@ -1869,7 +1881,7 @@
 					<string>702.IBPluginDependency</string>
 					<string>92.IBPluginDependency</string>
 				</object>
-				<object class="NSMutableArray" key="dict.values">
+				<object class="NSArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1940,6 +1952,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>RSRTVArrayController</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1969,7 +1982,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">705</int>
+			<int key="maxID">712</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1987,7 +2000,7 @@
 							<string>showPreferences:</string>
 							<string>startConversion:</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>id</string>
 							<string>id</string>
@@ -2006,7 +2019,7 @@
 							<string>showPreferences:</string>
 							<string>startConversion:</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
 								<string key="name">chooseOutputFolder:</string>
@@ -2038,16 +2051,14 @@
 							<string>fileNamesView</string>
 							<string>presetNamesController</string>
 							<string>presetPopUp</string>
-							<string>presets</string>
 							<string>window</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>NSArrayController</string>
+							<string>RSRTVArrayController</string>
 							<string>NSTableView</string>
 							<string>NSArrayController</string>
 							<string>NSPopUpButton</string>
-							<string>NSArray</string>
 							<string>NSWindow</string>
 						</object>
 					</object>
@@ -2059,14 +2070,13 @@
 							<string>fileNamesView</string>
 							<string>presetNamesController</string>
 							<string>presetPopUp</string>
-							<string>presets</string>
 							<string>window</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
 								<string key="name">fileNamesController</string>
-								<string key="candidateClassName">NSArrayController</string>
+								<string key="candidateClassName">RSRTVArrayController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">fileNamesView</string>
@@ -2081,10 +2091,6 @@
 								<string key="candidateClassName">NSPopUpButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">presets</string>
-								<string key="candidateClassName">NSArray</string>
-							</object>
-							<object class="IBToOneOutletInfo">
 								<string key="name">window</string>
 								<string key="candidateClassName">NSWindow</string>
 							</object>
@@ -2093,6 +2099,25 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/HandBrakeBatchAppDelegate.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">RSRTVArrayController</string>
+					<string key="superclassName">NSArrayController</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">oTableView</string>
+						<string key="NS.object.0">NSTableView</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">oTableView</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">oTableView</string>
+							<string key="candidateClassName">NSTableView</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/RSRTVArrayController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -2146,10 +2171,10 @@
 				<string>NSMenuCheckmark</string>
 				<string>NSMenuMixedState</string>
 			</object>
-			<object class="NSMutableArray" key="dict.values">
+			<object class="NSArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>{9, 8}</string>
-				<string>{7, 2}</string>
+				<string>{11, 11}</string>
+				<string>{10, 3}</string>
 			</object>
 		</object>
 	</data>

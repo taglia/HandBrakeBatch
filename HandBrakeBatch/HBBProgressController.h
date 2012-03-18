@@ -36,7 +36,6 @@
     IBOutlet NSTextField *messageField;
     
     IBOutlet NSTextField *currentETA;
-    IBOutlet NSTextField *overallETA;
     IBOutlet NSTextField *elapsed;
     
     BOOL cancel;

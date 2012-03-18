@@ -212,7 +212,7 @@
     [progressWheel startAnimation:self];
     
     // Prepare timer for the ETA estimation
-    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(estimateETA:) userInfo:nil repeats:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(incrementElapsed:) userInfo:nil repeats:YES];
     
     // Initialize total size to be converted (used to estimate the ETA)
     totalSize = 0;
@@ -322,43 +322,15 @@
     return [NSString stringWithFormat:@"%0.2d:%0.2d:%0.2d", h, m, s];
 }
 
--(void)estimateETA:(NSTimer *)theTimer {
+-(void)incrementElapsed:(NSTimer *)theTimer {
     NSInteger overallElapsedTime = [[NSDate date] timeIntervalSinceDate:overallStartDate];
-    NSInteger currentElapsedTime = [[NSDate date] timeIntervalSinceDate:currentStartDate];
-    double estimatedCurrentETA;
-    double estimatedOverallETA;
     
     [elapsed setStringValue:[self formatTime:overallElapsedTime]];
     
     if(suspended) {
         [currentETA setStringValue:@"--:--:--"];
-        [overallETA setStringValue:@"--:--:--"];
         [pausedLabel setHidden:![pausedLabel isHidden]];
         return;
-    }
-    
-    // Estimate ETA for the current task
-    if (currentElapsedTime > 10) {
-        estimatedCurrentETA = (currentElapsedTime / [taskProgressBar doubleValue] * 100) - currentElapsedTime;
-        [currentETA setStringValue:[self formatTime:estimatedCurrentETA]];
-    } else {
-        [currentETA setStringValue:@"--:--:--"];
-    }
-    
-    // Estimate overall ETA
-    if (overallElapsedTime > 12) {
-        if (currentElapsedTime < 12)
-            return;
-        NSInteger remaining = remainingSize - [(HBBInputFile *)[currentQueue objectAtIndex:0] size] * ([taskProgressBar doubleValue]/100.0);
-        estimatedOverallETA = overallElapsedTime * (remaining / (totalSize - remaining));
-        
-        // Trying to avoid clearly wrong output
-        if (estimatedOverallETA < estimatedCurrentETA || [currentQueue count] == 1)
-            estimatedOverallETA = estimatedCurrentETA;
-
-        [overallETA setStringValue:[self formatTime:estimatedOverallETA]];
-    } else {
-        [overallETA setStringValue:@"--:--:--"];
     }
 }
 
@@ -410,6 +382,9 @@
         return;
     }
     
+    // Reset ETA
+    [currentETA setStringValue:@"--:--:--"];
+    
     // Process next file
     [self prepareTask];
     [backgroundTask launch];
@@ -425,7 +400,9 @@
         
         // Searching percentage of progress
         if ([message rangeOfString:@"Encoding: task"].location != NSNotFound) {
-            NSString *percentString = [message substringWithRange:NSMakeRange(24, 5)];
+            // The output format is in this form: "Encoding: task N of N, (x)x.xx%
+            unsigned long location = [message rangeOfString:@", "].location;
+            NSString *percentString = [message substringWithRange:NSMakeRange(location + 2, 5)];
             double percent = [percentString floatValue];
             double overallPercent = percent + [processedQueue count]*100.0;
             
@@ -434,6 +411,15 @@
                 [taskProgressBar setDoubleValue:percent];
                 [overallProgressBar setDoubleValue:overallPercent];
             }
+        }
+        
+        // Checking if there is an ETA
+        unsigned long etaLocation = [message rangeOfString:@"ETA "].location;
+        if ( etaLocation != NSNotFound ) {
+            int hours = [[message substringWithRange:NSMakeRange(etaLocation+4, 2)] intValue];
+            int minutes = [[message substringWithRange:NSMakeRange(etaLocation+7, 2)] intValue];
+            int seconds = [[message substringWithRange:NSMakeRange(etaLocation+10, 2)] intValue];
+            [currentETA setStringValue:[NSString stringWithFormat:@"%0.2d:%0.2d:%0.2d", hours, minutes, seconds]];
         }
     }
     

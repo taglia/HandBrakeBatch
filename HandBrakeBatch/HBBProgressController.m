@@ -90,47 +90,53 @@
     // Additional Arguments
     NSMutableArray *allArguments = [NSMutableArray arrayWithArray:arguments];
     
-    // Audio language arguments
-    NSArray *audioLanguages = [[currentQueue objectAtIndex:0] audioLanguages];
-    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBAudioSelection"] == 0) { // All languages
-        NSMutableString *audioLanguageIDs = [NSMutableString stringWithString:@"1"];
-        for (int i = 2; i <= [audioLanguages count]; ++i) {
-            [audioLanguageIDs appendFormat:@",%d", i];
-        }
-        [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-a", audioLanguageIDs, nil]];
-    } else { // Preferred language (if available)
-        NSString *bCode = [[HBBLangData defaultHBBLangData] langBCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBAudioPreferredLanguage"]];
-        NSString *tCode = [[HBBLangData defaultHBBLangData] langTCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBAudioPreferredLanguage"]];
-        int i=1;
-        for (NSString *lang in audioLanguages) {
-            if ([lang isEqualToString:bCode] || [lang isEqualToString:tCode]) {
-                [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-a", [NSString stringWithFormat:@"%d", i], nil]];
-                break;
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBScanEnabled"]) { // Process languages & subtitles only if scan enabled
+        // Audio language arguments
+        NSArray *audioLanguages = [[currentQueue objectAtIndex:0] audioLanguages];
+        if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBAudioSelection"] == 0) { // All languages
+            if ([audioLanguages count]) { // Leave this alone if no languages are available
+                NSMutableString *audioLanguageIDs = [NSMutableString stringWithString:@"1"];
+                for (int i = 2; i <= [audioLanguages count]; ++i) {
+                    [audioLanguageIDs appendFormat:@",%d", i];
+                }
+                [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-a", audioLanguageIDs, nil]];
             }
-            ++i;
+        } else { // Preferred language (if available)
+            NSString *bCode = [[HBBLangData defaultHBBLangData] langBCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBAudioPreferredLanguage"]];
+            NSString *tCode = [[HBBLangData defaultHBBLangData] langTCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBAudioPreferredLanguage"]];
+            int i=1;
+            for (NSString *lang in audioLanguages) {
+                if ([lang isEqualToString:bCode] || [lang isEqualToString:tCode]) {
+                    [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-a", [NSString stringWithFormat:@"%d", i], nil]];
+                    break;
+                }
+                ++i;
+            }
         }
+        
+        // Subtitle language arguments
+        NSArray *subtitleLanguages = [[currentQueue objectAtIndex:0] subtitleLanguages];
+        if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBSubtitleSelection"] == 0) { // All languages
+            if ([subtitleLanguages count]) { // Leave this alone if no subtitles are available
+                NSMutableString *subtitleLanguageIDs = [NSMutableString stringWithString:@"1"];
+                for (int i = 2; i <= [subtitleLanguages count]; ++i) {
+                    [subtitleLanguageIDs appendFormat:@",%d", i];
+                }
+                [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-s", subtitleLanguageIDs, nil]];
+            }
+        } else if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBSubtitleSelection"] == 1) { // Preferred language (if available)
+            NSString *bCode = [[HBBLangData defaultHBBLangData] langBCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBSubtitlePreferredLanguage"]];
+            NSString *tCode = [[HBBLangData defaultHBBLangData] langTCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBSubtitlePreferredLanguage"]];
+            int i=1;
+            for (NSString *lang in subtitleLanguages) {
+                if ([lang isEqualToString:bCode] || [lang isEqualToString:tCode]) {
+                    [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-s", [NSString stringWithFormat:@"%d", i], nil]];
+                    break;
+                }
+                ++i;
+            }
+        } // Else no subtitle, thus no need for any arguments
     }
-    
-    // Subtitle language arguments
-    NSArray *subtitleLanguages = [[currentQueue objectAtIndex:0] subtitleLanguages];
-    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBSubtitleSelection"] == 0) { // All languages
-        NSMutableString *subtitleLanguageIDs = [NSMutableString stringWithString:@"1"];
-        for (int i = 2; i <= [subtitleLanguages count]; ++i) {
-            [subtitleLanguageIDs appendFormat:@",%d", i];
-        }
-        [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-s", subtitleLanguageIDs, nil]];
-    } else if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBSubtitleSelection"] == 1) { // Preferred language (if available)
-        NSString *bCode = [[HBBLangData defaultHBBLangData] langBCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBSubtitlePreferredLanguage"]];
-        NSString *tCode = [[HBBLangData defaultHBBLangData] langTCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBSubtitlePreferredLanguage"]];
-        int i=1;
-        for (NSString *lang in subtitleLanguages) {
-            if ([lang isEqualToString:bCode] || [lang isEqualToString:tCode]) {
-                [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-s", [NSString stringWithFormat:@"%d", i], nil]];
-                break;
-            }
-            ++i;
-        }
-    } // Else no subtitle, thus no need for any arguments
     
     [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-i", inputFilePath, @"-o", outputFilePath, nil]];
     

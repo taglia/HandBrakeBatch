@@ -192,4 +192,12 @@
     [preferencesController showWindow:self];
 }
 
+- (IBAction)sameAsSourceClicked:(id)sender {
+    if ([sender state] == NSOnState) {
+        [chooseOutputFolder setEnabled:NO];
+    } else {
+        [chooseOutputFolder setEnabled:YES];
+    }
+}
+
 @end

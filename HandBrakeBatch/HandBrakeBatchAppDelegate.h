@@ -28,6 +28,8 @@
     
     HBBProgressController *progressController;
     HBBPreferencesController *preferencesController;
+    
+    IBOutlet NSButton *chooseOutputFolder;
 }
 
 @property (assign) IBOutlet NSWindow *window;
@@ -38,5 +40,6 @@
 - (IBAction)displayLicense:(id)sender;
 - (IBAction)presetSelected:(id)sender;
 - (IBAction)showPreferences:(id)sender;
+- (IBAction)sameAsSourceClicked:(id)sender;
 
 @end

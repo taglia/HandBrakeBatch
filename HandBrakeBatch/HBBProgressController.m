@@ -71,6 +71,8 @@
         
     NSString *outputFilePath = [outputFolder stringByAppendingPathComponent:[[[inputFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:fileExtension] lastPathComponent]];
     
+    NSString *logFilePath = [[outputFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:@"log"];
+    
     // Deal with EyeTV files
     if ([[inputFilePath pathExtension] isEqualToString:@"eyetv"]) {
         NSFileManager *fm = [NSFileManager defaultManager];
@@ -173,6 +175,14 @@
     // us via the callback registered above when we signed up as an observer.  The file handle will
     // send a NSFileHandleReadCompletionNotification when it has data that is available.
     [[[backgroundTask standardOutput] fileHandleForReading] readInBackgroundAndNotify];
+    
+    // Writing log files if required
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBWriteConversionLog"]) {
+        [[NSFileManager defaultManager] createFileAtPath:logFilePath contents:nil attributes:nil];
+        NSFileHandle *logFileHandle = [NSFileHandle fileHandleForWritingAtPath:logFilePath];
+        if (logFileHandle)
+            [backgroundTask setStandardError:logFileHandle];
+    }
 }
 
 // Check whether some files will be over-written during the conversion

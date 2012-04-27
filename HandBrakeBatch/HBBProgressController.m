@@ -23,6 +23,9 @@
 
 @synthesize queue;
 
+static int totalFiles;
+static int currentFile = 1;
+
 - (id) init {
     self = [super initWithWindowNibName:@"HBBProgressWindow"];
 
@@ -68,8 +71,15 @@
     [backgroundTask setLaunchPath: handBrakeCLI];
     
     NSString *inputFilePath = [[currentQueue objectAtIndex:0] inputPath];
-        
-    NSString *outputFilePath = [outputFolder stringByAppendingPathComponent:[[[inputFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:fileExtension] lastPathComponent]];
+    
+    NSString *fileName = [[inputFilePath stringByDeletingPathExtension] lastPathComponent];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBDestinationSameAsSource"])
+        outputFolder = [inputFilePath stringByDeletingLastPathComponent];
+
+    NSString *outputFilePath = [outputFolder stringByAppendingPathComponent:[fileName stringByAppendingPathExtension:fileExtension]];
+    
+    NSString *tempOutputFilePath = [outputFolder stringByAppendingPathComponent:[NSString stringWithFormat:@".%@_%d.%@", fileName, random(), fileExtension]];
     
     NSString *logFilePath = [[outputFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:@"log"];
     
@@ -86,8 +96,9 @@
         }
     }
     
-    // Storing output path to quickly access it in case we need to tweek the timestamps
+    // Storing output path to quickly access it to move temp file to final, and in case we need to tweek the timestamps
     [[currentQueue objectAtIndex:0] setOutputURL:[NSURL fileURLWithPath:outputFilePath]];
+    [[currentQueue objectAtIndex:0] setTempOutputURL:[NSURL fileURLWithPath:tempOutputFilePath]];
     
     // Additional Arguments
     NSMutableArray *allArguments = [NSMutableArray arrayWithArray:arguments];
@@ -140,7 +151,7 @@
         } // Else no subtitle, thus no need for any arguments
     }
     
-    [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-i", inputFilePath, @"-o", outputFilePath, nil]];
+    [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-i", inputFilePath, @"-o", tempOutputFilePath, nil]];
     
     [backgroundTask setArguments: allArguments];
     
@@ -185,32 +196,6 @@
     }
 }
 
-// Check whether some files will be over-written during the conversion
-- (BOOL)checkFiles {
-    for (HBBInputFile *input in currentQueue) {
-        NSFileManager *fm = [NSFileManager defaultManager];
-        if ([fm fileExistsAtPath:[input inputPath]])
-            return FALSE;
-    }
-    return TRUE;
-}
-
-// Check whether the output folder contains some input files (not supported) and
-// whether some files will be over-written during the conversion (warning displayed)
-- (int) inputFilesChecks {
-    for (HBBInputFile *input in currentQueue) {
-        NSFileManager *fm = [NSFileManager defaultManager];
-
-        NSString *inputFilePath = [input inputPath];
-        NSString *outputFilePath = [outputFolder stringByAppendingPathComponent:[[[inputFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:fileExtension] lastPathComponent]];
-        if ([inputFilePath isEqual:outputFilePath])
-            return INPUT_EQUALS_OUTPUT;
-        else if ([fm fileExistsAtPath:outputFilePath])
-            return FILE_EXISTS; 
-    }
-    return FILES_OK;
-}
-
 - (void) startConversion {
     // Initialize progress bars
     [taskProgressBar setMinValue:0.0];
@@ -238,6 +223,9 @@
     remainingSize = totalSize;
     
     [self prepareTask];
+    
+    totalFiles = [queue count];
+    [processingLabel setStringValue:[NSString stringWithFormat:@"Processing 1 / %d", totalFiles]];
     
     [backgroundTask launch];
 }
@@ -313,20 +301,7 @@
     // Initialization of common parameters complete
     ////////////////////////////////////////////////////////////////////////////////////////////////
     
-    int filesCheckResult = [self inputFilesChecks];
-    switch (filesCheckResult) {
-        case INPUT_EQUALS_OUTPUT:
-            NSBeginCriticalAlertSheet(@"Input files in the output folder", @"Ok", NULL, NULL, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, @"Stop", @"Some or all of the input files are in the output folder, please change the output folder!");
-            break;
-        
-        case FILE_EXISTS:
-            NSBeginAlertSheet(@"Existing files", @"Ok", @"Cancel", nil, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, @"Warning", @"Some or all of the output files already exist. Are you sure you want to overwrite them?");
-            break;
-        
-        default:
-            [self startConversion];
-            break;
-    }
+    [self startConversion];
 }
 
 // Format a number of seconds as hh:mm:ss
@@ -355,6 +330,18 @@
 -(void) taskCompleted:(NSNotification *)notification {
     if ([notification object] != backgroundTask || cancel || [currentQueue count] == 0)
         return;
+    
+    // Remove destination file if it exists
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[currentQueue objectAtIndex:0] outputURL] path]]) {
+        [[NSFileManager defaultManager] removeItemAtURL:[[currentQueue objectAtIndex:0] outputURL] error:nil];
+    }
+    // Remove source file if needed
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBDeleteSourceFiles"]) {
+        [[NSFileManager defaultManager] removeItemAtURL:[[currentQueue objectAtIndex:0] inputURL] error:nil];
+    }
+    
+    // Moving temp output file to destination
+    [[NSFileManager defaultManager] moveItemAtURL:[[currentQueue objectAtIndex:0] tempOutputURL] toURL:[[currentQueue objectAtIndex:0] outputURL] error:nil];
     
     // Modify timestamps if required
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBMaintainTimestamps"]) {
@@ -400,6 +387,8 @@
     
     // Reset ETA
     [currentETA setStringValue:@"--:--:--"];
+    
+    [processingLabel setStringValue:[NSString stringWithFormat:@"Processing %d / %d", ++currentFile, totalFiles]];
     
     // Process next file
     [self prepareTask];

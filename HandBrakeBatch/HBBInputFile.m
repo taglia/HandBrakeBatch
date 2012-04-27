@@ -13,7 +13,7 @@
 #import "HBBLangData.h"
 
 @implementation HBBInputFile
-@synthesize inputURL, outputURL, size, audioLanguages, subtitleLanguages;
+@synthesize inputURL, outputURL, tempOutputURL, size, audioLanguages, subtitleLanguages;
 
 - (id)initWithURL:(NSURL *)u {
     self = [super init];

@@ -37,6 +37,7 @@
     
     IBOutlet NSTextField *currentETA;
     IBOutlet NSTextField *elapsed;
+    IBOutlet NSTextField *processingLabel;
     
     BOOL cancel;
     

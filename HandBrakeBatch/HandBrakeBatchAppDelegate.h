@@ -40,6 +40,5 @@
 - (IBAction)displayLicense:(id)sender;
 - (IBAction)presetSelected:(id)sender;
 - (IBAction)showPreferences:(id)sender;
-- (IBAction)sameAsSourceClicked:(id)sender;
 
 @end

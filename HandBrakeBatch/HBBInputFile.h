@@ -15,6 +15,7 @@
 @interface HBBInputFile : NSObject {
     NSURL *inputURL;
     NSURL *outputURL;
+    NSURL *tempOutputURL;
     
     NSArray *audioLanguages;
     NSArray *subtitleLanguages;
@@ -28,6 +29,7 @@
 @property (readonly)NSString *outputPath;
 @property (assign)NSURL *inputURL;
 @property (assign)NSURL *outputURL;
+@property (assign)NSURL *tempOutputURL;
 @property (readonly)NSInteger size;
 @property (readonly)NSArray *audioLanguages;
 @property (readonly)NSArray *subtitleLanguages;

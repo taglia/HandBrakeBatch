@@ -23,6 +23,7 @@
     
     // Processed items
     NSMutableArray *processedQueue;
+    NSMutableArray *failedQueue;
     
     NSTask *backgroundTask;
     BOOL suspended;
@@ -44,8 +45,6 @@
     // Start times
     NSDate *overallStartDate;
     NSDate *currentStartDate;
-    NSInteger totalSize;
-    NSInteger remainingSize;
     
     NSTimer *timer;
     

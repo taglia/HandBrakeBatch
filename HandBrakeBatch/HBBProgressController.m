@@ -25,11 +25,13 @@
 
 static int totalFiles;
 static int currentFile = 1;
+static NSPipe *stdErrPipe;
 
 - (id) init {
     self = [super initWithWindowNibName:@"HBBProgressWindow"];
 
     processedQueue = [[NSMutableArray alloc] init];
+    failedQueue = [[NSMutableArray alloc] init];
     suspended = false;
     
     return self;
@@ -80,8 +82,6 @@ static int currentFile = 1;
     NSString *outputFilePath = [outputFolder stringByAppendingPathComponent:[fileName stringByAppendingPathExtension:fileExtension]];
     
     NSString *tempOutputFilePath = [outputFolder stringByAppendingPathComponent:[NSString stringWithFormat:@".%@_%d.%@", fileName, random(), fileExtension]];
-    
-    NSString *logFilePath = [[outputFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:@"log"];
     
     // Deal with EyeTV files
     if ([[inputFilePath pathExtension] isEqualToString:@"eyetv"]) {
@@ -187,13 +187,10 @@ static int currentFile = 1;
     // send a NSFileHandleReadCompletionNotification when it has data that is available.
     [[[backgroundTask standardOutput] fileHandleForReading] readInBackgroundAndNotify];
     
-    // Writing log files if required
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBWriteConversionLog"]) {
-        [[NSFileManager defaultManager] createFileAtPath:logFilePath contents:nil attributes:nil];
-        NSFileHandle *logFileHandle = [NSFileHandle fileHandleForWritingAtPath:logFilePath];
-        if (logFileHandle)
-            [backgroundTask setStandardError:logFileHandle];
-    }
+    // Creating a pipe to store STDERR (where HB CLI outputs the interesting information)
+    // Will be stored in a file if required when the conversion is completed
+    stdErrPipe = [NSPipe pipe];
+    [backgroundTask setStandardError:stdErrPipe];
 }
 
 - (void) startConversion {
@@ -214,14 +211,7 @@ static int currentFile = 1;
     
     // Prepare timer for the ETA estimation
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(incrementElapsed:) userInfo:nil repeats:YES];
-    
-    // Initialize total size to be converted (used to estimate the ETA)
-    totalSize = 0;
-    for (HBBInputFile *curFile in currentQueue) {
-        totalSize += [curFile size];
-    }
-    remainingSize = totalSize;
-    
+        
     [self prepareTask];
     
     totalFiles = [queue count];
@@ -331,39 +321,60 @@ static int currentFile = 1;
     if ([notification object] != backgroundTask || cancel || [currentQueue count] == 0)
         return;
     
-    // Remove destination file if it exists
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[currentQueue objectAtIndex:0] outputURL] path]]) {
-        [[NSFileManager defaultManager] removeItemAtURL:[[currentQueue objectAtIndex:0] outputURL] error:nil];
-    }
-    // Remove source file if needed
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBDeleteSourceFiles"]) {
-        [[NSFileManager defaultManager] removeItemAtURL:[[currentQueue objectAtIndex:0] inputURL] error:nil];
-    }
+    BOOL fail = false;
     
-    // Moving temp output file to destination
-    [[NSFileManager defaultManager] moveItemAtURL:[[currentQueue objectAtIndex:0] tempOutputURL] toURL:[[currentQueue objectAtIndex:0] outputURL] error:nil];
+    // Check whether the conversion was successful and write log file if necessary
+    NSFileHandle *stdErrFH = [stdErrPipe fileHandleForReading];
+    NSData *stdErrData = [stdErrFH readDataToEndOfFile];
+    NSString *stdErrString = [NSString stringWithUTF8String:[stdErrData bytes]];
+    NSString *logFilePath = [[[[currentQueue objectAtIndex:0] outputPath] stringByDeletingPathExtension] stringByAppendingPathExtension:@"log"];
     
-    // Modify timestamps if required
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBMaintainTimestamps"]) {
-        NSFileManager *fm = [NSFileManager defaultManager];
-        NSDictionary *sourceAttrs = [fm attributesOfItemAtPath:[[currentQueue objectAtIndex:0] inputPath] error:NULL];
-        NSDictionary *destAttrs = [fm attributesOfItemAtPath:[[currentQueue objectAtIndex:0] outputPath] error:NULL];
+    if ([stdErrString rangeOfString:@"Encode done!"].location == NSNotFound) {
+        // Conversion failed! Write log file and do not delete source
+        [stdErrData writeToURL:[NSURL fileURLWithPath:logFilePath] atomically:NO];
         
-        if (sourceAttrs && destAttrs) {
-            NSDate *creationDate = [sourceAttrs objectForKey:NSFileCreationDate];
-            NSDate *modificationDate = [sourceAttrs objectForKey:NSFileModificationDate];
+        fail = true;
+    } else {    
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBWriteConversionLog"]) {
+            [stdErrData writeToURL:[NSURL fileURLWithPath:logFilePath] atomically:NO];
+        }
+        
+        // Remove destination file if it exists
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[[[currentQueue objectAtIndex:0] outputURL] path]]) {
+            [[NSFileManager defaultManager] removeItemAtURL:[[currentQueue objectAtIndex:0] outputURL] error:nil];
+        }
+        // Remove source file if needed
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBDeleteSourceFiles"]) {
+            [[NSFileManager defaultManager] removeItemAtURL:[[currentQueue objectAtIndex:0] inputURL] error:nil];
+        }
+        
+        // Moving temp output file to destination
+        [[NSFileManager defaultManager] moveItemAtURL:[[currentQueue objectAtIndex:0] tempOutputURL] toURL:[[currentQueue objectAtIndex:0] outputURL] error:nil];
+        
+        // Modify timestamps if required
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBMaintainTimestamps"]) {
+            NSFileManager *fm = [NSFileManager defaultManager];
+            NSDictionary *sourceAttrs = [fm attributesOfItemAtPath:[[currentQueue objectAtIndex:0] inputPath] error:NULL];
+            NSDictionary *destAttrs = [fm attributesOfItemAtPath:[[currentQueue objectAtIndex:0] outputPath] error:NULL];
             
-            NSMutableDictionary *destMutableAttrs = [destAttrs mutableCopy];
-            [destMutableAttrs setObject:creationDate forKey:NSFileCreationDate];
-            [destMutableAttrs setObject:modificationDate forKey:NSFileModificationDate];
-            
-            [fm setAttributes:destMutableAttrs ofItemAtPath:[[currentQueue objectAtIndex:0] outputPath] error:NULL];
+            if (sourceAttrs && destAttrs) {
+                NSDate *creationDate = [sourceAttrs objectForKey:NSFileCreationDate];
+                NSDate *modificationDate = [sourceAttrs objectForKey:NSFileModificationDate];
+                
+                NSMutableDictionary *destMutableAttrs = [destAttrs mutableCopy];
+                [destMutableAttrs setObject:creationDate forKey:NSFileCreationDate];
+                [destMutableAttrs setObject:modificationDate forKey:NSFileModificationDate];
+                
+                [fm setAttributes:destMutableAttrs ofItemAtPath:[[currentQueue objectAtIndex:0] outputPath] error:NULL];
+            }
         }
     }
     
     // Remove processed file from the queue
-    remainingSize -= [(HBBInputFile *)[currentQueue objectAtIndex:0] size];
-    [processedQueue addObject:[currentQueue objectAtIndex:0]];
+    if (fail)
+        [failedQueue addObject:[currentQueue objectAtIndex:0]];
+    else
+        [processedQueue addObject:[currentQueue objectAtIndex:0]];
     [currentQueue removeObjectAtIndex:0];
 
     // Check if all files have been processed
@@ -381,7 +392,13 @@ static int currentFile = 1;
         
         [progressWheel stopAnimation:self];
         [timer invalidate];
-        NSBeginAlertSheet(@"Conversion Complete", @"Ok", nil, nil, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"%d files have been converted.", [processedQueue count]);
+        NSString *message;
+        if ([failedQueue count] == 0) {
+            message = [NSString stringWithFormat:@"All %d files have been converted successfully!", [processedQueue count]];
+        } else {
+            message = [NSString stringWithFormat:@"%d files have been converted successfully.\n%d conversions failed: for each failed conversion, the log has been written in destination folder(s).", [processedQueue count], [failedQueue count]];
+        }
+        NSBeginAlertSheet(@"Conversion Complete", @"Ok", nil, nil, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, message, [processedQueue count]);
         return;
     }
     
@@ -409,7 +426,7 @@ static int currentFile = 1;
             unsigned long location = [message rangeOfString:@", "].location;
             NSString *percentString = [message substringWithRange:NSMakeRange(location + 2, 5)];
             double percent = [percentString floatValue];
-            double overallPercent = percent + [processedQueue count]*100.0;
+            double overallPercent = percent + ([processedQueue count]+[failedQueue count])*100.0;
             
             // Simple filter
             if (overallPercent > [overallProgressBar doubleValue]) {

@@ -27,6 +27,8 @@ static int totalFiles;
 static int currentFile = 1;
 static NSPipe *stdErrPipe;
 
+static NSMutableString *stdErrorString;
+
 - (id) init {
     self = [super initWithWindowNibName:@"HBBProgressWindow"];
 
@@ -69,7 +71,6 @@ static NSPipe *stdErrPipe;
     // Initialize NSTask
     backgroundTask = [[NSTask alloc] init];
     [backgroundTask setStandardOutput: [NSPipe pipe]];
-    [backgroundTask setStandardError: [backgroundTask standardOutput]];
     [backgroundTask setLaunchPath: handBrakeCLI];
     
     NSString *inputFilePath = [[currentQueue objectAtIndex:0] inputPath];
@@ -189,8 +190,17 @@ static NSPipe *stdErrPipe;
     
     // Creating a pipe to store STDERR (where HB CLI outputs the interesting information)
     // Will be stored in a file if required when the conversion is completed
+    // We need to store the data to avoid the thread hanging if the pipe is full (happens for files with a lot of output, like MTS)
     stdErrPipe = [NSPipe pipe];
     [backgroundTask setStandardError:stdErrPipe];
+    
+    [[[backgroundTask standardError] fileHandleForReading] readInBackgroundAndNotify];
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(storestdErrorString:) 
+                                                 name: NSFileHandleReadCompletionNotification 
+                                               object: [[backgroundTask standardError] fileHandleForReading]];
+    
+    stdErrorString = [[NSMutableString alloc] init];
 }
 
 - (void) startConversion {
@@ -321,15 +331,22 @@ static NSPipe *stdErrPipe;
     if ([notification object] != backgroundTask || cancel || [currentQueue count] == 0)
         return;
     
+    // First we need to empty the stdError pipe buffer
+    NSData *data = [[stdErrPipe fileHandleForReading] readDataToEndOfFile];
+    
+    if ([data length])
+    {
+        NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        [stdErrorString appendString:message];
+    }
+    
     BOOL fail = false;
     
     // Check whether the conversion was successful and write log file if necessary
-    NSFileHandle *stdErrFH = [stdErrPipe fileHandleForReading];
-    NSData *stdErrData = [stdErrFH readDataToEndOfFile];
-    NSString *stdErrString = [NSString stringWithUTF8String:[stdErrData bytes]];
+    NSData *stdErrData = [stdErrorString dataUsingEncoding:NSUTF8StringEncoding];
     NSString *logFilePath = [[[[currentQueue objectAtIndex:0] outputPath] stringByDeletingPathExtension] stringByAppendingPathExtension:@"log"];
     
-    if ([stdErrString rangeOfString:@"Encode done!"].location == NSNotFound) {
+    if ([stdErrorString rangeOfString:@"Encode done!"].location == NSNotFound) {
         // Conversion failed! Write log file and do not delete source
         [stdErrData writeToURL:[NSURL fileURLWithPath:logFilePath] atomically:NO];
         
@@ -443,6 +460,21 @@ static NSPipe *stdErrPipe;
             int seconds = [[message substringWithRange:NSMakeRange(etaLocation+10, 2)] intValue];
             [currentETA setStringValue:[NSString stringWithFormat:@"%0.2d:%0.2d:%0.2d", hours, minutes, seconds]];
         }
+    }
+    
+    // we need to schedule the file handle go read more data in the background again.
+    if ([backgroundTask isRunning])
+        [[aNotification object] readInBackgroundAndNotify];
+}
+
+- (void) storestdErrorString: (NSNotification *)aNotification
+{
+    NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+    
+    if ([data length])
+    {
+        NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        [stdErrorString appendString:message];
     }
     
     // we need to schedule the file handle go read more data in the background again.

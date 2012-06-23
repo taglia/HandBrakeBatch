@@ -40,5 +40,6 @@
 - (IBAction)displayLicense:(id)sender;
 - (IBAction)presetSelected:(id)sender;
 - (IBAction)showPreferences:(id)sender;
+- (IBAction)donate:(id)sender;
 
 @end

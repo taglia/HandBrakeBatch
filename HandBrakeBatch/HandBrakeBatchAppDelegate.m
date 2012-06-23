@@ -30,6 +30,10 @@
     // Initialize sorted preset names
     presets = [[[[HBBPresets hbbPresets] presets] allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     
+    // Store first launch date in the preferences
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"HBBFirstLaunchDate"] == nil)
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"HBBFirstLaunchDate"];
+    
     return self;
 }
 
@@ -48,6 +52,30 @@
     
     NSString *selectedPreset = [[NSUserDefaults standardUserDefaults] objectForKey:@"PresetName"];
     [presetPopUp selectItemWithTitle:selectedPreset];
+    
+    // Donation Nag window (every 2 days)
+    if ( ![[NSUserDefaults standardUserDefaults] boolForKey:@"HBBNoDonation"] ) {
+        NSDate *firstLaunchDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"HBBFirstLaunchDate"];
+        NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:firstLaunchDate];
+        if ( (interval / 172800) > 10.0 ) {
+            NSInteger choice = NSRunInformationalAlertPanel(@"Donate!", @"HandBrakeBatch is Charitiware. I have selected some charities to which you can contribute, please consider this! The donation process is managed securely by JustGiving, and you can remain completely anonymous to OSOMac. Thank you in advance!", @"Ok", @"No", @"Later");
+            switch (choice) {
+                case NSAlertDefaultReturn:
+                    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://donate.osomac.com/apps/2"]];
+                    [[NSUserDefaults standardUserDefaults] setBool:true forKey:@"HBBNoDonation"];
+                    break;
+            
+                case NSAlertAlternateReturn:
+                    [[NSUserDefaults standardUserDefaults] setBool:true forKey:@"HBBNoDonation"];
+                    break;
+                
+                default:
+                    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"NSFirstLaunchDate"];
+                    break;
+            }
+        }
+    }
+    
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
@@ -190,6 +218,10 @@
     if (!preferencesController)
         preferencesController = [[HBBPreferencesController alloc] init];
     [preferencesController showWindow:self];
+}
+
+- (IBAction)donate:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://donate.osomac.com/apps/2"]];
 }
 
 @end

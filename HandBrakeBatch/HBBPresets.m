@@ -85,11 +85,15 @@ static HBBPresets *instance;
        	}
         
         // Preset file probably corrupted
-        if ( [tempDict count] == 0 ) {
-            for (NSString *currentPreset in defaultPresets) {
-                [tempDict setObject:[NSString stringWithFormat:@"--preset %@", currentPreset] forKey:currentPreset];
-            }
+        if ( [tempDict count] == 0 )
             NSBeginAlertSheet(@"Unable to read HandBrake custom presets", @"Ok", nil, nil, nil, nil, NULL, NULL, NULL, @"The custom preset file might be corrupted, the application will show the default presets only.");
+    }
+    
+    // If no presets, use the default ones
+    if ( [tempDict count] == 0 ) {
+        for (NSString *currentPreset in defaultPresets) {
+            [tempDict setObject:[NSString stringWithFormat:@"--preset %@", currentPreset] forKey:currentPreset];
+            NSLog(@"Loading default preset '%@'", currentPreset);
         }
     }
     

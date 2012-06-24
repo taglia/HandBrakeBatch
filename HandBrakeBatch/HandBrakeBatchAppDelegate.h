@@ -13,6 +13,7 @@
 #import "HBBProgressController.h"
 #import "HBBPreferencesController.h"
 #import "RSRTVArrayController.h"
+@class HBBMainView;
 
 @interface HandBrakeBatchAppDelegate : NSObject <NSApplicationDelegate, NSSplitViewDelegate, NSWindowDelegate, GrowlApplicationBridgeDelegate> {
 @private
@@ -25,6 +26,8 @@
     NSArray *presets;
     IBOutlet NSArrayController *presetNamesController;
     IBOutlet NSPopUpButton *presetPopUp;
+    
+    IBOutlet HBBMainView *mainView;
     
     HBBProgressController *progressController;
     HBBPreferencesController *preferencesController;
@@ -41,5 +44,7 @@
 - (IBAction)presetSelected:(id)sender;
 - (IBAction)showPreferences:(id)sender;
 - (IBAction)donate:(id)sender;
+
+-(void)processFiles:(NSURL *)url;
 
 @end

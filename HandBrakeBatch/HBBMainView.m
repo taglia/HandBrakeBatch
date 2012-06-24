@@ -70,11 +70,19 @@ static bool drawFocusRing = false;
 }
 
 -(void) processDraggedItems:(NSArray *)items {
+    [startButton setEnabled:NO];
+    [startButton setTitle:@"Processing…"];
+    [progressIndicator setHidden:NO];
+    [progressIndicator startAnimation:self];
     for (NSString *item in items) {
         NSURL *completeFileName = [NSURL fileURLWithPath:item];
     
         [appDelegate processFiles:completeFileName];
     }
+    [startButton setEnabled:YES];
+    [startButton setTitle:@"Start"];
+    [progressIndicator setHidden:YES];
+    [progressIndicator stopAnimation:self];
 }
 
 @end

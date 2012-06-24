@@ -13,6 +13,8 @@
 
 @interface HBBMainView : NSView {
     IBOutlet RSRTVArrayController *fileNamesController;
+    IBOutlet NSButton *startButton;
+    IBOutlet NSProgressIndicator *progressIndicator;
     
     HandBrakeBatchAppDelegate *appDelegate;
 }

@@ -646,7 +646,7 @@
 									<reference key="NSNextResponder" ref="957001814"/>
 									<int key="NSvFlags">256</int>
 									<array class="NSMutableArray" key="NSSubviews">
-										<object class="NSProgressIndicator" id="825952194">
+										<object class="NSProgressIndicator" id="705878078">
 											<reference key="NSNextResponder" ref="969732697"/>
 											<int key="NSvFlags">-2147482335</int>
 											<object class="NSPSMatrix" key="NSDrawMatrix"/>
@@ -662,10 +662,10 @@
 										<object class="NSTextField" id="276492386">
 											<reference key="NSNextResponder" ref="969732697"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{21, 60}, {182, 42}}</string>
+											<string key="NSFrame">{{24, 70}, {182, 32}}</string>
 											<reference key="NSSuperview" ref="969732697"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="825952194"/>
+											<reference key="NSNextKeyView" ref="705878078"/>
 											<int key="NSViewLayerContentsRedrawPolicy">2</int>
 											<string key="NSReuseIdentifierKey">_NS:1505</string>
 											<bool key="NSEnabled">YES</bool>
@@ -675,7 +675,7 @@
 												<string type="base64-UTF8" key="NSContents">4oenIEFyZSB5b3Ugc3VyZT8KTm8gZnVydGhlciB3YXJuaW5ncyE</string>
 												<object class="NSFont" key="NSSupport">
 													<string key="NSName">LucidaGrande</string>
-													<double key="NSSize">17</double>
+													<double key="NSSize">13</double>
 													<int key="NSfFlags">16</int>
 												</object>
 												<string key="NSCellIdentifier">_NS:1505</string>
@@ -687,9 +687,9 @@
 													<string key="NSColorName">controlColor</string>
 													<reference key="NSColor" ref="6092743"/>
 												</object>
-												<object class="NSColor" key="NSTextColor" id="657512127">
+												<object class="NSColor" key="NSTextColor">
 													<int key="NSColorSpace">1</int>
-													<bytes key="NSRGB">MSAwIDAAA</bytes>
+													<bytes key="NSRGB">MC41MDE5NjA4MTQgMCAwLjI1MDk4MDQwNyAwLjYAA</bytes>
 												</object>
 											</object>
 										</object>
@@ -952,7 +952,10 @@
 												<string key="NSCellIdentifier">_NS:9</string>
 												<reference key="NSControlView" ref="278757002"/>
 												<reference key="NSBackgroundColor" ref="21929455"/>
-												<reference key="NSTextColor" ref="657512127"/>
+												<object class="NSColor" key="NSTextColor">
+													<int key="NSColorSpace">1</int>
+													<bytes key="NSRGB">MC41MDE5NjA4MTQgMCAwLjI1MDk4MDQwNyAwLjYAA</bytes>
+												</object>
 											</object>
 										</object>
 									</array>
@@ -1126,7 +1129,7 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">progressIndicator</string>
 						<reference key="source" ref="439893737"/>
-						<reference key="destination" ref="825952194"/>
+						<reference key="destination" ref="705878078"/>
 					</object>
 					<int key="connectionID">808</int>
 				</object>
@@ -1902,7 +1905,7 @@
 							<reference ref="278757002"/>
 							<reference ref="874335039"/>
 							<reference ref="276492386"/>
-							<reference ref="825952194"/>
+							<reference ref="705878078"/>
 						</array>
 						<reference key="parent" ref="957001814"/>
 					</object>
@@ -2066,7 +2069,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">807</int>
-						<reference key="object" ref="825952194"/>
+						<reference key="object" ref="705878078"/>
 						<reference key="parent" ref="969732697"/>
 					</object>
 				</array>

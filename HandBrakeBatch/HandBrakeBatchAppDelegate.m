@@ -12,7 +12,7 @@
 #import "HBBInputFile.h"
 #import "HBBProgressController.h"
 #import "HBBPresets.h"
-#import "HBBMainView.h"
+#import "HBBDropView.h"
 
 @implementation HandBrakeBatchAppDelegate
 
@@ -49,8 +49,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    [mainView setAppDelegate:self];
-    [mainView registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
+    [dropView setAppDelegate:self];
+    [dropView registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
     
     NSString *selectedPreset = [[NSUserDefaults standardUserDefaults] objectForKey:@"PresetName"];
     [presetPopUp selectItemWithTitle:selectedPreset];
@@ -160,9 +160,11 @@
     NSString *fileType = [fileAttributes objectForKey:NSFileType];
     
     if ([fileType isEqualToString:NSFileTypeDirectory]) {
-        if ([[[url path] lastPathComponent] isEqualToString:@"VIDEO_TS"])
+        if ([[[url path] lastPathComponent] isEqualToString:@"VIDEO_TS"]) {
             [fileNamesController addObject:[[HBBInputFile alloc] initWithURL:url]];
-        else {
+            [leftPaneView setNeedsDisplay:YES];
+            [leftPaneView display];
+        } else {
             NSDirectoryEnumerationOptions options = NSDirectoryEnumerationSkipsHiddenFiles | NSDirectoryEnumerationSkipsPackageDescendants | NSDirectoryEnumerationSkipsSubdirectoryDescendants;
             NSDirectoryEnumerator *dirEnum = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:options errorHandler:nil];
             NSURL *itemURL;
@@ -171,6 +173,8 @@
         }
     } else if ([fileType isEqualToString:NSFileTypeRegular] && [videoExtensions containsObject:[[[url path] pathExtension] lowercaseString]]) {
         [fileNamesController addObject:[[HBBInputFile alloc] initWithURL:url]];
+        [leftPaneView setNeedsDisplay:YES];
+        [leftPaneView display];
     }
 }
 

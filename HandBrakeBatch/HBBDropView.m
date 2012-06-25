@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 Murex SEA. All rights reserved.
 //
 
-#import "HBBMainView.h"
+#import "HBBDropView.h"
 
-@implementation HBBMainView
+@implementation HBBDropView
 
 @synthesize appDelegate;
 
@@ -28,8 +28,14 @@ static bool drawFocusRing = false;
     [super drawRect:rect];
     
     if (drawFocusRing) {
-        NSSetFocusRingStyle(NSFocusRingOnly);
-        NSRectFill([self bounds]);
+        [NSGraphicsContext saveGraphicsState];
+        
+        [[NSColor blueColor] set];
+        
+        NSSetFocusRingStyle(NSFocusRingBelow);
+        [[NSBezierPath bezierPathWithRect:[self bounds]] fill];
+        
+        [NSGraphicsContext restoreGraphicsState];
     }
 }
 
@@ -64,7 +70,9 @@ static bool drawFocusRing = false;
     
     NSArray* draggedItems = [pboard propertyListForType:NSFilenamesPboardType];
     
+    [[NSGarbageCollector defaultCollector] disable];
     [NSThread detachNewThreadSelector:@selector(processDraggedItems:) toTarget:self withObject:draggedItems];
+    [[NSGarbageCollector defaultCollector] enable];
 	
 	return YES;
 }

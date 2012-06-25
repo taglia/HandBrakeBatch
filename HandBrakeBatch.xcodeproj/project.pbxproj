@@ -22,7 +22,7 @@
 		0E987E2113E4062C00A99716 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E987E2013E4062C00A99716 /* Preferences.xib */; };
 		0E987E2413E4083900A99716 /* HBBPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E987E2313E4083900A99716 /* HBBPreferencesController.m */; };
 		0E9B490A136C874000FCDC68 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E9B4909136C874000FCDC68 /* Icon.icns */; };
-		0EB54A4C1596CDBC00EE2AB4 /* HBBMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB54A4B1596CDBC00EE2AB4 /* HBBMainView.m */; };
+		0EB54A4C1596CDBC00EE2AB4 /* HBBDropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB54A4B1596CDBC00EE2AB4 /* HBBDropView.m */; };
 		0EDB6D5A1501DE5F003E3F09 /* manicure.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0EDB6D591501DE5F003E3F09 /* manicure.rb */; };
 		0EDB6D5C1501DF09003E3F09 /* HandBrakeCLI_64 in Resources */ = {isa = PBXBuildFile; fileRef = 0EDB6D5B1501DF09003E3F09 /* HandBrakeCLI_64 */; };
 		0EDBC5741390AFB300D88A0B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EDBC5731390AFB300D88A0B /* Growl.framework */; };
@@ -90,8 +90,8 @@
 		0E9B4909136C874000FCDC68 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		0EB54A431596B7FD00EE2AB4 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		0EB54A441596B7FD00EE2AB4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		0EB54A4A1596CDBC00EE2AB4 /* HBBMainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBMainView.h; sourceTree = "<group>"; };
-		0EB54A4B1596CDBC00EE2AB4 /* HBBMainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBMainView.m; sourceTree = "<group>"; };
+		0EB54A4A1596CDBC00EE2AB4 /* HBBDropView.h */ = {isa = PBXFileReference; fileEncoding = 4; path = HBBDropView.h; sourceTree = "<group>"; };
+		0EB54A4B1596CDBC00EE2AB4 /* HBBDropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBDropView.m; sourceTree = "<group>"; };
 		0EDB6D591501DE5F003E3F09 /* manicure.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = manicure.rb; sourceTree = "<group>"; };
 		0EDB6D5B1501DF09003E3F09 /* HandBrakeCLI_64 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = HandBrakeCLI_64; sourceTree = "<group>"; };
 		0EDBC5731390AFB300D88A0B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
@@ -217,8 +217,8 @@
 				0E54925E136C49890094563F /* HBBInputFile.m */,
 				0EEC80511369B4EA00D05124 /* HandBrakeBatchAppDelegate.h */,
 				0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */,
-				0EB54A4A1596CDBC00EE2AB4 /* HBBMainView.h */,
-				0EB54A4B1596CDBC00EE2AB4 /* HBBMainView.m */,
+				0EB54A4A1596CDBC00EE2AB4 /* HBBDropView.h */,
+				0EB54A4B1596CDBC00EE2AB4 /* HBBDropView.m */,
 				0E987E2213E4083900A99716 /* HBBPreferencesController.h */,
 				0E987E2313E4083900A99716 /* HBBPreferencesController.m */,
 				0E6C286014C29515004A0FE5 /* HBBLangData.h */,
@@ -338,7 +338,7 @@
 				0E6C286214C29515004A0FE5 /* HBBLangData.m in Sources */,
 				0E933F9D14C47C8000A5BB1D /* HBBVideoScan.m in Sources */,
 				0E337A4715144FCC006150DD /* RSRTVArrayController.m in Sources */,
-				0EB54A4C1596CDBC00EE2AB4 /* HBBMainView.m in Sources */,
+				0EB54A4C1596CDBC00EE2AB4 /* HBBDropView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,6 +414,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -421,6 +422,7 @@
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HandBrakeBatch/HandBrakeBatch-Prefix.pch";
 				INFOPLIST_FILE = "HandBrakeBatch/HandBrakeBatch-Info.plist";
@@ -435,6 +437,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -442,6 +445,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HandBrakeBatch/HandBrakeBatch-Prefix.pch";
 				INFOPLIST_FILE = "HandBrakeBatch/HandBrakeBatch-Info.plist";

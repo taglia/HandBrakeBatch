@@ -13,7 +13,7 @@
 #import "HBBProgressController.h"
 #import "HBBPreferencesController.h"
 #import "RSRTVArrayController.h"
-@class HBBMainView;
+@class HBBDropView;
 
 @interface HandBrakeBatchAppDelegate : NSObject <NSApplicationDelegate, NSSplitViewDelegate, NSWindowDelegate, GrowlApplicationBridgeDelegate> {
 @private
@@ -27,7 +27,8 @@
     IBOutlet NSArrayController *presetNamesController;
     IBOutlet NSPopUpButton *presetPopUp;
     
-    IBOutlet HBBMainView *mainView;
+    IBOutlet HBBDropView *dropView;
+    IBOutlet NSView *leftPaneView;
     
     HBBProgressController *progressController;
     HBBPreferencesController *preferencesController;

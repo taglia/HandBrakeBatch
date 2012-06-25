@@ -11,7 +11,7 @@
 #import "HBBInputFile.h"
 #import "HandBrakeBatchAppDelegate.h"
 
-@interface HBBMainView : NSView {
+@interface HBBDropView : NSView {
     IBOutlet RSRTVArrayController *fileNamesController;
     IBOutlet NSButton *startButton;
     IBOutlet NSProgressIndicator *progressIndicator;

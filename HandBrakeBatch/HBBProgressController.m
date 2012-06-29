@@ -25,7 +25,6 @@
 
 static int totalFiles;
 static int currentFile = 1;
-static NSPipe *stdErrPipe;
 
 static NSMutableString *stdErrorString;
 
@@ -71,6 +70,7 @@ static NSMutableString *stdErrorString;
     // Initialize NSTask
     backgroundTask = [[NSTask alloc] init];
     [backgroundTask setStandardOutput: [NSPipe pipe]];
+    [backgroundTask setStandardError: [NSPipe pipe]];
     [backgroundTask setLaunchPath: handBrakeCLI];
     
     NSString *inputFilePath = [[currentQueue objectAtIndex:0] inputPath];
@@ -191,9 +191,6 @@ static NSMutableString *stdErrorString;
     // Creating a pipe to store STDERR (where HB CLI outputs the interesting information)
     // Will be stored in a file if required when the conversion is completed
     // We need to store the data to avoid the thread hanging if the pipe is full (happens for files with a lot of output, like MTS)
-    stdErrPipe = [NSPipe pipe];
-    [backgroundTask setStandardError:stdErrPipe];
-    
     [[[backgroundTask standardError] fileHandleForReading] readInBackgroundAndNotify];
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(storestdErrorString:) 
@@ -332,16 +329,19 @@ static NSMutableString *stdErrorString;
     if ([notification object] != backgroundTask || cancel || [currentQueue count] == 0)
         return;
     
+    // Removing observers for stdout and stderr
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSFileHandleReadCompletionNotification object:[[backgroundTask standardOutput] fileHandleForReading]];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSFileHandleReadCompletionNotification object:[[backgroundTask standardError]  fileHandleForReading]];
+    
     // First we need to empty the stdError pipe buffer
-    NSData *data = [[stdErrPipe fileHandleForReading] readDataToEndOfFile];
+    NSFileHandle *file = [[backgroundTask standardError] fileHandleForReading];
+    NSData *data = [file readDataToEndOfFile];
     
     if ([data length])
     {
         NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         [stdErrorString appendString:message];
     }
-    
-    BOOL fail = false;
     
     // Check whether the conversion was successful and write log file if necessary
     NSData *stdErrData = [stdErrorString dataUsingEncoding:NSUTF8StringEncoding];
@@ -351,7 +351,7 @@ static NSMutableString *stdErrorString;
         // Conversion failed! Write log file and do not delete source
         [stdErrData writeToURL:[NSURL fileURLWithPath:logFilePath] atomically:NO];
         
-        fail = true;
+        [failedQueue addObject:[currentQueue objectAtIndex:0]];
     } else {    
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBWriteConversionLog"]) {
             [stdErrData writeToURL:[NSURL fileURLWithPath:logFilePath] atomically:NO];
@@ -386,13 +386,10 @@ static NSMutableString *stdErrorString;
                 [fm setAttributes:destMutableAttrs ofItemAtPath:[[currentQueue objectAtIndex:0] outputPath] error:NULL];
             }
         }
+        [processedQueue addObject:[currentQueue objectAtIndex:0]];
     }
     
     // Remove processed file from the queue
-    if (fail)
-        [failedQueue addObject:[currentQueue objectAtIndex:0]];
-    else
-        [processedQueue addObject:[currentQueue objectAtIndex:0]];
     [currentQueue removeObjectAtIndex:0];
 
     // Check if all files have been processed

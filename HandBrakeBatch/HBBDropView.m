@@ -13,6 +13,7 @@
 @synthesize appDelegate;
 
 static bool drawFocusRing = false;
+static bool dropping = false;
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -48,6 +49,9 @@ static bool drawFocusRing = false;
 
 // Validate Drop
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
+    if (dropping)
+        return NSDragOperationNone;
+    
     drawFocusRing = YES;
     [self display];
     return NSDragOperationEvery;
@@ -78,6 +82,8 @@ static bool drawFocusRing = false;
 }
 
 -(void) processDraggedItems:(NSArray *)items {
+    dropping=true;
+    
     [startButton setEnabled:NO];
     [startButton setTitle:@"Processing…"];
     [progressIndicator setHidden:NO];
@@ -91,6 +97,7 @@ static bool drawFocusRing = false;
     [startButton setTitle:@"Start"];
     [progressIndicator setHidden:YES];
     [progressIndicator stopAnimation:self];
+    dropping=false;
 }
 
 @end

@@ -161,7 +161,7 @@
     
     if ([fileType isEqualToString:NSFileTypeDirectory]) {
         if ([[[url path] lastPathComponent] isEqualToString:@"VIDEO_TS"]) {
-            [fileNamesController addObject:[[HBBInputFile alloc] initWithURL:url]];
+            [fileNamesController performSelectorOnMainThread:@selector(addObject:) withObject:[[HBBInputFile alloc] initWithURL:url] waitUntilDone:YES ];
             [leftPaneView setNeedsDisplay:YES];
             [leftPaneView display];
         } else {
@@ -172,7 +172,7 @@
                 [self processFiles:itemURL];
         }
     } else if ([fileType isEqualToString:NSFileTypeRegular] && [videoExtensions containsObject:[[[url path] pathExtension] lowercaseString]]) {
-        [fileNamesController addObject:[[HBBInputFile alloc] initWithURL:url]];
+        [fileNamesController performSelectorOnMainThread:@selector(addObject:) withObject:[[HBBInputFile alloc] initWithURL:url] waitUntilDone:YES ];
         [leftPaneView setNeedsDisplay:YES];
         [leftPaneView display];
     }

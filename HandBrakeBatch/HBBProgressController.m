@@ -347,12 +347,7 @@ static NSMutableString *stdErrorString;
     NSData *stdErrData = [stdErrorString dataUsingEncoding:NSUTF8StringEncoding];
     NSString *logFilePath = [[[[currentQueue objectAtIndex:0] outputPath] stringByDeletingPathExtension] stringByAppendingPathExtension:@"log"];
     
-    if ([stdErrorString rangeOfString:@"Encode done!"].location == NSNotFound) {
-        // Conversion failed! Write log file and do not delete source
-        [stdErrData writeToURL:[NSURL fileURLWithPath:logFilePath] atomically:NO];
-        
-        [failedQueue addObject:[currentQueue objectAtIndex:0]];
-    } else {    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[currentQueue objectAtIndex:0] tempOutputURL] path]]) {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBWriteConversionLog"]) {
             [stdErrData writeToURL:[NSURL fileURLWithPath:logFilePath] atomically:NO];
         }
@@ -387,6 +382,11 @@ static NSMutableString *stdErrorString;
             }
         }
         [processedQueue addObject:[currentQueue objectAtIndex:0]];
+    } else {
+        // Conversion failed! Write log file and do not delete source
+        [stdErrData writeToURL:[NSURL fileURLWithPath:logFilePath] atomically:NO];
+        
+        [failedQueue addObject:[currentQueue objectAtIndex:0]];
     }
     
     // Remove processed file from the queue

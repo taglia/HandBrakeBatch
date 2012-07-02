@@ -161,7 +161,10 @@
     
     if ([fileType isEqualToString:NSFileTypeDirectory]) {
         if ([[[url path] lastPathComponent] isEqualToString:@"VIDEO_TS"]) {
-            [fileNamesController performSelectorOnMainThread:@selector(addObject:) withObject:[[HBBInputFile alloc] initWithURL:url] waitUntilDone:YES ];
+            // Getting the name of the enclosing folder
+            NSURL *enclosingFolderURL = [NSURL fileURLWithPath:[[url path] stringByDeletingLastPathComponent]];
+            
+            [fileNamesController performSelectorOnMainThread:@selector(addObject:) withObject:[[HBBInputFile alloc] initWithURL:enclosingFolderURL] waitUntilDone:YES ];
             [leftPaneView setNeedsDisplay:YES];
             [leftPaneView display];
         } else {

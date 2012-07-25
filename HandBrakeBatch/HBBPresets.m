@@ -33,7 +33,7 @@ static HBBPresets *instance;
     NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] init];
         
     // Default location for HB presets
-    NSString *presetPath = [[NSString stringWithString:@"~/Library/Application Support/HandBrake/UserPresets.plist"] stringByExpandingTildeInPath];
+    NSString *presetPath = [@"~/Library/Application Support/HandBrake/UserPresets.plist" stringByExpandingTildeInPath];
     
     // Check if HB's custom presets are present
     // If presets are present, let's parse them

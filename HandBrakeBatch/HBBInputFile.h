@@ -27,6 +27,7 @@
 @property (readonly)NSString *name;
 @property (readonly)NSString *inputPath;
 @property (readonly)NSString *outputPath;
+@property (readonly)NSString *tempOutputPath;
 @property (assign)NSURL *inputURL;
 @property (assign)NSURL *outputURL;
 @property (assign)NSURL *tempOutputURL;

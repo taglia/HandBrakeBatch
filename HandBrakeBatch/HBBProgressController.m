@@ -23,8 +23,8 @@
 
 @synthesize queue;
 
-static int totalFiles;
-static int currentFile = 1;
+static long int totalFiles;
+static long int currentFile = 1;
 
 static NSMutableString *stdErrorString;
 
@@ -49,7 +49,7 @@ static NSMutableString *stdErrorString;
     [backgroundTask terminate];
     [progressWheel stopAnimation:self];
     
-    NSBeginAlertSheet(@"Operation canceled", @"Ok", nil, nil, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"%d files have been converted, %d remaining.", [processedQueue count], [currentQueue count]);
+    NSBeginAlertSheet(@"Operation canceled", @"Ok", nil, nil, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"%ld files have been converted, %ld remaining.", [processedQueue count], [currentQueue count]);
 }
 
 - (IBAction)pauseButtonAction:(id)sender {
@@ -82,7 +82,7 @@ static NSMutableString *stdErrorString;
 
     NSString *outputFilePath = [outputFolder stringByAppendingPathComponent:[fileName stringByAppendingPathExtension:fileExtension]];
     
-    NSString *tempOutputFilePath = [outputFolder stringByAppendingPathComponent:[NSString stringWithFormat:@".%@_%d.%@", fileName, random(), fileExtension]];
+    NSString *tempOutputFilePath = [outputFolder stringByAppendingPathComponent:[NSString stringWithFormat:@".%@_%ld.%@", fileName, random(), fileExtension]];
     
     // Deal with EyeTV files
     if ([[inputFilePath pathExtension] isEqualToString:@"eyetv"]) {
@@ -223,7 +223,7 @@ static NSMutableString *stdErrorString;
     
     totalFiles = [queue count];
     currentFile = 0;
-    [processingLabel setStringValue:[NSString stringWithFormat:@"Processing 1 / %d", totalFiles]];
+    [processingLabel setStringValue:[NSString stringWithFormat:@"Processing 1 / %ld", totalFiles]];
     
     [backgroundTask launch];
 }
@@ -259,9 +259,9 @@ static NSMutableString *stdErrorString;
     // Parsing arguments from preset line
     // The MPEG-4 file extension can be configured in the preferences
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBMPEG4Extension"] == M4V_EXTENSION)
-        fileExtension = [NSString stringWithString:@"m4v"];
+        fileExtension = @"m4v";
     else
-        fileExtension = [NSString stringWithString:@"mp4"];
+        fileExtension = @"mp4";
     
     arguments = [[NSMutableArray alloc] init];
 
@@ -278,7 +278,7 @@ static NSMutableString *stdErrorString;
                 
                 // In case a preset specifies an mkv container as output format
                 if ([currentArg isEqualToString:@"mkv"])
-                    fileExtension = [NSString stringWithString:@"mkv"];
+                    fileExtension = @"mkv";
             }
         } else {
             ignoreFollowing = false;
@@ -308,7 +308,7 @@ static NSMutableString *stdErrorString;
     NSInteger m = seconds / 60 - (h*60);
     NSInteger s = seconds % 60;
     
-    return [NSString stringWithFormat:@"%0.2d:%0.2d:%0.2d", h, m, s];
+    return [NSString stringWithFormat:@"%0.2ld:%0.2ld:%0.2ld", h, m, s];
 }
 
 -(void)incrementElapsed:(NSTimer *)theTimer {
@@ -352,6 +352,24 @@ static NSMutableString *stdErrorString;
             [stdErrData writeToURL:[NSURL fileURLWithPath:logFilePath] atomically:NO];
         }
         
+        // Modify timestamps if required
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBMaintainTimestamps"]) {
+            NSFileManager *fm = [NSFileManager defaultManager];
+            NSDictionary *sourceAttrs = [fm attributesOfItemAtPath:[[currentQueue objectAtIndex:0] inputPath] error:NULL];
+            NSDictionary *destAttrs = [fm attributesOfItemAtPath:[[currentQueue objectAtIndex:0] tempOutputPath] error:NULL];
+            
+            if (sourceAttrs && destAttrs) {
+                NSDate *creationDate = [sourceAttrs objectForKey:NSFileCreationDate];
+                NSDate *modificationDate = [sourceAttrs objectForKey:NSFileModificationDate];
+                
+                NSMutableDictionary *destMutableAttrs = [destAttrs mutableCopy];
+                [destMutableAttrs setObject:creationDate forKey:NSFileCreationDate];
+                [destMutableAttrs setObject:modificationDate forKey:NSFileModificationDate];
+                
+                [fm setAttributes:destMutableAttrs ofItemAtPath:[[currentQueue objectAtIndex:0] tempOutputPath] error:NULL];
+            }
+        }
+        
         // Remove destination file if it exists
         if ([[NSFileManager defaultManager] fileExistsAtPath:[[[currentQueue objectAtIndex:0] outputURL] path]]) {
             [[NSFileManager defaultManager] removeItemAtURL:[[currentQueue objectAtIndex:0] outputURL] error:nil];
@@ -364,23 +382,6 @@ static NSMutableString *stdErrorString;
         // Moving temp output file to destination
         [[NSFileManager defaultManager] moveItemAtURL:[[currentQueue objectAtIndex:0] tempOutputURL] toURL:[[currentQueue objectAtIndex:0] outputURL] error:nil];
         
-        // Modify timestamps if required
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBMaintainTimestamps"]) {
-            NSFileManager *fm = [NSFileManager defaultManager];
-            NSDictionary *sourceAttrs = [fm attributesOfItemAtPath:[[currentQueue objectAtIndex:0] inputPath] error:NULL];
-            NSDictionary *destAttrs = [fm attributesOfItemAtPath:[[currentQueue objectAtIndex:0] outputPath] error:NULL];
-            
-            if (sourceAttrs && destAttrs) {
-                NSDate *creationDate = [sourceAttrs objectForKey:NSFileCreationDate];
-                NSDate *modificationDate = [sourceAttrs objectForKey:NSFileModificationDate];
-                
-                NSMutableDictionary *destMutableAttrs = [destAttrs mutableCopy];
-                [destMutableAttrs setObject:creationDate forKey:NSFileCreationDate];
-                [destMutableAttrs setObject:modificationDate forKey:NSFileModificationDate];
-                
-                [fm setAttributes:destMutableAttrs ofItemAtPath:[[currentQueue objectAtIndex:0] outputPath] error:NULL];
-            }
-        }
         [processedQueue addObject:[currentQueue objectAtIndex:0]];
     } else {
         // Conversion failed! Write log file and do not delete source
@@ -409,9 +410,9 @@ static NSMutableString *stdErrorString;
         [timer invalidate];
         NSString *message;
         if ([failedQueue count] == 0) {
-            message = [NSString stringWithFormat:@"All %d files have been converted successfully!", [processedQueue count]];
+            message = [NSString stringWithFormat:@"All %ld files have been converted successfully!", [processedQueue count]];
         } else {
-            message = [NSString stringWithFormat:@"%d files have been converted successfully.\n%d conversions failed: for each failed conversion, the log has been written in destination folder(s).", [processedQueue count], [failedQueue count]];
+            message = [NSString stringWithFormat:@"%ld files have been converted successfully.\n%ld conversions failed: for each failed conversion, the log has been written in destination folder(s).", [processedQueue count], [failedQueue count]];
         }
         NSBeginAlertSheet(@"Conversion Complete", @"Ok", nil, nil, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, message, [processedQueue count]);
         return;
@@ -420,7 +421,7 @@ static NSMutableString *stdErrorString;
     // Reset ETA
     [currentETA setStringValue:@"--:--:--"];
     
-    [processingLabel setStringValue:[NSString stringWithFormat:@"Processing %d / %d", ++currentFile, totalFiles]];
+    [processingLabel setStringValue:[NSString stringWithFormat:@"Processing %ld / %ld", ++currentFile, totalFiles]];
     
     // Process next file
     [self prepareTask];

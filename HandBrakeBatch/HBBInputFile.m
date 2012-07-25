@@ -51,6 +51,10 @@
     return [outputURL path];
 }
 
+- (NSString *) tempOutputPath {
+    return [tempOutputURL path];
+}
+
 - (id)copyWithZone:(NSZone *)zone {    
     return nil;
 }

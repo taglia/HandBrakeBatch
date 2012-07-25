@@ -24,10 +24,10 @@
 		0E9B490A136C874000FCDC68 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E9B4909136C874000FCDC68 /* Icon.icns */; };
 		0EB54A4C1596CDBC00EE2AB4 /* HBBDropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB54A4B1596CDBC00EE2AB4 /* HBBDropView.m */; };
 		0EDB6D5A1501DE5F003E3F09 /* manicure.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0EDB6D591501DE5F003E3F09 /* manicure.rb */; };
-		0EDB6D5C1501DF09003E3F09 /* HandBrakeCLI_64 in Resources */ = {isa = PBXBuildFile; fileRef = 0EDB6D5B1501DF09003E3F09 /* HandBrakeCLI_64 */; };
 		0EDBC5741390AFB300D88A0B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EDBC5731390AFB300D88A0B /* Growl.framework */; };
 		0EDBC5771390B05500D88A0B /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 0EDBC5761390B05500D88A0B /* Growl Registration Ticket.growlRegDict */; };
 		0EDBC5781390B57600D88A0B /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EDBC5731390AFB300D88A0B /* Growl.framework */; };
+		0EE562F215BFFD8F0054359B /* HandBrakeCLI_64 in Resources */ = {isa = PBXBuildFile; fileRef = 0EE562F115BFFD8F0054359B /* HandBrakeCLI_64 */; };
 		0EEC80401369B4EA00D05124 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EEC803F1369B4EA00D05124 /* Cocoa.framework */; };
 		0EEC804A1369B4EA00D05124 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80481369B4EA00D05124 /* InfoPlist.strings */; };
 		0EEC804D1369B4EA00D05124 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC804C1369B4EA00D05124 /* main.m */; };
@@ -90,12 +90,12 @@
 		0E9B4909136C874000FCDC68 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		0EB54A431596B7FD00EE2AB4 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		0EB54A441596B7FD00EE2AB4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		0EB54A4A1596CDBC00EE2AB4 /* HBBDropView.h */ = {isa = PBXFileReference; fileEncoding = 4; path = HBBDropView.h; sourceTree = "<group>"; };
+		0EB54A4A1596CDBC00EE2AB4 /* HBBDropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBDropView.h; sourceTree = "<group>"; };
 		0EB54A4B1596CDBC00EE2AB4 /* HBBDropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBDropView.m; sourceTree = "<group>"; };
 		0EDB6D591501DE5F003E3F09 /* manicure.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = manicure.rb; sourceTree = "<group>"; };
-		0EDB6D5B1501DF09003E3F09 /* HandBrakeCLI_64 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = HandBrakeCLI_64; sourceTree = "<group>"; };
 		0EDBC5731390AFB300D88A0B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
 		0EDBC5761390B05500D88A0B /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
+		0EE562F115BFFD8F0054359B /* HandBrakeCLI_64 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = HandBrakeCLI_64; sourceTree = "<group>"; };
 		0EEC803B1369B4EA00D05124 /* HandBrakeBatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HandBrakeBatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EEC803F1369B4EA00D05124 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		0EEC80421369B4EA00D05124 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -240,7 +240,7 @@
 			children = (
 				0E49A7581376428F00FB3B77 /* hb_manicure */,
 				0EF8EF96136D07EB00884AE8 /* HandBrakeCLI_32 */,
-				0EDB6D5B1501DF09003E3F09 /* HandBrakeCLI_64 */,
+				0EE562F115BFFD8F0054359B /* HandBrakeCLI_64 */,
 				0EF8EF93136CFEB700884AE8 /* Credits.rtf */,
 				0EF72314136CFCE100D223F4 /* gpl-3.0.txt */,
 				0E9B4909136C874000FCDC68 /* Icon.icns */,
@@ -281,7 +281,7 @@
 		0EEC80321369B4EA00D05124 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0440;
 				ORGANIZATIONNAME = "Murex SEA";
 			};
 			buildConfigurationList = 0EEC80351369B4EA00D05124 /* Build configuration list for PBXProject "HandBrakeBatch" */;
@@ -318,7 +318,7 @@
 				0E987E2113E4062C00A99716 /* Preferences.xib in Resources */,
 				0E6C285C14C288BC004A0FE5 /* iso639-2.db in Resources */,
 				0EDB6D5A1501DE5F003E3F09 /* manicure.rb in Resources */,
-				0EDB6D5C1501DF09003E3F09 /* HandBrakeCLI_64 in Resources */,
+				0EE562F215BFFD8F0054359B /* HandBrakeCLI_64 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,6 +415,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -438,6 +439,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (

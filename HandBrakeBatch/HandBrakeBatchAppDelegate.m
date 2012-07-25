@@ -118,7 +118,7 @@
     }
     
     // Warn the user if the output folder is not set
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"] length] == 0) {
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"] length] == 0 && ![[NSUserDefaults standardUserDefaults] objectForKey:@"HBBDestinationSameAsSource"]) {
         NSBeginAlertSheet(@"No output folder", @"Ok", nil, nil, [self window], nil, NULL, NULL, NULL, @"Please select an output folder.");
         return;
     }

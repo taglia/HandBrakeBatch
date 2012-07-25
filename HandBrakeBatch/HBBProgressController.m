@@ -291,7 +291,7 @@ static NSMutableString *stdErrorString;
     BOOL exists;
     BOOL isDir;
     exists = [[NSFileManager defaultManager] fileExistsAtPath:outputFolder isDirectory:&isDir];
-    if (!exists || !isDir) {
+    if ((!exists || !isDir) && ![[NSUserDefaults standardUserDefaults] objectForKey:@"HBBDestinationSameAsSource"]) {
         NSBeginAlertSheet(@"Output Folder does not exist", @"Ok", NULL, NULL, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"Please make sure that the selected output folder exists.");
         return;
     }

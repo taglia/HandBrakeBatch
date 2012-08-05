@@ -101,8 +101,15 @@
     [panel setCanCreateDirectories:YES];
     NSString *outputFolder = [[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"];
     
-    if (outputFolder)
-        [panel setDirectoryURL:[NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"]]];
+    BOOL outputFolderExists = false;
+    if (outputFolder) {
+        BOOL isDir;
+        outputFolderExists = [[NSFileManager defaultManager] fileExistsAtPath:outputFolder isDirectory:&isDir];
+        outputFolderExists &= isDir;
+    }
+    
+    if (outputFolderExists)
+        [panel setDirectoryURL:[NSURL fileURLWithPath:outputFolder]];
     
     if ([panel runModal] == NSOKButton) {
         NSString *path = [[panel directoryURL] path];

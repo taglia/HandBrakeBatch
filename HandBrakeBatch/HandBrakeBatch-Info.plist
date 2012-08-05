@@ -1108,11 +1108,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.15</string>
+	<string>2.16</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.15</string>
+	<string>2.16</string>
 	<key>HandBrakePresets</key>
 	<array>
 		<string>Universal</string>

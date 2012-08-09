@@ -49,7 +49,7 @@ static NSMutableString *stdErrorString;
     [backgroundTask terminate];
     [progressWheel stopAnimation:self];
     
-    NSBeginAlertSheet(@"Operation canceled", @"Ok", nil, nil, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"%ld files have been converted, %ld remaining.", [processedQueue count], [currentQueue count]);
+    NSBeginAlertSheet(@"Operation canceled", @"Ok", nil, nil, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"%lu files have been converted, %lu remaining.", [processedQueue count], [currentQueue count]);
 }
 
 - (IBAction)pauseButtonAction:(id)sender {

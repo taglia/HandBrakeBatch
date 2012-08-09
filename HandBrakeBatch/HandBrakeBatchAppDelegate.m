@@ -110,8 +110,7 @@
     
     if (outputFolderExists)
         [panel setDirectoryURL:[NSURL fileURLWithPath:outputFolder]];
-    else
-        [panel setDirectoryURL:[NSURL fileURLWithPath:@"~/Movies"]];
+
     
     if ([panel runModal] == NSOKButton) {
         NSString *path = [[panel directoryURL] path];

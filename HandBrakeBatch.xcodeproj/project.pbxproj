@@ -282,7 +282,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0440;
-				ORGANIZATIONNAME = "Murex SEA";
+				ORGANIZATIONNAME = "";
 			};
 			buildConfigurationList = 0EEC80351369B4EA00D05124 /* Build configuration list for PBXProject "HandBrakeBatch" */;
 			compatibilityVersion = "Xcode 3.2";

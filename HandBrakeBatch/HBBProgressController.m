@@ -410,9 +410,9 @@ static NSMutableString *stdErrorString;
         [timer invalidate];
         NSString *message;
         if ([failedQueue count] == 0) {
-            message = [NSString stringWithFormat:@"All %ld files have been converted successfully!", [processedQueue count]];
+            message = [NSString stringWithFormat:@"All %lu files have been converted successfully!", [processedQueue count]];
         } else {
-            message = [NSString stringWithFormat:@"%ld files have been converted successfully.\n%ld conversions failed: for each failed conversion, the log has been written in destination folder(s).", [processedQueue count], [failedQueue count]];
+            message = [NSString stringWithFormat:@"%lu files have been converted successfully.\n%lu conversions failed: for each failed conversion, the log has been written in destination folder(s).", [processedQueue count], [failedQueue count]];
         }
         NSBeginAlertSheet(@"Conversion Complete", @"Ok", nil, nil, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, message, [processedQueue count]);
         return;

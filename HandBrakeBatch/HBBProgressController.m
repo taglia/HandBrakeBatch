@@ -19,6 +19,11 @@
 
 #define M4V_EXTENSION       0
 
+#define ACTION_NOTHING      0
+#define ACTION_QUIT         1
+//#define ACTION_SLEEP        2
+//#define ACTION_SHUTDOWN     3
+
 @implementation HBBProgressController
 
 @synthesize queue;
@@ -404,6 +409,22 @@ static NSMutableString *stdErrorString;
                                            priority:-1
                                            isSticky:NO
                                        clickContext:nil];
+        }
+        
+        // Deal with after conversion actions
+        NSInteger actionIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"HBBAfterConversion"];
+        switch (actionIndex) {
+            case ACTION_QUIT:
+                [NSApp terminate: nil];
+                break;
+            
+//            case ACTION_SLEEP:
+//                // TODO: Implement SLEEP
+//                break;
+//                
+//            case ACTION_SHUTDOWN:
+//                // TODO: Implement SHUTDOWN
+//                break;
         }
         
         [progressWheel stopAnimation:self];

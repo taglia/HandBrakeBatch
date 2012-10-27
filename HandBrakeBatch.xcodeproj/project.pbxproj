@@ -281,7 +281,7 @@
 		0EEC80321369B4EA00D05124 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0440;
+				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "";
 			};
 			buildConfigurationList = 0EEC80351369B4EA00D05124 /* Build configuration list for PBXProject "HandBrakeBatch" */;

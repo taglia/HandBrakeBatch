@@ -8,6 +8,7 @@
 //  It may be used under the terms of the GNU General Public License.
 //
 
+#import <Foundation/NSAppleScript.h>
 #import <Growl/Growl.h>
 #import "HBBProgressController.h"
 #import "HBBPresets.h"
@@ -21,8 +22,8 @@
 
 #define ACTION_NOTHING      0
 #define ACTION_QUIT         1
-//#define ACTION_SLEEP        2
-//#define ACTION_SHUTDOWN     3
+#define ACTION_SLEEP        2
+#define ACTION_SHUTDOWN     3
 
 @implementation HBBProgressController
 
@@ -413,18 +414,55 @@ static NSMutableString *stdErrorString;
         
         // Deal with after conversion actions
         NSInteger actionIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"HBBAfterConversion"];
+        NSAppleScript *script;
+        NSDictionary *errorInfo;
         switch (actionIndex) {
             case ACTION_QUIT:
+                NSLog(@"Conversion completed - Quitting HBB");
+                if ( ![[NSUserDefaults standardUserDefaults] boolForKey:@"HBBNotificationsDisabled"] ) {
+                    [GrowlApplicationBridge notifyWithTitle:@"HandBrakeBatch"
+                                                description:[NSString stringWithFormat:@"HandBrakeBatch is quitting after completing the conversion"]
+                                           notificationName:@"Quitting HandBrakeBatch"
+                                                   iconData:nil
+                                                   priority:-1
+                                                   isSticky:NO
+                                               clickContext:nil];
+                }
                 [NSApp terminate: nil];
                 break;
-            
-//            case ACTION_SLEEP:
-//                // TODO: Implement SLEEP
-//                break;
-//                
-//            case ACTION_SHUTDOWN:
-//                // TODO: Implement SHUTDOWN
-//                break;
+                
+            case ACTION_SLEEP:
+                NSLog(@"Conversion completed - Putting the Mac to sleep");
+                if ( ![[NSUserDefaults standardUserDefaults] boolForKey:@"HBBNotificationsDisabled"] ) {
+                    [GrowlApplicationBridge notifyWithTitle:@"HandBrakeBatch"
+                                                description:[NSString stringWithFormat:@"HandBrakeBatch is asking your Mac to sleep after completing the conversion"]
+                                           notificationName:@"Putting the Mac to sleep"
+                                                   iconData:nil
+                                                   priority:-1
+                                                   isSticky:NO
+                                               clickContext:nil];
+                }
+                script = [[NSAppleScript alloc] initWithSource:@"tell application \"System Events\" to sleep"];
+                [script executeAndReturnError:&errorInfo];
+                [script release];
+                break;
+                
+            case ACTION_SHUTDOWN:
+                NSLog(@"Conversion completed - Shutting down the Mac");
+                if ( ![[NSUserDefaults standardUserDefaults] boolForKey:@"HBBNotificationsDisabled"] ) {
+                    [GrowlApplicationBridge notifyWithTitle:@"HandBrakeBatch"
+                                                description:[NSString stringWithFormat:@"HandBrakeBatch is shutting down your Mac after completing the conversion"]
+                                           notificationName:@"Shutting down this Mac"
+                                                   iconData:nil
+                                                   priority:-1
+                                                   isSticky:NO
+                                               clickContext:nil];
+                }
+                script = [[NSAppleScript alloc] initWithSource:@"tell application \"Finder\" to shut down"];
+                [script executeAndReturnError:&errorInfo];
+                [script release];
+                [NSApp terminate: nil];
+                break;
         }
         
         [progressWheel stopAnimation:self];

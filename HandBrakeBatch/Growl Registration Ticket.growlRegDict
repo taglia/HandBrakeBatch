@@ -7,12 +7,18 @@
 	<key>AllNotifications</key>
 	<array>
 		<string>Starting new video conversion</string>
-        <string>All files converted</string>
+        	<string>All files converted</string>
+        	<string>Quitting HandBrakeBatch</string>
+        	<string>Putting the Mac to sleep</string>
+        	<string>Shutting down this Mac</string>
 	</array>
 	<key>DefaultNotifications</key>
 	<array>
 		<string>Starting new video conversion</string>
-        <string>All files converted</string>
+        	<string>All files converted</string>
+        	<string>Quitting HandBrakeBatch</string>
+        	<string>Putting the Mac to sleep</string>
+        	<string>Shutting down this Mac</string>
 	</array>
 </dict>
 </plist>

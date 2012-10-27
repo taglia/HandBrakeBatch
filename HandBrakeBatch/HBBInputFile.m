@@ -85,4 +85,36 @@
     return [self plainLanguageList:subtitleLanguages];
 }
 
+// NSCoding methods
+-(id)initWithCoder:(NSCoder *)coder{
+    if (self=[super init]) {
+        [self setInputURL:[coder decodeObject]];
+        [self setOutputURL:[coder decodeObject]];
+        [self setTempOutputURL:[coder decodeObject]];
+
+        NSFileManager *man = [[NSFileManager alloc] init];
+        NSDictionary *attrs = [man attributesOfItemAtPath: [inputURL path] error: NULL];
+        size = (NSInteger)[attrs fileSize];
+
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBScanEnabled"]) {
+            HBBVideoScan *scan = [[HBBVideoScan alloc] initWithFile:[inputURL path]];
+
+            [scan scan];
+
+            audioLanguages = [[scan audioLanguages] copy];
+            subtitleLanguages = [[scan subtitleLanguages] copy];
+        } else {
+            audioLanguages = [[NSArray alloc] init];
+            subtitleLanguages = [[NSArray alloc] init];
+        }
+    }
+    return self;
+}
+
+-(void)encodeWithCoder:(NSCoder *)coder{
+    [coder encodeObject:inputURL];
+    [coder encodeObject:outputURL];
+    [coder encodeObject:tempOutputURL];
+}
+
 @end

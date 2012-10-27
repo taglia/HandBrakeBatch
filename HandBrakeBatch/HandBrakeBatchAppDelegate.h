@@ -34,6 +34,8 @@
     HBBPreferencesController *preferencesController;
     
     IBOutlet NSButton *chooseOutputFolder;
+    
+    NSString *appSupportFolder;
 }
 
 @property (assign) IBOutlet NSWindow *window;

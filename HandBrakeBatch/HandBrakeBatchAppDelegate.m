@@ -21,7 +21,24 @@
 #pragma mark Initialization
 
 - (id) init {
-    inputFiles = [[NSMutableArray alloc] init];
+    // Initialize application directory
+	NSFileManager *fm = [NSFileManager defaultManager];
+	appSupportFolder = [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES)
+                         objectAtIndex:0] stringByAppendingPathComponent:@"HandBrakeBatch"];
+	
+	if ( ![fm fileExistsAtPath:appSupportFolder] ) {
+		[fm createDirectoryAtPath:[[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES)
+                                    objectAtIndex:0] stringByAppendingPathComponent:@"HandBrakeBatch"]
+      withIntermediateDirectories:NO attributes:nil error:NULL];
+    }
+    
+    // Load queue
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[appSupportFolder stringByAppendingPathComponent:@"SavedQueue.data"]]) {
+        NSLog(@"Loading queue…");
+        inputFiles = [NSKeyedUnarchiver unarchiveObjectWithFile:[appSupportFolder stringByAppendingPathComponent:@"SavedQueue.data"]];
+    } else {
+        inputFiles = [[NSMutableArray alloc] init];
+    }
     
     self = [super init];
     
@@ -78,6 +95,8 @@
         }
     }
     
+    // Add observer for arrangedObjects
+    [fileNamesController addObserver:self forKeyPath:@"arrangedObjects" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
@@ -248,6 +267,16 @@
 
 - (IBAction)donate:(id)sender {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://donate.osomac.com/apps/2"]];
+}
+
+///////////////////////////////////////
+//                                   //
+// Observing inputFiles controller   //
+//                                   //
+///////////////////////////////////////
+
+-(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    [NSKeyedArchiver archiveRootObject:[object arrangedObjects] toFile:[appSupportFolder stringByAppendingPathComponent:@"SavedQueue.data"]];
 }
 
 @end

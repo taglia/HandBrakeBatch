@@ -151,6 +151,11 @@ static NSMutableString *stdErrorString;
             for (NSString *lang in subtitleLanguages) {
                 if ([lang isEqualToString:bCode] || [lang isEqualToString:tCode]) {
                     [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-s", [NSString stringWithFormat:@"%d", i], nil]];
+                    
+                    // Burn subtitles if required
+                    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBSubtitleBurn"])
+                        [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"--subtitle-burn", [NSString stringWithFormat:@"%d", i], nil]];
+                        
                     break;
                 }
                 ++i;
@@ -159,6 +164,13 @@ static NSMutableString *stdErrorString;
     }
     
     [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-i", inputFilePath, @"-o", tempOutputFilePath, nil]];
+    
+    // Log arguments to CLI
+    NSMutableString *args = [[NSMutableString alloc] init];
+    for (NSString *arg in allArguments)
+        [args appendFormat:@"%@ ", arg];
+    
+    NSLog(@"Calling CLI with arguments: %@", args);
     
     [backgroundTask setArguments: allArguments];
     

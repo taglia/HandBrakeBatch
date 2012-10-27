@@ -11,8 +11,7 @@
 
 #import <Foundation/Foundation.h>
 
-
-@interface HBBInputFile : NSObject {
+@interface HBBInputFile : NSObject <NSCoding> {
     NSURL *inputURL;
     NSURL *outputURL;
     NSURL *tempOutputURL;
@@ -36,5 +35,7 @@
 @property (readonly)NSArray *subtitleLanguages;
 
 - (id)initWithURL:(NSURL *)u;
+-(id)initWithCoder:(NSCoder *)decoder;
+-(void)encodeWithCoder:(NSCoder *)coder;
 
 @end

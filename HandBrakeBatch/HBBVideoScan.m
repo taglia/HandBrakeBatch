@@ -48,11 +48,11 @@
     
     // Executing scan
     [task launch];
-    for (int i = 0; i < 4 && [task isRunning]; ++i) {
+    for (int i = 0; i < 10 && [task isRunning]; ++i) {
         [NSThread sleepForTimeInterval: .5];
     }
     
-    // If the scan is not completed in 2 seconds, let's kill it
+    // If the scan is not completed in 5 seconds, let's kill it
     if ([task isRunning])
         [task terminate];
     

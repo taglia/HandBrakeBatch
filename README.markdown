@@ -16,6 +16,9 @@ If you want to contribute:
 3. Sync with the latest changes;
 3. Post a pull request here on github.
 
+Please endorse me on Coderwall
+[![endorse](http://api.coderwall.com/taglia/endorsecount.png)](http://coderwall.com/taglia)
+
 
 Special Thanks
 ==============

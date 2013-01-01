@@ -27,7 +27,7 @@
 		0EDBC5741390AFB300D88A0B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EDBC5731390AFB300D88A0B /* Growl.framework */; };
 		0EDBC5771390B05500D88A0B /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 0EDBC5761390B05500D88A0B /* Growl Registration Ticket.growlRegDict */; };
 		0EDBC5781390B57600D88A0B /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EDBC5731390AFB300D88A0B /* Growl.framework */; };
-		0EE562F215BFFD8F0054359B /* HandBrakeCLI_64 in Resources */ = {isa = PBXBuildFile; fileRef = 0EE562F115BFFD8F0054359B /* HandBrakeCLI_64 */; };
+		0EE562F215BFFD8F0054359B /* HandBrakeCLI in Resources */ = {isa = PBXBuildFile; fileRef = 0EE562F115BFFD8F0054359B /* HandBrakeCLI */; };
 		0EEC80401369B4EA00D05124 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EEC803F1369B4EA00D05124 /* Cocoa.framework */; };
 		0EEC804A1369B4EA00D05124 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80481369B4EA00D05124 /* InfoPlist.strings */; };
 		0EEC804D1369B4EA00D05124 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC804C1369B4EA00D05124 /* main.m */; };
@@ -35,7 +35,6 @@
 		0EEC80561369B4EA00D05124 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80541369B4EA00D05124 /* MainMenu.xib */; };
 		0EF72315136CFCE100D223F4 /* gpl-3.0.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0EF72314136CFCE100D223F4 /* gpl-3.0.txt */; };
 		0EF8EF95136CFEB700884AE8 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0EF8EF93136CFEB700884AE8 /* Credits.rtf */; };
-		0EF8EF98136D07EB00884AE8 /* HandBrakeCLI_32 in Resources */ = {isa = PBXBuildFile; fileRef = 0EF8EF96136D07EB00884AE8 /* HandBrakeCLI_32 */; };
 		0EF8EFB1136D981000884AE8 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EF8EFB0136D981000884AE8 /* Sparkle.framework */; };
 		0EF8EFB6136D9D2200884AE8 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EF8EFB0136D981000884AE8 /* Sparkle.framework */; };
 /* End PBXBuildFile section */
@@ -95,7 +94,7 @@
 		0EC6D60315C002F70016775D /* manicure.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = manicure.rb; sourceTree = "<group>"; };
 		0EDBC5731390AFB300D88A0B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
 		0EDBC5761390B05500D88A0B /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
-		0EE562F115BFFD8F0054359B /* HandBrakeCLI_64 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = HandBrakeCLI_64; sourceTree = "<group>"; };
+		0EE562F115BFFD8F0054359B /* HandBrakeCLI */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = HandBrakeCLI; sourceTree = "<group>"; };
 		0EEC803B1369B4EA00D05124 /* HandBrakeBatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HandBrakeBatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EEC803F1369B4EA00D05124 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		0EEC80421369B4EA00D05124 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -110,7 +109,6 @@
 		0EEC80551369B4EA00D05124 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		0EF72314136CFCE100D223F4 /* gpl-3.0.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "gpl-3.0.txt"; sourceTree = "<group>"; };
 		0EF8EF94136CFEB700884AE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		0EF8EF96136D07EB00884AE8 /* HandBrakeCLI_32 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = HandBrakeCLI_32; sourceTree = "<group>"; };
 		0EF8EFB0136D981000884AE8 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -239,8 +237,7 @@
 			isa = PBXGroup;
 			children = (
 				0E49A7581376428F00FB3B77 /* hb_manicure */,
-				0EF8EF96136D07EB00884AE8 /* HandBrakeCLI_32 */,
-				0EE562F115BFFD8F0054359B /* HandBrakeCLI_64 */,
+				0EE562F115BFFD8F0054359B /* HandBrakeCLI */,
 				0EF8EF93136CFEB700884AE8 /* Credits.rtf */,
 				0EF72314136CFCE100D223F4 /* gpl-3.0.txt */,
 				0E9B4909136C874000FCDC68 /* Icon.icns */,
@@ -312,12 +309,11 @@
 				0E9B490A136C874000FCDC68 /* Icon.icns in Resources */,
 				0EF72315136CFCE100D223F4 /* gpl-3.0.txt in Resources */,
 				0EF8EF95136CFEB700884AE8 /* Credits.rtf in Resources */,
-				0EF8EF98136D07EB00884AE8 /* HandBrakeCLI_32 in Resources */,
 				0E49A762137642B700FB3B77 /* plist.rb in Resources */,
 				0EDBC5771390B05500D88A0B /* Growl Registration Ticket.growlRegDict in Resources */,
 				0E987E2113E4062C00A99716 /* Preferences.xib in Resources */,
 				0E6C285C14C288BC004A0FE5 /* iso639-2.db in Resources */,
-				0EE562F215BFFD8F0054359B /* HandBrakeCLI_64 in Resources */,
+				0EE562F215BFFD8F0054359B /* HandBrakeCLI in Resources */,
 				0EC6D60415C002F70016775D /* manicure.rb in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

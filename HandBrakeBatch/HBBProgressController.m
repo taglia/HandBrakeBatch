@@ -261,12 +261,7 @@ static NSMutableString *stdErrorString;
         return;
     }
     
-    // Set appropriate HandBrakeCLI binary
-    if ([[NSRunningApplication currentApplication] executableArchitecture] == NSBundleExecutableArchitectureX86_64) {
-        handBrakeCLI = [[NSBundle mainBundle] pathForResource:@"HandBrakeCLI_64" ofType:@""];
-    } else {
-        handBrakeCLI = [[NSBundle mainBundle] pathForResource:@"HandBrakeCLI_32" ofType:@""];
-    }
+    handBrakeCLI = [[NSBundle mainBundle] pathForResource:@"HandBrakeCLI" ofType:@""];
     
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Initialization of common parameters

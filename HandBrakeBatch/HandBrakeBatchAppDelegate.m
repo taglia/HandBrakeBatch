@@ -13,6 +13,7 @@
 #import "HBBProgressController.h"
 #import "HBBPresets.h"
 #import "HBBDropView.h"
+#import "HBBAppFunctions.h"
 
 @implementation HandBrakeBatchAppDelegate
 
@@ -20,11 +21,6 @@
 
 
 #pragma mark Initialization
-
-static NSString *PREF_SEND_FILE_TO_APP_PATH		= @"HBBSendConvertedFileToAppPath";
-static NSString *PREF_SEND_FILE_TO_APP_NAME		= @"HBBSendConvertedFileToAppName";
-
-
 - (id) init {
 	
     // Initialize application directory
@@ -206,40 +202,48 @@ static NSString *PREF_SEND_FILE_TO_APP_NAME		= @"HBBSendConvertedFileToAppName";
 
 // --++--   --++--   --++--   --++--   --++--   --++--
 #pragma mark -
-#pragma mark SEND FILE TO WORK
+#pragma mark Send File To:
 #pragma mark -
 
 - (void) redrawSendFileToCheckbox {
-	if ([self isSendToAppValid]) {
+	if ([HBBAppFunctions isSendToAppValid]) {
 		[sendFileToCheckbox setState:NSOnState];
 	}
 	
 	else {
-		[self clearAllSendToAppPreferences];
+		[HBBAppFunctions clearAllSendToAppPreferences];
 		[sendFileToCheckbox setState:NSOffState];
 	}
+	
+	[self redrawSendFileToIcon];
 }
-- (void) logAllSendToAppPrefs {
-	NSLog(@"--- [ SEND TO APP PREFERENCES ] ---");
-	NSLog(@"PREF_SEND_FILE_TO_APP_PATH %@", [[NSUserDefaults standardUserDefaults] stringForKey:PREF_SEND_FILE_TO_APP_PATH]);
-	NSLog(@"PREF_SEND_FILE_TO_APP_NAME %@", [[NSUserDefaults standardUserDefaults] stringForKey:PREF_SEND_FILE_TO_APP_NAME]);
+- (void) redrawSendFileToIcon {
+	[sendToIconImage setImage:[HBBAppFunctions getIconForSendToApp]];
 }
 
-// Select app to send file to when finished
 - (IBAction)chooseSendToApplication:(id)sender {
 	
+	// OPEN panels cannot pre-select files the same as the
+	// SAVE panel does
+	// http://www.cocoabuilder.com/archive/cocoa/317726-setting-preselected-file-for-nsopenpanel.html
+	
 	// OPEN APP SELECTION PANEL
-	NSOpenPanel *panel	= [NSOpenPanel openPanel];
+	NSOpenPanel *panel			= [NSOpenPanel openPanel];
     
     [panel setCanChooseFiles:YES];
     [panel setCanChooseDirectories:NO];
     [panel setAllowsMultipleSelection:NO];
     [panel setCanCreateDirectories:NO];
 	
-    NSString *appPath	= [[NSUserDefaults standardUserDefaults] objectForKey:PREF_SEND_FILE_TO_APP_PATH];
+	NSString *appPath			= [HBBAppFunctions getSendToAppPath];
+	// I assume to receive /Users/Me/Applications/TheApp.app
+	// we can't use that as the preselection as it will browse
+	// the contents. We have to root one layer higher
+	NSString *fullAppName		= [HBBAppFunctions fRightBackOf:@"/" inString:appPath];
+	appPath						= [appPath stringByReplacingOccurrencesOfString:fullAppName withString:@""];
 	
 	// POINT THE SELECTION PANEL TO OUR OLD LOCATION
-    if ([self isSendToAppValid]) {
+    if ([HBBAppFunctions isSendToAppValid]) {
         [panel setDirectoryURL:[NSURL fileURLWithPath:appPath]];
 	}
 	
@@ -247,34 +251,35 @@ static NSString *PREF_SEND_FILE_TO_APP_NAME		= @"HBBSendConvertedFileToAppName";
     if ([panel runModal] == NSOKButton) {
         NSURL *firstPath		= [[panel URLs] objectAtIndex:0];
 		
+		//NSLog(@"App Selected: %@", [firstPath absoluteString]);
+		
 		// SAVE PATH
-		NSString *filePath		= [[firstPath absoluteString] stringByReplacingOccurrencesOfString:@"file://localhost" withString:@""];
-		[[NSUserDefaults standardUserDefaults] setObject:filePath forKey:PREF_SEND_FILE_TO_APP_PATH];
+		NSString *urlPath	= [firstPath absoluteString];
+		[HBBAppFunctions setSendToAppPath:urlPath];
 		
 		// SAVE APP NAME
-		NSString *appName		= [[firstPath lastPathComponent] stringByReplacingOccurrencesOfString: @".app" withString:@""];
-		
-		[[NSUserDefaults standardUserDefaults] setValue:appName forKey:PREF_SEND_FILE_TO_APP_NAME];
+		[HBBAppFunctions setSendToAppName:[firstPath lastPathComponent]];
 		
 		// MAKE SURE SETTINGS ARE SAVED
 		[[NSUserDefaults standardUserDefaults] synchronize];
 		
 		// Set up send file to checkbox
 		[self redrawSendFileToCheckbox];
+		
     }
 }
-
 - (IBAction)sendToApplicationClicked:(id)sender {
 	NSButtonCell *checkbox	= (NSButtonCell *)sender;
 	if (checkbox) {
 		[checkbox setState:NSOffState];
 	}
 	
-	BOOL hadPreviousValue	= [self isSendToAppValid];
+	BOOL hadPreviousValue		= [HBBAppFunctions isSendToAppValid];
 	
 	// no matter what we will remove pervious values, then
 	// call what is needed here
-	[self clearAllSendToAppPreferences];
+	[HBBAppFunctions clearAllSendToAppPreferences];
+	[self redrawSendFileToCheckbox];
 	
 	// TRYING TO ENABLE
 	// call "chooseSendToApplication:"
@@ -282,21 +287,6 @@ static NSString *PREF_SEND_FILE_TO_APP_NAME		= @"HBBSendConvertedFileToAppName";
 		[self chooseSendToApplication:nil];
 	}
 	
-}
-- (BOOL) isSendToAppValid {
-	NSString *appPath	= [[NSUserDefaults standardUserDefaults] stringForKey:PREF_SEND_FILE_TO_APP_PATH];
-	
-	if ( ! appPath) {
-		return NO;
-	}
-	
-	NSURL *theURL		= [NSURL fileURLWithPath:appPath isDirectory:NO];
-	return ([theURL checkResourceIsReachableAndReturnError:nil] == YES);
-}
-- (void) clearAllSendToAppPreferences {
-	[[NSUserDefaults standardUserDefaults] removeObjectForKey:PREF_SEND_FILE_TO_APP_NAME];
-	[[NSUserDefaults standardUserDefaults] removeObjectForKey:PREF_SEND_FILE_TO_APP_PATH];
-	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 

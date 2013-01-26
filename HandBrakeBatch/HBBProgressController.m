@@ -13,6 +13,7 @@
 #import "HBBProgressController.h"
 #import "HBBPresets.h"
 #import "HBBLangData.h"
+#import "HBBAppFunctions.h"
 
 #define FILES_OK            0
 #define FILE_EXISTS         1
@@ -396,6 +397,11 @@ static NSMutableString *stdErrorString;
         [[NSFileManager defaultManager] moveItemAtURL:[[currentQueue objectAtIndex:0] tempOutputURL] toURL:[[currentQueue objectAtIndex:0] outputURL] error:nil];
         
         [processedQueue addObject:[currentQueue objectAtIndex:0]];
+		
+		// M.Maher	2013-01-26
+		// hook to send file to external application after conversion
+		[self sendConvertedFileToExternalAppIfNeeded:[currentQueue objectAtIndex:0]];
+		
     } else {
         // Conversion failed! Write log file and do not delete source
         [stdErrData writeToURL:[NSURL fileURLWithPath:logFilePath] atomically:NO];
@@ -493,7 +499,11 @@ static NSMutableString *stdErrorString;
     [self prepareTask];
     [backgroundTask launch];
 }
-
+- (void) sendConvertedFileToExternalAppIfNeeded:(HBBInputFile *)inputFile {
+	if ([HBBAppFunctions isSendToAppValid]) {
+		[HBBAppFunctions openFileWithSendToApp:[inputFile outputPath]];
+	}
+}
 - (void) getData: (NSNotification *)aNotification
 {
     NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];

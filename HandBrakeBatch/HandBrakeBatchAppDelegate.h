@@ -37,6 +37,7 @@
     
 	IBOutlet NSButton *sendFileToCheckbox;
 	
+	IBOutlet NSImageView *sendToIconImage;
     NSString *appSupportFolder;
 	NSButton *chooseSendToApplication;
 }

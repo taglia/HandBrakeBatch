@@ -37,6 +37,7 @@
 		0EF8EFB1136D981000884AE8 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EF8EFB0136D981000884AE8 /* Sparkle.framework */; };
 		0EF8EFB6136D9D2200884AE8 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EF8EFB0136D981000884AE8 /* Sparkle.framework */; };
 		4117F47616B40BED0091DCAD /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4117F47516B40BED0091DCAD /* MainMenu.xib */; };
+		4117F47916B411140091DCAD /* HBBAppFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4117F47816B411140091DCAD /* HBBAppFunctions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -110,6 +111,8 @@
 		0EF8EF94136CFEB700884AE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		0EF8EFB0136D981000884AE8 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		4117F47516B40BED0091DCAD /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		4117F47716B411130091DCAD /* HBBAppFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBAppFunctions.h; sourceTree = "<group>"; };
+		4117F47816B411140091DCAD /* HBBAppFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBAppFunctions.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +230,8 @@
 				0E108B6A136C47F200168057 /* HBBProgressController.m */,
 				0E933F9B14C47C8000A5BB1D /* HBBVideoScan.h */,
 				0E933F9C14C47C8000A5BB1D /* HBBVideoScan.m */,
+				4117F47716B411130091DCAD /* HBBAppFunctions.h */,
+				4117F47816B411140091DCAD /* HBBAppFunctions.m */,
 				0E549260136C49BD0094563F /* xib */,
 				0EEC80461369B4EA00D05124 /* Supporting Files */,
 			);
@@ -335,6 +340,7 @@
 				0E933F9D14C47C8000A5BB1D /* HBBVideoScan.m in Sources */,
 				0E337A4715144FCC006150DD /* RSRTVArrayController.m in Sources */,
 				0EB54A4C1596CDBC00EE2AB4 /* HBBDropView.m in Sources */,
+				4117F47916B411140091DCAD /* HBBAppFunctions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

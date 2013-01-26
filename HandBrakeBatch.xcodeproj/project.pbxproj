@@ -32,7 +32,6 @@
 		0EEC804A1369B4EA00D05124 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80481369B4EA00D05124 /* InfoPlist.strings */; };
 		0EEC804D1369B4EA00D05124 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC804C1369B4EA00D05124 /* main.m */; };
 		0EEC80531369B4EA00D05124 /* HandBrakeBatchAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */; };
-		0EEC80561369B4EA00D05124 /* MainMenuOrig.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80541369B4EA00D05124 /* MainMenuOrig.xib */; };
 		0EF72315136CFCE100D223F4 /* gpl-3.0.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0EF72314136CFCE100D223F4 /* gpl-3.0.txt */; };
 		0EF8EF95136CFEB700884AE8 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0EF8EF93136CFEB700884AE8 /* Credits.rtf */; };
 		0EF8EFB1136D981000884AE8 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EF8EFB0136D981000884AE8 /* Sparkle.framework */; };
@@ -107,7 +106,6 @@
 		0EEC804C1369B4EA00D05124 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0EEC80511369B4EA00D05124 /* HandBrakeBatchAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandBrakeBatchAppDelegate.h; sourceTree = "<group>"; };
 		0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HandBrakeBatchAppDelegate.m; sourceTree = "<group>"; };
-		0EEC80551369B4EA00D05124 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenuOrig.xib; sourceTree = "<group>"; };
 		0EF72314136CFCE100D223F4 /* gpl-3.0.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "gpl-3.0.txt"; sourceTree = "<group>"; };
 		0EF8EF94136CFEB700884AE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		0EF8EFB0136D981000884AE8 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
@@ -161,7 +159,6 @@
 			isa = PBXGroup;
 			children = (
 				4117F47516B40BED0091DCAD /* MainMenu.xib */,
-				0EEC80541369B4EA00D05124 /* MainMenuOrig.xib */,
 				0E18546A136C4222004B5558 /* HBBProgressWindow.xib */,
 				0E987E2013E4062C00A99716 /* Preferences.xib */,
 			);
@@ -307,7 +304,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EEC804A1369B4EA00D05124 /* InfoPlist.strings in Resources */,
-				0EEC80561369B4EA00D05124 /* MainMenuOrig.xib in Resources */,
 				0E18546B136C4222004B5558 /* HBBProgressWindow.xib in Resources */,
 				0E9B490A136C874000FCDC68 /* Icon.icns in Resources */,
 				0EF72315136CFCE100D223F4 /* gpl-3.0.txt in Resources */,
@@ -351,14 +347,6 @@
 				0EEC80491369B4EA00D05124 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		0EEC80541369B4EA00D05124 /* MainMenuOrig.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0EEC80551369B4EA00D05124 /* en */,
-			);
-			name = MainMenuOrig.xib;
 			sourceTree = "<group>";
 		};
 		0EF8EF93136CFEB700884AE8 /* Credits.rtf */ = {

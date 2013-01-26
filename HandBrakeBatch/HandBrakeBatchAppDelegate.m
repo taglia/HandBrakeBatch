@@ -13,14 +13,16 @@
 #import "HBBProgressController.h"
 #import "HBBPresets.h"
 #import "HBBDropView.h"
+#import "HBBAppFunctions.h"
 
 @implementation HandBrakeBatchAppDelegate
 
 @synthesize window, inputFiles;
 
-#pragma mark Initialization
 
+#pragma mark Initialization
 - (id) init {
+	
     // Initialize application directory
 	NSFileManager *fm = [NSFileManager defaultManager];
 	appSupportFolder = [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES)
@@ -83,11 +85,11 @@
                     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://donate.osomac.com/apps/2"]];
                     [[NSUserDefaults standardUserDefaults] setBool:true forKey:@"HBBNoDonation"];
                     break;
-            
+					
                 case NSAlertAlternateReturn:
                     [[NSUserDefaults standardUserDefaults] setBool:true forKey:@"HBBNoDonation"];
                     break;
-                
+					
                 default:
                     [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"NSFirstLaunchDate"];
                     break;
@@ -97,6 +99,9 @@
     
     // Add observer for arrangedObjects
     [fileNamesController addObserver:self forKeyPath:@"arrangedObjects" options:NSKeyValueObservingOptionNew context:nil];
+	
+	// Set up send file to checkbox
+	[self redrawSendFileToCheckbox];
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
@@ -112,6 +117,8 @@
 ///////////////////////////////////////
 
 - (IBAction)chooseOutputFolder:(id)sender {
+	
+	
     NSOpenPanel *panel = [NSOpenPanel openPanel];
     
     [panel setCanChooseFiles:NO];
@@ -129,7 +136,7 @@
     
     if (outputFolderExists)
         [panel setDirectoryURL:[NSURL fileURLWithPath:outputFolder]];
-
+	
     
     if ([panel runModal] == NSOKButton) {
         NSString *path = [[panel directoryURL] path];
@@ -189,6 +196,99 @@
     }
     return false;
 }
+
+
+
+
+// --++--   --++--   --++--   --++--   --++--   --++--
+#pragma mark -
+#pragma mark Send File To:
+#pragma mark -
+
+- (void) redrawSendFileToCheckbox {
+	if ([HBBAppFunctions isSendToAppValid]) {
+		[sendFileToCheckbox setState:NSOnState];
+	}
+	
+	else {
+		[HBBAppFunctions clearAllSendToAppPreferences];
+		[sendFileToCheckbox setState:NSOffState];
+	}
+	
+	[self redrawSendFileToIcon];
+}
+- (void) redrawSendFileToIcon {
+	[sendToIconImage setImage:[HBBAppFunctions getIconForSendToApp]];
+}
+
+- (IBAction)chooseSendToApplication:(id)sender {
+	
+	// OPEN panels cannot pre-select files the same as the
+	// SAVE panel does
+	// http://www.cocoabuilder.com/archive/cocoa/317726-setting-preselected-file-for-nsopenpanel.html
+	
+	// OPEN APP SELECTION PANEL
+	NSOpenPanel *panel			= [NSOpenPanel openPanel];
+    
+    [panel setCanChooseFiles:YES];
+    [panel setCanChooseDirectories:NO];
+    [panel setAllowsMultipleSelection:NO];
+    [panel setCanCreateDirectories:NO];
+	
+	NSString *appPath			= [HBBAppFunctions getSendToAppPath];
+	// I assume to receive /Users/Me/Applications/TheApp.app
+	// we can't use that as the preselection as it will browse
+	// the contents. We have to root one layer higher
+	NSString *fullAppName		= [HBBAppFunctions fRightBackOf:@"/" inString:appPath];
+	appPath						= [appPath stringByReplacingOccurrencesOfString:fullAppName withString:@""];
+	
+	// POINT THE SELECTION PANEL TO OUR OLD LOCATION
+    if ([HBBAppFunctions isSendToAppValid]) {
+        [panel setDirectoryURL:[NSURL fileURLWithPath:appPath]];
+	}
+	
+	// NEW FILE SELECTED -- save it
+    if ([panel runModal] == NSOKButton) {
+        NSURL *firstPath		= [[panel URLs] objectAtIndex:0];
+		
+		//NSLog(@"App Selected: %@", [firstPath absoluteString]);
+		
+		// SAVE PATH
+		NSString *urlPath	= [firstPath absoluteString];
+		[HBBAppFunctions setSendToAppPath:urlPath];
+		
+		// SAVE APP NAME
+		[HBBAppFunctions setSendToAppName:[firstPath lastPathComponent]];
+		
+		// MAKE SURE SETTINGS ARE SAVED
+		[[NSUserDefaults standardUserDefaults] synchronize];
+		
+		// Set up send file to checkbox
+		[self redrawSendFileToCheckbox];
+		
+    }
+}
+- (IBAction)sendToApplicationClicked:(id)sender {
+	NSButtonCell *checkbox	= (NSButtonCell *)sender;
+	if (checkbox) {
+		[checkbox setState:NSOffState];
+	}
+	
+	BOOL hadPreviousValue		= [HBBAppFunctions isSendToAppValid];
+	
+	// no matter what we will remove pervious values, then
+	// call what is needed here
+	[HBBAppFunctions clearAllSendToAppPreferences];
+	[self redrawSendFileToCheckbox];
+	
+	// TRYING TO ENABLE
+	// call "chooseSendToApplication:"
+	if ( ! hadPreviousValue ) {
+		[self chooseSendToApplication:nil];
+	}
+	
+}
+
 
 // Recursively process files & directories
 -(void)processFiles:(NSURL *)url {

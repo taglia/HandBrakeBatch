@@ -35,7 +35,11 @@
     
     IBOutlet NSButton *chooseOutputFolder;
     
+	IBOutlet NSButton *sendFileToCheckbox;
+	
+	IBOutlet NSImageView *sendToIconImage;
     NSString *appSupportFolder;
+	NSButton *chooseSendToApplication;
 }
 
 @property (assign) IBOutlet NSWindow *window;
@@ -47,6 +51,8 @@
 - (IBAction)presetSelected:(id)sender;
 - (IBAction)showPreferences:(id)sender;
 - (IBAction)donate:(id)sender;
+- (IBAction)chooseSendToApplication:(id)sender;
+- (IBAction)sendToApplicationClicked:(id)sender;
 
 -(void)processFiles:(NSURL *)url;
 

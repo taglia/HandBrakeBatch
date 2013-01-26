@@ -32,11 +32,12 @@
 		0EEC804A1369B4EA00D05124 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80481369B4EA00D05124 /* InfoPlist.strings */; };
 		0EEC804D1369B4EA00D05124 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC804C1369B4EA00D05124 /* main.m */; };
 		0EEC80531369B4EA00D05124 /* HandBrakeBatchAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */; };
-		0EEC80561369B4EA00D05124 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80541369B4EA00D05124 /* MainMenu.xib */; };
 		0EF72315136CFCE100D223F4 /* gpl-3.0.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0EF72314136CFCE100D223F4 /* gpl-3.0.txt */; };
 		0EF8EF95136CFEB700884AE8 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0EF8EF93136CFEB700884AE8 /* Credits.rtf */; };
 		0EF8EFB1136D981000884AE8 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EF8EFB0136D981000884AE8 /* Sparkle.framework */; };
 		0EF8EFB6136D9D2200884AE8 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EF8EFB0136D981000884AE8 /* Sparkle.framework */; };
+		4117F47616B40BED0091DCAD /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4117F47516B40BED0091DCAD /* MainMenu.xib */; };
+		4117F47916B411140091DCAD /* HBBAppFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4117F47816B411140091DCAD /* HBBAppFunctions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -106,10 +107,12 @@
 		0EEC804C1369B4EA00D05124 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0EEC80511369B4EA00D05124 /* HandBrakeBatchAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandBrakeBatchAppDelegate.h; sourceTree = "<group>"; };
 		0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HandBrakeBatchAppDelegate.m; sourceTree = "<group>"; };
-		0EEC80551369B4EA00D05124 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		0EF72314136CFCE100D223F4 /* gpl-3.0.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "gpl-3.0.txt"; sourceTree = "<group>"; };
 		0EF8EF94136CFEB700884AE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		0EF8EFB0136D981000884AE8 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		4117F47516B40BED0091DCAD /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		4117F47716B411130091DCAD /* HBBAppFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBAppFunctions.h; sourceTree = "<group>"; };
+		4117F47816B411140091DCAD /* HBBAppFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBAppFunctions.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,7 +161,7 @@
 		0E549260136C49BD0094563F /* xib */ = {
 			isa = PBXGroup;
 			children = (
-				0EEC80541369B4EA00D05124 /* MainMenu.xib */,
+				4117F47516B40BED0091DCAD /* MainMenu.xib */,
 				0E18546A136C4222004B5558 /* HBBProgressWindow.xib */,
 				0E987E2013E4062C00A99716 /* Preferences.xib */,
 			);
@@ -227,6 +230,8 @@
 				0E108B6A136C47F200168057 /* HBBProgressController.m */,
 				0E933F9B14C47C8000A5BB1D /* HBBVideoScan.h */,
 				0E933F9C14C47C8000A5BB1D /* HBBVideoScan.m */,
+				4117F47716B411130091DCAD /* HBBAppFunctions.h */,
+				4117F47816B411140091DCAD /* HBBAppFunctions.m */,
 				0E549260136C49BD0094563F /* xib */,
 				0EEC80461369B4EA00D05124 /* Supporting Files */,
 			);
@@ -304,7 +309,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EEC804A1369B4EA00D05124 /* InfoPlist.strings in Resources */,
-				0EEC80561369B4EA00D05124 /* MainMenu.xib in Resources */,
 				0E18546B136C4222004B5558 /* HBBProgressWindow.xib in Resources */,
 				0E9B490A136C874000FCDC68 /* Icon.icns in Resources */,
 				0EF72315136CFCE100D223F4 /* gpl-3.0.txt in Resources */,
@@ -315,6 +319,7 @@
 				0E6C285C14C288BC004A0FE5 /* iso639-2.db in Resources */,
 				0EE562F215BFFD8F0054359B /* HandBrakeCLI in Resources */,
 				0EC6D60415C002F70016775D /* manicure.rb in Resources */,
+				4117F47616B40BED0091DCAD /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,6 +340,7 @@
 				0E933F9D14C47C8000A5BB1D /* HBBVideoScan.m in Sources */,
 				0E337A4715144FCC006150DD /* RSRTVArrayController.m in Sources */,
 				0EB54A4C1596CDBC00EE2AB4 /* HBBDropView.m in Sources */,
+				4117F47916B411140091DCAD /* HBBAppFunctions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,14 +353,6 @@
 				0EEC80491369B4EA00D05124 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		0EEC80541369B4EA00D05124 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0EEC80551369B4EA00D05124 /* en */,
-			);
-			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 		0EF8EF93136CFEB700884AE8 /* Credits.rtf */ = {
@@ -419,6 +417,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Matt Maher (XF6YX54VVW)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -433,6 +432,7 @@
 				INFOPLIST_FILE = "HandBrakeBatch/HandBrakeBatch-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};

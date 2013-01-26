@@ -18,9 +18,15 @@
 
 @synthesize window, inputFiles;
 
+
 #pragma mark Initialization
 
+static NSString *PREF_SEND_FILE_TO_APP_PATH		= @"HBBSendConvertedFileToAppPath";
+static NSString *PREF_SEND_FILE_TO_APP_NAME		= @"HBBSendConvertedFileToAppName";
+
+
 - (id) init {
+	
     // Initialize application directory
 	NSFileManager *fm = [NSFileManager defaultManager];
 	appSupportFolder = [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES)
@@ -83,11 +89,11 @@
                     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://donate.osomac.com/apps/2"]];
                     [[NSUserDefaults standardUserDefaults] setBool:true forKey:@"HBBNoDonation"];
                     break;
-            
+					
                 case NSAlertAlternateReturn:
                     [[NSUserDefaults standardUserDefaults] setBool:true forKey:@"HBBNoDonation"];
                     break;
-                
+					
                 default:
                     [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"NSFirstLaunchDate"];
                     break;
@@ -97,6 +103,9 @@
     
     // Add observer for arrangedObjects
     [fileNamesController addObserver:self forKeyPath:@"arrangedObjects" options:NSKeyValueObservingOptionNew context:nil];
+	
+	// Set up send file to checkbox
+	[self redrawSendFileToCheckbox];
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
@@ -112,6 +121,8 @@
 ///////////////////////////////////////
 
 - (IBAction)chooseOutputFolder:(id)sender {
+	
+	
     NSOpenPanel *panel = [NSOpenPanel openPanel];
     
     [panel setCanChooseFiles:NO];
@@ -129,7 +140,7 @@
     
     if (outputFolderExists)
         [panel setDirectoryURL:[NSURL fileURLWithPath:outputFolder]];
-
+	
     
     if ([panel runModal] == NSOKButton) {
         NSString *path = [[panel directoryURL] path];
@@ -189,6 +200,105 @@
     }
     return false;
 }
+
+
+
+
+// --++--   --++--   --++--   --++--   --++--   --++--
+#pragma mark -
+#pragma mark SEND FILE TO WORK
+#pragma mark -
+
+- (void) redrawSendFileToCheckbox {
+	if ([self isSendToAppValid]) {
+		[sendFileToCheckbox setState:NSOnState];
+	}
+	
+	else {
+		[self clearAllSendToAppPreferences];
+		[sendFileToCheckbox setState:NSOffState];
+	}
+}
+- (void) logAllSendToAppPrefs {
+	NSLog(@"--- [ SEND TO APP PREFERENCES ] ---");
+	NSLog(@"PREF_SEND_FILE_TO_APP_PATH %@", [[NSUserDefaults standardUserDefaults] stringForKey:PREF_SEND_FILE_TO_APP_PATH]);
+	NSLog(@"PREF_SEND_FILE_TO_APP_NAME %@", [[NSUserDefaults standardUserDefaults] stringForKey:PREF_SEND_FILE_TO_APP_NAME]);
+}
+
+// Select app to send file to when finished
+- (IBAction)chooseSendToApplication:(id)sender {
+	
+	// OPEN APP SELECTION PANEL
+	NSOpenPanel *panel	= [NSOpenPanel openPanel];
+    
+    [panel setCanChooseFiles:YES];
+    [panel setCanChooseDirectories:NO];
+    [panel setAllowsMultipleSelection:NO];
+    [panel setCanCreateDirectories:NO];
+	
+    NSString *appPath	= [[NSUserDefaults standardUserDefaults] objectForKey:PREF_SEND_FILE_TO_APP_PATH];
+	
+	// POINT THE SELECTION PANEL TO OUR OLD LOCATION
+    if ([self isSendToAppValid]) {
+        [panel setDirectoryURL:[NSURL fileURLWithPath:appPath]];
+	}
+	
+	// NEW FILE SELECTED -- save it
+    if ([panel runModal] == NSOKButton) {
+        NSURL *firstPath		= [[panel URLs] objectAtIndex:0];
+		
+		// SAVE PATH
+		NSString *filePath		= [[firstPath absoluteString] stringByReplacingOccurrencesOfString:@"file://localhost" withString:@""];
+		[[NSUserDefaults standardUserDefaults] setObject:filePath forKey:PREF_SEND_FILE_TO_APP_PATH];
+		
+		// SAVE APP NAME
+		NSString *appName		= [[firstPath lastPathComponent] stringByReplacingOccurrencesOfString: @".app" withString:@""];
+		
+		[[NSUserDefaults standardUserDefaults] setValue:appName forKey:PREF_SEND_FILE_TO_APP_NAME];
+		
+		// MAKE SURE SETTINGS ARE SAVED
+		[[NSUserDefaults standardUserDefaults] synchronize];
+		
+		// Set up send file to checkbox
+		[self redrawSendFileToCheckbox];
+    }
+}
+
+- (IBAction)sendToApplicationClicked:(id)sender {
+	NSButtonCell *checkbox	= (NSButtonCell *)sender;
+	if (checkbox) {
+		[checkbox setState:NSOffState];
+	}
+	
+	BOOL hadPreviousValue	= [self isSendToAppValid];
+	
+	// no matter what we will remove pervious values, then
+	// call what is needed here
+	[self clearAllSendToAppPreferences];
+	
+	// TRYING TO ENABLE
+	// call "chooseSendToApplication:"
+	if ( ! hadPreviousValue ) {
+		[self chooseSendToApplication:nil];
+	}
+	
+}
+- (BOOL) isSendToAppValid {
+	NSString *appPath	= [[NSUserDefaults standardUserDefaults] stringForKey:PREF_SEND_FILE_TO_APP_PATH];
+	
+	if ( ! appPath) {
+		return NO;
+	}
+	
+	NSURL *theURL		= [NSURL fileURLWithPath:appPath isDirectory:NO];
+	return ([theURL checkResourceIsReachableAndReturnError:nil] == YES);
+}
+- (void) clearAllSendToAppPreferences {
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:PREF_SEND_FILE_TO_APP_NAME];
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:PREF_SEND_FILE_TO_APP_PATH];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 
 // Recursively process files & directories
 -(void)processFiles:(NSURL *)url {

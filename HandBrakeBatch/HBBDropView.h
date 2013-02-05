@@ -9,16 +9,16 @@
 #import <Cocoa/Cocoa.h>
 #import "RSRTVArrayController.h"
 #import "HBBInputFile.h"
-#import "HandBrakeBatchAppDelegate.h"
+#import "HBBAppDelegate.h"
 
 @interface HBBDropView : NSView {
     IBOutlet RSRTVArrayController *fileNamesController;
     IBOutlet NSButton *startButton;
     IBOutlet NSProgressIndicator *progressIndicator;
     
-    HandBrakeBatchAppDelegate *appDelegate;
+    HBBAppDelegate *appDelegate;
 }
 
-@property (assign) HandBrakeBatchAppDelegate *appDelegate;
+@property (assign) HBBAppDelegate *appDelegate;
 
 @end

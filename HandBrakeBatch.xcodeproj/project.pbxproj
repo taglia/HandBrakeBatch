@@ -31,7 +31,7 @@
 		0EEC80401369B4EA00D05124 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EEC803F1369B4EA00D05124 /* Cocoa.framework */; };
 		0EEC804A1369B4EA00D05124 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80481369B4EA00D05124 /* InfoPlist.strings */; };
 		0EEC804D1369B4EA00D05124 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC804C1369B4EA00D05124 /* main.m */; };
-		0EEC80531369B4EA00D05124 /* HandBrakeBatchAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */; };
+		0EEC80531369B4EA00D05124 /* HBBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC80521369B4EA00D05124 /* HBBAppDelegate.m */; };
 		0EEC80561369B4EA00D05124 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80541369B4EA00D05124 /* MainMenu.xib */; };
 		0EF72315136CFCE100D223F4 /* gpl-3.0.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0EF72314136CFCE100D223F4 /* gpl-3.0.txt */; };
 		0EF8EF95136CFEB700884AE8 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0EF8EF93136CFEB700884AE8 /* Credits.rtf */; };
@@ -104,8 +104,8 @@
 		0EEC80491369B4EA00D05124 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0EEC804B1369B4EA00D05124 /* HandBrakeBatch-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HandBrakeBatch-Prefix.pch"; sourceTree = "<group>"; };
 		0EEC804C1369B4EA00D05124 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		0EEC80511369B4EA00D05124 /* HandBrakeBatchAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandBrakeBatchAppDelegate.h; sourceTree = "<group>"; };
-		0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HandBrakeBatchAppDelegate.m; sourceTree = "<group>"; };
+		0EEC80511369B4EA00D05124 /* HBBAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HBBAppDelegate.h; sourceTree = "<group>"; };
+		0EEC80521369B4EA00D05124 /* HBBAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HBBAppDelegate.m; sourceTree = "<group>"; };
 		0EEC80551369B4EA00D05124 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		0EF72314136CFCE100D223F4 /* gpl-3.0.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "gpl-3.0.txt"; sourceTree = "<group>"; };
 		0EF8EF94136CFEB700884AE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
@@ -213,8 +213,8 @@
 				0EEC804C1369B4EA00D05124 /* main.m */,
 				0E54925D136C49890094563F /* HBBInputFile.h */,
 				0E54925E136C49890094563F /* HBBInputFile.m */,
-				0EEC80511369B4EA00D05124 /* HandBrakeBatchAppDelegate.h */,
-				0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */,
+				0EEC80511369B4EA00D05124 /* HBBAppDelegate.h */,
+				0EEC80521369B4EA00D05124 /* HBBAppDelegate.m */,
 				0EB54A4A1596CDBC00EE2AB4 /* HBBDropView.h */,
 				0EB54A4B1596CDBC00EE2AB4 /* HBBDropView.m */,
 				0E987E2213E4083900A99716 /* HBBPreferencesController.h */,
@@ -326,7 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EEC804D1369B4EA00D05124 /* main.m in Sources */,
-				0EEC80531369B4EA00D05124 /* HandBrakeBatchAppDelegate.m in Sources */,
+				0EEC80531369B4EA00D05124 /* HBBAppDelegate.m in Sources */,
 				0E108B6B136C47F200168057 /* HBBProgressController.m in Sources */,
 				0E54925F136C49890094563F /* HBBInputFile.m in Sources */,
 				0E49A76813764A1500FB3B77 /* HBBPresets.m in Sources */,

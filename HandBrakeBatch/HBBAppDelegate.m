@@ -1,5 +1,5 @@
 //
-//  HandBrakeBatchAppDelegate.m
+//  HBBAppDelegate.m
 //  HandBrakeBatch
 //
 //  Created by Cesare Tagliaferri
@@ -8,13 +8,13 @@
 //  It may be used under the terms of the GNU General Public License.
 //
 
-#import "HandBrakeBatchAppDelegate.h"
+#import "HBBAppDelegate.h"
 #import "HBBInputFile.h"
 #import "HBBProgressController.h"
 #import "HBBPresets.h"
 #import "HBBDropView.h"
 
-@implementation HandBrakeBatchAppDelegate
+@implementation HBBAppDelegate
 
 @synthesize window, inputFiles;
 

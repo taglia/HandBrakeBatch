@@ -1,5 +1,5 @@
 //
-//  HandBrakeBatchAppDelegate.h
+//  HBBAppDelegate.h
 //  HandBrakeBatch
 //
 //  Created by Cesare Tagliaferri
@@ -15,7 +15,7 @@
 #import "RSRTVArrayController.h"
 @class HBBDropView;
 
-@interface HandBrakeBatchAppDelegate : NSObject <NSApplicationDelegate, NSSplitViewDelegate, NSWindowDelegate, GrowlApplicationBridgeDelegate> {
+@interface HBBAppDelegate : NSObject <NSApplicationDelegate, NSSplitViewDelegate, NSWindowDelegate, GrowlApplicationBridgeDelegate> {
 @private
     NSWindow *window;
     

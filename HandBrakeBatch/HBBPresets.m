@@ -108,7 +108,7 @@ static HBBPresets *instance;
 	self.presets = tempDict;
 }
 
-+ (id)hbbPresets {
++ (instancetype)hbbPresets {
 
 	if (instance) {
 		return instance;

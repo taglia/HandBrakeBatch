@@ -14,7 +14,7 @@
 
 @property (readonly, strong, nonatomic) NSDictionary *presets;
 
-+ (id)hbbPresets;
++ (instancetype)hbbPresets;
 - (void)initPresets;
 
 @end

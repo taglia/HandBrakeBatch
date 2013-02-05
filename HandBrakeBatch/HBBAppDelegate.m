@@ -80,11 +80,11 @@
             switch (choice) {
                 case NSAlertDefaultReturn:
                     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://donate.osomac.com/apps/2"]];
-                    [[NSUserDefaults standardUserDefaults] setBool:true forKey:@"HBBNoDonation"];
+                    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HBBNoDonation"];
                     break;
             
                 case NSAlertAlternateReturn:
-                    [[NSUserDefaults standardUserDefaults] setBool:true forKey:@"HBBNoDonation"];
+                    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HBBNoDonation"];
                     break;
                 
                 default:
@@ -178,10 +178,10 @@
     
     for (HBBInputFile *f in files) {
         if ([[f inputPath] isEqualToString:[file inputPath]]) {
-            return true;
+            return YES;
 		}
     }
-    return false;
+    return NO;
 }
 
 // Recursively process files & directories

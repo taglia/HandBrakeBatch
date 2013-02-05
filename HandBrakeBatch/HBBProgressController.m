@@ -39,7 +39,7 @@ static NSMutableString *stdErrorString;
 
     processedQueue = [[NSMutableArray alloc] init];
     failedQueue = [[NSMutableArray alloc] init];
-    suspended = false;
+    suspended = NO;
     
     return self;
 }
@@ -61,13 +61,13 @@ static NSMutableString *stdErrorString;
     if (suspended) {
         [backgroundTask resume];
         [progressWheel startAnimation:self];
-        [pausedLabel setHidden:true];
-        suspended = false;
+        [pausedLabel setHidden:YES];
+        suspended = NO;
     } else {
         [backgroundTask suspend];
         [progressWheel stopAnimation:self];
-        [pausedLabel setHidden:false];
-        suspended = true;
+        [pausedLabel setHidden:NO];
+        suspended = YES;
     }
 }
 
@@ -276,14 +276,14 @@ static NSMutableString *stdErrorString;
     }
     arguments = [[NSMutableArray alloc] init];
 
-    BOOL ignoreFollowing = false;
+    BOOL ignoreFollowing = NO;
     
     for (NSString *currentArg in [preset componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]) {
         
         // We filter out the -a x,y,z argument: added later depending on the audio language preferences
         if (!ignoreFollowing) {
             if ([currentArg isEqualToString:@"-a"]) {
-                ignoreFollowing = true;
+                ignoreFollowing = YES;
             } else {
                 [arguments addObject:currentArg];
                 
@@ -293,7 +293,7 @@ static NSMutableString *stdErrorString;
 				}
             }
         } else {
-            ignoreFollowing = false;
+            ignoreFollowing = NO;
         }
     }
     

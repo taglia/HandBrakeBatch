@@ -12,8 +12,8 @@
 
 @synthesize appDelegate;
 
-static bool drawFocusRing = false;
-static bool dropping = false;
+static bool drawFocusRing = NO;
+static bool dropping = NO;
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
@@ -81,7 +81,7 @@ static bool dropping = false;
 }
 
 - (void) processDraggedItems:(NSArray *)items {
-    dropping = true;
+    dropping = YES;
     [startButton setEnabled:NO];
     [startButton setTitle:@"Processing…"];
     [progressIndicator setHidden:NO];
@@ -95,7 +95,7 @@ static bool dropping = false;
     [startButton setTitle:@"Start"];
     [progressIndicator setHidden:YES];
     [progressIndicator stopAnimation:self];
-    dropping=false;
+    dropping=NO;
 }
 
 @end

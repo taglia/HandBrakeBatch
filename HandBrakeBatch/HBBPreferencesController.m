@@ -14,15 +14,15 @@
 
 - (void)toggleLanguage:(bool)enable {
     if (enable) {
-        [subtitleBox setEnabled:true];
-        [audioBox setEnabled:true];
-        [subtitleMatrix setEnabled:true];
-        [audioMatrix setEnabled:true];
+        [subtitleBox setEnabled:YES];
+        [audioBox setEnabled:YES];
+        [subtitleMatrix setEnabled:YES];
+        [audioMatrix setEnabled:YES];
     } else {
-        [subtitleBox setEnabled:false];
-        [audioBox setEnabled:false];
-        [subtitleMatrix setEnabled:false];
-        [audioMatrix setEnabled:false];
+        [subtitleBox setEnabled:NO];
+        [audioBox setEnabled:NO];
+        [subtitleMatrix setEnabled:NO];
+        [audioMatrix setEnabled:NO];
     }
 }
 
@@ -39,7 +39,7 @@
     }
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"HBBScanEnabled"] == nil) {
-        [[NSUserDefaults standardUserDefaults] setBool:true forKey:@"HBBScanEnabled"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HBBScanEnabled"];
     }
     
     langData = [HBBLangData defaultHBBLangData];
@@ -59,9 +59,9 @@
 - (void)windowDidLoad {
     [super windowDidLoad];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBScanEnabled"]) {
-        [self toggleLanguage:true];
+        [self toggleLanguage:YES];
     } else {
-        [self toggleLanguage:false];
+        [self toggleLanguage:NO];
     }
 }
 
@@ -91,9 +91,9 @@
 
 - (IBAction)toggleLanguageScan:(id)sender {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBScanEnabled"]) {
-        [self toggleLanguage:true];
+        [self toggleLanguage:YES];
     } else {
-        [self toggleLanguage:false];
+        [self toggleLanguage:NO];
     }
 }
 

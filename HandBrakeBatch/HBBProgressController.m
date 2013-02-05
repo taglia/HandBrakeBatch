@@ -25,6 +25,45 @@
 #define ACTION_SLEEP        2
 #define ACTION_SHUTDOWN     3
 
+@interface HBBProgressController ()
+
+@property (readwrite, assign, nonatomic) IBOutlet NSProgressIndicator *taskProgressBar;
+@property (readwrite, assign, nonatomic) IBOutlet NSProgressIndicator *overallProgressBar;
+@property (readwrite, assign, nonatomic) IBOutlet NSProgressIndicator *progressWheel;
+@property (readwrite, assign, nonatomic) IBOutlet NSTextField *pausedLabel;
+@property (readwrite, assign, nonatomic) IBOutlet NSTextField *messageField;
+@property (readwrite, assign, nonatomic) IBOutlet NSTextField *currentETA;
+@property (readwrite, assign, nonatomic) IBOutlet NSTextField *elapsed;
+@property (readwrite, assign, nonatomic) IBOutlet NSTextField *processingLabel;
+
+// Items remaining in the queue, to be processed
+@property (readwrite, strong, nonatomic) NSMutableArray *currentQueue;
+
+// Processed items
+@property (readwrite, strong, nonatomic) NSMutableArray *processedQueue;
+@property (readwrite, strong, nonatomic) NSMutableArray *failedQueue;
+
+@property (readwrite, strong, nonatomic) NSTask *backgroundTask;
+@property (readwrite, assign, nonatomic) BOOL suspended;
+@property (readwrite, strong, nonatomic) NSString *handBrakeCLI;
+@property (readwrite, assign, nonatomic) BOOL cancel;
+
+// Start tireadwrite
+@property (readwrite, strong, nonatomic) NSDate *overallStartDate;
+@property (readwrite, strong, nonatomic) NSDate *currentStartDate;
+
+@property (readwrite, strong, nonatomic) NSTimer *timer;
+
+// Common preadwrites
+@property (readwrite, strong, nonatomic) NSDictionary *presets;
+@property (readwrite, strong, nonatomic) NSString *selectedPresetName;
+@property (readwrite, strong, nonatomic) NSString *preset;
+@property (readwrite, strong, nonatomic) NSString *fileExtension;
+@property (readwrite, strong, nonatomic) NSMutableArray *arguments;
+@property (readwrite, strong, nonatomic) NSString *outputFolder;
+
+@end
+
 @implementation HBBProgressController
 
 @synthesize queue;
@@ -37,11 +76,15 @@ static NSMutableString *stdErrorString;
 - (id)init {
     self = [super initWithWindowNibName:@"HBBProgressWindow"];
 
-    processedQueue = [[NSMutableArray alloc] init];
-    failedQueue = [[NSMutableArray alloc] init];
-    suspended = NO;
+    self.processedQueue = [[NSMutableArray alloc] init];
+    self.failedQueue = [[NSMutableArray alloc] init];
+    self.suspended = NO;
     
     return self;
+}
+
+- (NSArray *)queue {
+	return [self.currentQueue copy];
 }
 
 - (void)windowDidLoad {
@@ -49,45 +92,45 @@ static NSMutableString *stdErrorString;
 }
 
 - (IBAction) cancelButtonAction:(id)sender {
-    cancel = TRUE;
-    [timer invalidate];
-    [backgroundTask terminate];
-    [progressWheel stopAnimation:self];
+    self.cancel = TRUE;
+    [self.timer invalidate];
+    [self.backgroundTask terminate];
+    [self.progressWheel stopAnimation:self];
     
-    NSBeginAlertSheet(@"Operation canceled", @"Ok", nil, nil, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"%lu files have been converted, %lu remaining.", [processedQueue count], [currentQueue count]);
+    NSBeginAlertSheet(@"Operation canceled", @"Ok", nil, nil, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"%lu files have been converted, %lu remaining.", [self.processedQueue count], [self.currentQueue count]);
 }
 
 - (IBAction)pauseButtonAction:(id)sender {
-    if (suspended) {
-        [backgroundTask resume];
-        [progressWheel startAnimation:self];
-        [pausedLabel setHidden:YES];
-        suspended = NO;
+    if (self.suspended) {
+        [self.backgroundTask resume];
+        [self.progressWheel startAnimation:self];
+        [self.pausedLabel setHidden:YES];
+        self.suspended = NO;
     } else {
-        [backgroundTask suspend];
-        [progressWheel stopAnimation:self];
-        [pausedLabel setHidden:NO];
-        suspended = YES;
+        [self.backgroundTask suspend];
+        [self.progressWheel stopAnimation:self];
+        [self.pausedLabel setHidden:NO];
+        self.suspended = YES;
     }
 }
 
--(void) prepareTask {
+- (void)prepareTask {
     // Initialize NSTask
-    backgroundTask = [[NSTask alloc] init];
-    [backgroundTask setStandardOutput: [NSPipe pipe]];
-    [backgroundTask setStandardError: [NSPipe pipe]];
-    [backgroundTask setLaunchPath: handBrakeCLI];
+    self.backgroundTask = [[NSTask alloc] init];
+    [self.backgroundTask setStandardOutput:[NSPipe pipe]];
+    [self.backgroundTask setStandardError:[NSPipe pipe]];
+    [self.backgroundTask setLaunchPath:self.handBrakeCLI];
     
-    NSString *inputFilePath = [[currentQueue objectAtIndex:0] inputPath];
+    NSString *inputFilePath = [[self.currentQueue objectAtIndex:0] inputPath];
     
     NSString *fileName = [[inputFilePath stringByDeletingPathExtension] lastPathComponent];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBDestinationSameAsSource"])
-        outputFolder = [inputFilePath stringByDeletingLastPathComponent];
-
-    NSString *outputFilePath = [outputFolder stringByAppendingPathComponent:[fileName stringByAppendingPathExtension:fileExtension]];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBDestinationSameAsSource"]) {
+        self.outputFolder = [inputFilePath stringByDeletingLastPathComponent];
+	}
+    NSString *outputFilePath = [self.outputFolder stringByAppendingPathComponent:[fileName stringByAppendingPathExtension:self.fileExtension]];
     
-    NSString *tempOutputFilePath = [outputFolder stringByAppendingPathComponent:[NSString stringWithFormat:@".%@_%ld.%@", fileName, random(), fileExtension]];
+    NSString *tempOutputFilePath = [self.outputFolder stringByAppendingPathComponent:[NSString stringWithFormat:@".%@_%ld.%@", fileName, random(), self.fileExtension]];
     
     // Deal with EyeTV files
     if ([[inputFilePath pathExtension] isEqualToString:@"eyetv"]) {
@@ -103,15 +146,16 @@ static NSMutableString *stdErrorString;
     }
     
     // Storing output path to quickly access it to move temp file to final, and in case we need to tweek the timestamps
-    [[currentQueue objectAtIndex:0] setOutputURL:[NSURL fileURLWithPath:outputFilePath]];
-    [[currentQueue objectAtIndex:0] setTempOutputURL:[NSURL fileURLWithPath:tempOutputFilePath]];
+	HBBInputFile *inputFile = [self.currentQueue objectAtIndex:0];
+    [inputFile setOutputURL:[NSURL fileURLWithPath:outputFilePath]];
+    [inputFile setTempOutputURL:[NSURL fileURLWithPath:tempOutputFilePath]];
     
     // Additional Arguments
-    NSMutableArray *allArguments = [NSMutableArray arrayWithArray:arguments];
+    NSMutableArray *allArguments = [NSMutableArray arrayWithArray:self.arguments];
     
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBScanEnabled"]) { // Process languages & subtitles only if scan enabled
         // Audio language arguments
-        NSArray *audioLanguages = [[currentQueue objectAtIndex:0] audioLanguages];
+        NSArray *audioLanguages = [[self.currentQueue objectAtIndex:0] audioLanguages];
         if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBAudioSelection"] == 0) { // All languages
             if ([audioLanguages count]) { // Leave this alone if no languages are available
                 NSMutableString *audioLanguageIDs = [NSMutableString stringWithString:@"1"];
@@ -134,7 +178,7 @@ static NSMutableString *stdErrorString;
         }
         
         // Subtitle language arguments
-        NSArray *subtitleLanguages = [[currentQueue objectAtIndex:0] subtitleLanguages];
+        NSArray *subtitleLanguages = [[self.currentQueue objectAtIndex:0] subtitleLanguages];
         if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBSubtitleSelection"] == 0) { // All languages
             if ([subtitleLanguages count]) { // Leave this alone if no subtitles are available
                 NSMutableString *subtitleLanguageIDs = [NSMutableString stringWithString:@"1"];
@@ -170,13 +214,13 @@ static NSMutableString *stdErrorString;
     }
     NSLog(@"Calling CLI with arguments: %@", args);
     
-    [backgroundTask setArguments: allArguments];
+    [self.backgroundTask setArguments: allArguments];
     
     // Set Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(getData:) 
                                                  name: NSFileHandleReadCompletionNotification 
-                                               object: [[backgroundTask standardOutput] fileHandleForReading]];
+                                               object: [[self.backgroundTask standardOutput] fileHandleForReading]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(taskCompleted:) 
@@ -184,9 +228,9 @@ static NSMutableString *stdErrorString;
                                                object: nil];
     
     // Set the current file name in the progress window
-    [messageField setStringValue:[[currentQueue objectAtIndex:0] name]];
+    [self.messageField setStringValue:[[self.currentQueue objectAtIndex:0] name]];
     
-    currentStartDate = [NSDate date];
+    self.currentStartDate = [NSDate date];
     
     // Growl notification
     if ( ![[NSUserDefaults standardUserDefaults] boolForKey:@"HBBNotificationsDisabled"] ) {
@@ -202,94 +246,94 @@ static NSMutableString *stdErrorString;
     // We tell the file handle to go ahead and read in the background asynchronously, and notify
     // us via the callback registered above when we signed up as an observer.  The file handle will
     // send a NSFileHandleReadCompletionNotification when it has data that is available.
-    [[[backgroundTask standardOutput] fileHandleForReading] readInBackgroundAndNotify];
+    [[[self.backgroundTask standardOutput] fileHandleForReading] readInBackgroundAndNotify];
     
     // Creating a pipe to store STDERR (where HB CLI outputs the interesting information)
     // Will be stored in a file if required when the conversion is completed
     // We need to store the data to avoid the thread hanging if the pipe is full (happens for files with a lot of output, like MTS)
-    [[[backgroundTask standardError] fileHandleForReading] readInBackgroundAndNotify];
+    [[[self.backgroundTask standardError] fileHandleForReading] readInBackgroundAndNotify];
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(storestdErrorString:) 
                                                  name: NSFileHandleReadCompletionNotification 
-                                               object: [[backgroundTask standardError] fileHandleForReading]];
+                                               object: [[self.backgroundTask standardError] fileHandleForReading]];
     
     stdErrorString = [[NSMutableString alloc] init];
 }
 
 - (void) startConversion {
     // Initialize progress bars
-    [taskProgressBar setMinValue:0.0];
-    [taskProgressBar setDoubleValue:0.0];
-    [taskProgressBar setMaxValue:100.0];
-    [taskProgressBar setIndeterminate:NO];
-    [taskProgressBar startAnimation:self];
+    [self.taskProgressBar setMinValue:0.0];
+    [self.taskProgressBar setDoubleValue:0.0];
+    [self.taskProgressBar setMaxValue:100.0];
+    [self.taskProgressBar setIndeterminate:NO];
+    [self.taskProgressBar startAnimation:self];
     
-    [overallProgressBar setMinValue:0.0];
-    [overallProgressBar setDoubleValue:0.0];
-    [overallProgressBar setMaxValue:[queue count]*100.0];
-    [overallProgressBar setIndeterminate:NO];
-    [overallProgressBar startAnimation:self];
+    [self.overallProgressBar setMinValue:0.0];
+    [self.overallProgressBar setDoubleValue:0.0];
+    [self.overallProgressBar setMaxValue:[queue count]*100.0];
+    [self.overallProgressBar setIndeterminate:NO];
+    [self.overallProgressBar startAnimation:self];
     
-    [progressWheel startAnimation:self];
+    [self.progressWheel startAnimation:self];
     
     // Prepare timer for the ETA estimation
-    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(incrementElapsed:) userInfo:nil repeats:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(incrementElapsed:) userInfo:nil repeats:YES];
         
     [self prepareTask];
     
     totalFiles = [queue count];
     currentFile = 0;
-    [processingLabel setStringValue:[NSString stringWithFormat:@"Processing 1 / %ld", totalFiles]];
+    [self.processingLabel setStringValue:[NSString stringWithFormat:@"Processing 1 / %ld", totalFiles]];
     
-    [backgroundTask launch];
+    [self.backgroundTask launch];
 }
 
 // Entry point
 - (void)processQueue {
-    cancel = FALSE;
+    self.cancel = FALSE;
     
-    overallStartDate = [NSDate date];
+    self.overallStartDate = [NSDate date];
     
     // Initialize queue mutable copy
-    currentQueue = [queue mutableCopy];
+    self.currentQueue = [queue mutableCopy];
     
     // Check if we have a valid queue
-    if (currentQueue == nil || [currentQueue count] == 0) {
+    if (self.currentQueue == nil || [self.currentQueue count] == 0) {
         [[self window] orderOut:nil];
         return;
     }
     
-    handBrakeCLI = [[NSBundle mainBundle] pathForResource:@"HandBrakeCLI" ofType:@""];
+    self.handBrakeCLI = [[NSBundle mainBundle] pathForResource:@"HandBrakeCLI" ofType:@""];
     
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Initialization of common parameters
     // Build HandBrakeCLI arguments
-    presets = [[HBBPresets hbbPresets] presets];
-    selectedPresetName = [[NSUserDefaults standardUserDefaults] objectForKey:@"PresetName"];
-    preset = [presets objectForKey:selectedPresetName];
+    self.presets = [[HBBPresets hbbPresets] presets];
+    self.selectedPresetName = [[NSUserDefaults standardUserDefaults] objectForKey:@"PresetName"];
+    self.preset = [self.presets objectForKey:self.selectedPresetName];
     // Parsing arguments from preset line
     // The MPEG-4 file extension can be configured in the preferences
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBMPEG4Extension"] == M4V_EXTENSION) {
-        fileExtension = @"m4v";
+        self.fileExtension = @"m4v";
     } else {
-        fileExtension = @"mp4";
+        self.fileExtension = @"mp4";
     }
-    arguments = [[NSMutableArray alloc] init];
+    self.arguments = [[NSMutableArray alloc] init];
 
     BOOL ignoreFollowing = NO;
     
-    for (NSString *currentArg in [preset componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]) {
+    for (NSString *currentArg in [self.preset componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]) {
         
         // We filter out the -a x,y,z argument: added later depending on the audio language preferences
         if (!ignoreFollowing) {
             if ([currentArg isEqualToString:@"-a"]) {
                 ignoreFollowing = YES;
             } else {
-                [arguments addObject:currentArg];
+                [self.arguments addObject:currentArg];
                 
                 // In case a preset specifies an mkv container as output format
                 if ([currentArg isEqualToString:@"mkv"]) {
-                    fileExtension = @"mkv";
+                    self.fileExtension = @"mkv";
 				}
             }
         } else {
@@ -297,12 +341,12 @@ static NSMutableString *stdErrorString;
         }
     }
     
-    outputFolder = [[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"];
+    self.outputFolder = [[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"];
     
     // Check whether the output folder exists
     BOOL exists;
     BOOL isDir;
-    exists = [[NSFileManager defaultManager] fileExistsAtPath:outputFolder isDirectory:&isDir];
+    exists = [[NSFileManager defaultManager] fileExistsAtPath:self.outputFolder isDirectory:&isDir];
     if ((!exists || !isDir) && ![[NSUserDefaults standardUserDefaults] objectForKey:@"HBBDestinationSameAsSource"]) {
         NSBeginAlertSheet(@"Output Folder does not exist", @"Ok", NULL, NULL, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"Please make sure that the selected output folder exists.");
         return;
@@ -324,13 +368,13 @@ static NSMutableString *stdErrorString;
 }
 
 -(void)incrementElapsed:(NSTimer *)theTimer {
-    NSInteger overallElapsedTime = [[NSDate date] timeIntervalSinceDate:overallStartDate];
+    NSInteger overallElapsedTime = [[NSDate date] timeIntervalSinceDate:self.overallStartDate];
     
-    [elapsed setStringValue:[self formatTime:overallElapsedTime]];
+    [self.elapsed setStringValue:[self formatTime:overallElapsedTime]];
     
-    if (suspended) {
-        [currentETA setStringValue:@"--:--:--"];
-        [pausedLabel setHidden:![pausedLabel isHidden]];
+    if (self.suspended) {
+        [self.currentETA setStringValue:@"--:--:--"];
+        [self.pausedLabel setHidden:![self.pausedLabel isHidden]];
         return;
     }
 }
@@ -338,15 +382,15 @@ static NSMutableString *stdErrorString;
 #pragma mark Notification methods
 
 - (void)taskCompleted:(NSNotification *)notification {
-    if ([notification object] != backgroundTask || cancel || [currentQueue count] == 0) {
+    if ([notification object] != self.backgroundTask || self.cancel || [self.currentQueue count] == 0) {
         return;
     }
     // Removing observers for stdout and stderr
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSFileHandleReadCompletionNotification object:[[backgroundTask standardOutput] fileHandleForReading]];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSFileHandleReadCompletionNotification object:[[backgroundTask standardError]  fileHandleForReading]];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSFileHandleReadCompletionNotification object:[[self.backgroundTask standardOutput] fileHandleForReading]];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSFileHandleReadCompletionNotification object:[[self.backgroundTask standardError]  fileHandleForReading]];
     
     // First we need to empty the stdError pipe buffer
-    NSFileHandle *file = [[backgroundTask standardError] fileHandleForReading];
+    NSFileHandle *file = [[self.backgroundTask standardError] fileHandleForReading];
     NSData *data = [file readDataToEndOfFile];
     
     if ([data length]) {
@@ -356,9 +400,9 @@ static NSMutableString *stdErrorString;
     
     // Check whether the conversion was successful and write log file if necessary
     NSData *stdErrData = [stdErrorString dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *logFilePath = [[[[currentQueue objectAtIndex:0] outputPath] stringByDeletingPathExtension] stringByAppendingPathExtension:@"log"];
+    NSString *logFilePath = [[[[self.currentQueue objectAtIndex:0] outputPath] stringByDeletingPathExtension] stringByAppendingPathExtension:@"log"];
     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[currentQueue objectAtIndex:0] tempOutputURL] path]]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[self.currentQueue objectAtIndex:0] tempOutputURL] path]]) {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBWriteConversionLog"]) {
             [stdErrData writeToURL:[NSURL fileURLWithPath:logFilePath] atomically:NO];
         }
@@ -366,8 +410,8 @@ static NSMutableString *stdErrorString;
         // Modify timestamps if required
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBMaintainTimestamps"]) {
             NSFileManager *fm = [NSFileManager defaultManager];
-            NSDictionary *sourceAttrs = [fm attributesOfItemAtPath:[[currentQueue objectAtIndex:0] inputPath] error:NULL];
-            NSDictionary *destAttrs = [fm attributesOfItemAtPath:[[currentQueue objectAtIndex:0] tempOutputPath] error:NULL];
+            NSDictionary *sourceAttrs = [fm attributesOfItemAtPath:[[self.currentQueue objectAtIndex:0] inputPath] error:NULL];
+            NSDictionary *destAttrs = [fm attributesOfItemAtPath:[[self.currentQueue objectAtIndex:0] tempOutputPath] error:NULL];
             
             if (sourceAttrs && destAttrs) {
                 NSDate *creationDate = [sourceAttrs objectForKey:NSFileCreationDate];
@@ -377,35 +421,35 @@ static NSMutableString *stdErrorString;
                 [destMutableAttrs setObject:creationDate forKey:NSFileCreationDate];
                 [destMutableAttrs setObject:modificationDate forKey:NSFileModificationDate];
                 
-                [fm setAttributes:destMutableAttrs ofItemAtPath:[[currentQueue objectAtIndex:0] tempOutputPath] error:NULL];
+                [fm setAttributes:destMutableAttrs ofItemAtPath:[[self.currentQueue objectAtIndex:0] tempOutputPath] error:NULL];
             }
         }
         
         // Remove destination file if it exists
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[[[currentQueue objectAtIndex:0] outputURL] path]]) {
-            [[NSFileManager defaultManager] removeItemAtURL:[[currentQueue objectAtIndex:0] outputURL] error:nil];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[[[self.currentQueue objectAtIndex:0] outputURL] path]]) {
+            [[NSFileManager defaultManager] removeItemAtURL:[[self.currentQueue objectAtIndex:0] outputURL] error:nil];
         }
         // Remove source file if needed
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBDeleteSourceFiles"]) {
-            [[NSFileManager defaultManager] removeItemAtURL:[[currentQueue objectAtIndex:0] inputURL] error:nil];
+            [[NSFileManager defaultManager] removeItemAtURL:[[self.currentQueue objectAtIndex:0] inputURL] error:nil];
         }
         
         // Moving temp output file to destination
-        [[NSFileManager defaultManager] moveItemAtURL:[[currentQueue objectAtIndex:0] tempOutputURL] toURL:[[currentQueue objectAtIndex:0] outputURL] error:nil];
+        [[NSFileManager defaultManager] moveItemAtURL:[[self.currentQueue objectAtIndex:0] tempOutputURL] toURL:[[self.currentQueue objectAtIndex:0] outputURL] error:nil];
         
-        [processedQueue addObject:[currentQueue objectAtIndex:0]];
+        [self.processedQueue addObject:[self.currentQueue objectAtIndex:0]];
     } else {
         // Conversion failed! Write log file and do not delete source
         [stdErrData writeToURL:[NSURL fileURLWithPath:logFilePath] atomically:NO];
         
-        [failedQueue addObject:[currentQueue objectAtIndex:0]];
+        [self.failedQueue addObject:[self.currentQueue objectAtIndex:0]];
     }
     
     // Remove processed file from the queue
-    [currentQueue removeObjectAtIndex:0];
+    [self.currentQueue removeObjectAtIndex:0];
 
     // Check if all files have been processed
-    if ([currentQueue count] == 0) {
+    if ([self.currentQueue count] == 0) {
         // Growl notification
         if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HBBNotificationsDisabled"]) {
             [GrowlApplicationBridge notifyWithTitle:@"HandBrakeBatch"
@@ -470,26 +514,26 @@ static NSMutableString *stdErrorString;
                 break;
         }
         
-        [progressWheel stopAnimation:self];
-        [timer invalidate];
+        [self.progressWheel stopAnimation:self];
+        [self.timer invalidate];
         NSString *message;
-        if ([failedQueue count] == 0) {
-            message = [NSString stringWithFormat:@"All %lu files have been converted successfully!", [processedQueue count]];
+        if ([self.failedQueue count] == 0) {
+            message = [NSString stringWithFormat:@"All %lu files have been converted successfully!", [self.processedQueue count]];
         } else {
-            message = [NSString stringWithFormat:@"%lu files have been converted successfully.\n%lu conversions failed: for each failed conversion, the log has been written in destination folder(s).", [processedQueue count], [failedQueue count]];
+            message = [NSString stringWithFormat:@"%lu files have been converted successfully.\n%lu conversions failed: for each failed conversion, the log has been written in destination folder(s).", [self.processedQueue count], [self.failedQueue count]];
         }
-        NSBeginAlertSheet(@"Conversion Complete", @"Ok", nil, nil, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, message, [processedQueue count]);
+        NSBeginAlertSheet(@"Conversion Complete", @"Ok", nil, nil, [self window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, message, [self.processedQueue count]);
         return;
     }
     
     // Reset ETA
-    [currentETA setStringValue:@"--:--:--"];
+    [self.currentETA setStringValue:@"--:--:--"];
     
-    [processingLabel setStringValue:[NSString stringWithFormat:@"Processing %ld / %ld", ++currentFile, totalFiles]];
+    [self.processingLabel setStringValue:[NSString stringWithFormat:@"Processing %ld / %ld", ++currentFile, totalFiles]];
     
     // Process next file
     [self prepareTask];
-    [backgroundTask launch];
+    [self.backgroundTask launch];
 }
 
 - (void)getData:(NSNotification *)aNotification {
@@ -504,12 +548,12 @@ static NSMutableString *stdErrorString;
             unsigned long location = [message rangeOfString:@", "].location;
             NSString *percentString = [message substringWithRange:NSMakeRange(location + 2, 5)];
             double percent = [percentString floatValue];
-            double overallPercent = percent + ([processedQueue count]+[failedQueue count])*100.0;
+            double overallPercent = percent + ([self.processedQueue count]+[self.failedQueue count])*100.0;
             
             // Simple filter
-            if (overallPercent > [overallProgressBar doubleValue]) {
-                [taskProgressBar setDoubleValue:percent];
-                [overallProgressBar setDoubleValue:overallPercent];
+            if (overallPercent > [self.overallProgressBar doubleValue]) {
+                [self.taskProgressBar setDoubleValue:percent];
+                [self.overallProgressBar setDoubleValue:overallPercent];
             }
         }
         
@@ -519,12 +563,12 @@ static NSMutableString *stdErrorString;
             int hours = [[message substringWithRange:NSMakeRange(etaLocation+4, 2)] intValue];
             int minutes = [[message substringWithRange:NSMakeRange(etaLocation+7, 2)] intValue];
             int seconds = [[message substringWithRange:NSMakeRange(etaLocation+10, 2)] intValue];
-            [currentETA setStringValue:[NSString stringWithFormat:@"%0.2d:%0.2d:%0.2d", hours, minutes, seconds]];
+            [self.currentETA setStringValue:[NSString stringWithFormat:@"%0.2d:%0.2d:%0.2d", hours, minutes, seconds]];
         }
     }
     
     // we need to schedule the file handle go read more data in the background again.
-    if ([backgroundTask isRunning]) {
+    if ([self.backgroundTask isRunning]) {
         [[aNotification object] readInBackgroundAndNotify];
 	}
 }
@@ -537,7 +581,7 @@ static NSMutableString *stdErrorString;
     }
     
     // we need to schedule the file handle go read more data in the background again.
-    if ([backgroundTask isRunning]) {
+    if ([self.backgroundTask isRunning]) {
         [[aNotification object] readInBackgroundAndNotify];
 	}
 }
@@ -551,7 +595,7 @@ static NSMutableString *stdErrorString;
         }
     }
         
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:processedQueue, currentQueue, nil]
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.processedQueue, self.currentQueue, nil]
                                                          forKeys:[NSArray arrayWithObjects:PROCESSED_QUEUE_KEY, CURRENT_QUEUE_KEY, nil]];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:COMPLETE_NOTIFICATION object:self userInfo:userInfo];

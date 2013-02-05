@@ -18,8 +18,8 @@
 @property (readonly, strong, nonatomic) NSString *outputPath;
 @property (readonly, strong, nonatomic) NSString *tempOutputPath;
 @property (readonly, strong, nonatomic) NSURL *inputURL;
-@property (readonly, strong, nonatomic) NSURL *outputURL;
-@property (readonly, strong, nonatomic) NSURL *tempOutputURL;
+@property (readwrite, strong, nonatomic) NSURL *outputURL;
+@property (readwrite, strong, nonatomic) NSURL *tempOutputURL;
 @property (readonly, assign, nonatomic) NSUInteger size;
 @property (readonly, strong, nonatomic) NSArray *audioLanguages;
 @property (readonly, strong, nonatomic) NSArray *subtitleLanguages;

@@ -15,49 +15,36 @@
 #define PROCESSED_QUEUE_KEY @"HBBProcessedQueue"
 #define CURRENT_QUEUE_KEY @"HBBCurrentQueue"
 
-@interface HBBProgressController : NSWindowController {
-@private
-    NSArray *queue;
-    // Items remaining in the queue, to be processed
-    NSMutableArray *currentQueue;
-    
-    // Processed items
-    NSMutableArray *processedQueue;
-    NSMutableArray *failedQueue;
-    
-    NSTask *backgroundTask;
-    BOOL suspended;
+@interface HBBProgressController : NSWindowController
 
-    NSString *handBrakeCLI;
-    
-    IBOutlet NSProgressIndicator *taskProgressBar;
-    IBOutlet NSProgressIndicator *overallProgressBar;
-    IBOutlet NSProgressIndicator *progressWheel;
-    IBOutlet NSTextField *pausedLabel;
-    IBOutlet NSTextField *messageField;
-    
-    IBOutlet NSTextField *currentETA;
-    IBOutlet NSTextField *elapsed;
-    IBOutlet NSTextField *processingLabel;
-    
-    BOOL cancel;
-    
-    // Start times
-    NSDate *overallStartDate;
-    NSDate *currentStartDate;
-    
-    NSTimer *timer;
-    
-    // Common parameters
-    NSDictionary *presets;
-    NSString *selectedPresetName;
-    NSString *preset;
-    NSString *fileExtension;
-    NSMutableArray *arguments;
-    NSString *outputFolder;
-}
+@property (readonly, strong, nonatomic) NSArray *queue;
+// Items remaining in the queue, to be processed
+@property (readonly, strong, nonatomic) NSMutableArray *currentQueue;
 
-@property (assign) NSArray *queue;
+// Processed items
+@property (readonly, strong, nonatomic) NSMutableArray *processedQueue;
+@property (readonly, strong, nonatomic) NSMutableArray *failedQueue;
+
+@property (readonly, strong, nonatomic) NSTask *backgroundTask;
+@property (readonly, assign, nonatomic) BOOL suspended;
+
+@property (readonly, strong, nonatomic) NSString *handBrakeCLI;
+
+@property (readonly, assign, nonatomic) BOOL cancel;
+
+// Start times
+@property (readonly, strong, nonatomic) NSDate *overallStartDate;
+@property (readonly, strong, nonatomic) NSDate *currentStartDate;
+
+@property (readonly, strong, nonatomic) NSTimer *timer;
+
+// Common parameters
+@property (readonly, strong, nonatomic) NSDictionary *presets;
+@property (readonly, strong, nonatomic) NSString *selectedPresetName;
+@property (readonly, strong, nonatomic) NSString *preset;
+@property (readonly, strong, nonatomic) NSString *fileExtension;
+@property (readonly, strong, nonatomic) NSMutableArray *arguments;
+@property (readonly, strong, nonatomic) NSString *outputFolder;
 
 - (IBAction)cancelButtonAction:(id)sender;
 - (IBAction)pauseButtonAction:(id)sender;

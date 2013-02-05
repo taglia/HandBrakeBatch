@@ -10,6 +10,14 @@
 
 #import "HBBVideoScan.h"
 
+@interface HBBVideoScan ()
+
+@property (readwrite, strong, nonatomic) NSString *fileName;
+@property (readwrite, strong, nonatomic) NSMutableArray *mutableAudioLanguages;
+@property (readwrite, strong, nonatomic) NSMutableArray *mutableSubtitleLanguages;
+
+@end
+
 @implementation HBBVideoScan
 
 @synthesize fileName, audioLanguages, subtitleLanguages;
@@ -26,11 +34,19 @@
     self = [super init];
 
     if (self) {
-        audioLanguages = [[NSMutableArray alloc] init];
-        subtitleLanguages = [[NSMutableArray alloc] init];
+        self.mutableAudioLanguages = [[NSMutableArray alloc] init];
+        self.mutableSubtitleLanguages = [[NSMutableArray alloc] init];
     }
     
     return self;
+}
+
+- (NSArray *)audioLanguages {
+	return [self.mutableAudioLanguages copy];
+}
+
+- (NSArray *)subtitleLanguages {
+	return [self.mutableSubtitleLanguages copy];
 }
 
 - (void)scan {
@@ -66,20 +82,20 @@
     NSUInteger subtitleIndex = [outputLines indexOfObject:@"  + subtitle tracks:"];
     
     // Reset languages
-    [audioLanguages removeAllObjects];
-    [subtitleLanguages removeAllObjects];
+    [self.mutableAudioLanguages removeAllObjects];
+    [self.mutableSubtitleLanguages removeAllObjects];
     
     if (audioIndex != NSNotFound) {
         while ([[outputLines objectAtIndex:++audioIndex] characterAtIndex:4] == '+') {
             NSRange range = [[outputLines objectAtIndex:audioIndex] rangeOfString:@"iso639-2: "];
-            [audioLanguages addObject:[[outputLines objectAtIndex:audioIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
+            [self.mutableAudioLanguages addObject:[[outputLines objectAtIndex:audioIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
         }
     }
     
     if (subtitleIndex != NSNotFound) {
         while ([[outputLines objectAtIndex:++subtitleIndex] characterAtIndex:4] == '+') {
             NSRange range = [[outputLines objectAtIndex:subtitleIndex] rangeOfString:@"iso639-2: "];
-            [subtitleLanguages addObject:[[outputLines objectAtIndex:subtitleIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
+            [self.mutableSubtitleLanguages addObject:[[outputLines objectAtIndex:subtitleIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
         }
     }
 }

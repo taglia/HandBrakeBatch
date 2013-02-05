@@ -10,15 +10,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface HBBVideoScan : NSObject {
-    NSString *fileName;
-    NSMutableArray *audioLanguages;
-    NSMutableArray *subtitleLanguages;
-}
+@interface HBBVideoScan : NSObject
 
-@property (assign) NSString *fileName;
-@property (readonly) NSArray *audioLanguages;
-@property (readonly) NSArray *subtitleLanguages;
+@property (readonly, strong, nonatomic) NSString *fileName;
+@property (readonly, strong, nonatomic) NSArray *audioLanguages;
+@property (readonly, strong, nonatomic) NSArray *subtitleLanguages;
 
 - (id)initWithFile:(NSString *)path;
 - (void)scan;

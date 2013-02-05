@@ -1,9 +1,11 @@
 //
-//  HBBMainView.m
+//  HBBDropView.m
 //  HandBrakeBatch
 //
 //  Created by Cesare Tagliaferri on 24/06/2012.
-//  Copyright (c) 2012 Murex SEA. All rights reserved.
+//  This file is part of the HandBrakeBatch source code.
+//  Homepage: <http://www.osomac.com/>.
+//  It may be used under the terms of the GNU General Public License.
 //
 
 #import "HBBDropView.h"

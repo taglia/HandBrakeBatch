@@ -12,13 +12,13 @@
 
 @interface HBBPreferencesController ()
 	
-@property (readwrite, assign, nonatomic) IBOutlet NSButton * maintainTimestamps;
-@property (readwrite, assign, nonatomic) IBOutlet NSPopUpButton *mpeg4Extension;
+@property (readwrite, weak, nonatomic) IBOutlet NSButton * maintainTimestamps;
+@property (readwrite, weak, nonatomic) IBOutlet NSPopUpButton *mpeg4Extension;
 
-@property (readwrite, assign, nonatomic) IBOutlet NSComboBox *audioBox;
-@property (readwrite, assign, nonatomic) IBOutlet NSComboBox *subtitleBox;
-@property (readwrite, assign, nonatomic) IBOutlet NSMatrix *audioMatrix;
-@property (readwrite, assign, nonatomic) IBOutlet NSMatrix *subtitleMatrix;
+@property (readwrite, weak, nonatomic) IBOutlet NSComboBox *audioBox;
+@property (readwrite, weak, nonatomic) IBOutlet NSComboBox *subtitleBox;
+@property (readwrite, weak, nonatomic) IBOutlet NSMatrix *audioMatrix;
+@property (readwrite, weak, nonatomic) IBOutlet NSMatrix *subtitleMatrix;
 
 @property (readwrite, strong, nonatomic) HBBLangData *langData;
 @property (readwrite, strong, nonatomic) NSArray *languages;

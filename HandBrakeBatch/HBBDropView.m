@@ -12,10 +12,10 @@
 
 @interface HBBDropView ()
 
-@property (readwrite, assign, nonatomic) IBOutlet RSRTVArrayController *fileNamesController;
-@property (readwrite, assign, nonatomic) IBOutlet NSButton *startButton;
-@property (readwrite, assign, nonatomic) IBOutlet NSProgressIndicator *progressIndicator;
-@property (readwrite, assign, nonatomic) IBOutlet HBBAppDelegate *appDelegate;
+@property (readwrite, weak, nonatomic) IBOutlet RSRTVArrayController *fileNamesController;
+@property (readwrite, weak, nonatomic) IBOutlet NSButton *startButton;
+@property (readwrite, weak, nonatomic) IBOutlet NSProgressIndicator *progressIndicator;
+@property (readwrite, weak, nonatomic) IBOutlet HBBAppDelegate *appDelegate;
 
 @property (readwrite, assign, nonatomic) BOOL drawFocusRing;
 @property (readwrite, assign, nonatomic) BOOL dropping;
@@ -82,9 +82,7 @@
     
     NSArray* draggedItems = [pboard propertyListForType:NSFilenamesPboardType];
     
-    [[NSGarbageCollector defaultCollector] disable];
     [NSThread detachNewThreadSelector:@selector(processDraggedItems:) toTarget:self withObject:draggedItems];
-    [[NSGarbageCollector defaultCollector] enable];
 	
 	return YES;
 }

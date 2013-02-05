@@ -27,14 +27,14 @@
 
 @interface HBBProgressController ()
 
-@property (readwrite, assign, nonatomic) IBOutlet NSProgressIndicator *taskProgressBar;
-@property (readwrite, assign, nonatomic) IBOutlet NSProgressIndicator *overallProgressBar;
-@property (readwrite, assign, nonatomic) IBOutlet NSProgressIndicator *progressWheel;
-@property (readwrite, assign, nonatomic) IBOutlet NSTextField *pausedLabel;
-@property (readwrite, assign, nonatomic) IBOutlet NSTextField *messageField;
-@property (readwrite, assign, nonatomic) IBOutlet NSTextField *currentETA;
-@property (readwrite, assign, nonatomic) IBOutlet NSTextField *elapsed;
-@property (readwrite, assign, nonatomic) IBOutlet NSTextField *processingLabel;
+@property (readwrite, weak, nonatomic) IBOutlet NSProgressIndicator *taskProgressBar;
+@property (readwrite, weak, nonatomic) IBOutlet NSProgressIndicator *overallProgressBar;
+@property (readwrite, weak, nonatomic) IBOutlet NSProgressIndicator *progressWheel;
+@property (readwrite, weak, nonatomic) IBOutlet NSTextField *pausedLabel;
+@property (readwrite, weak, nonatomic) IBOutlet NSTextField *messageField;
+@property (readwrite, weak, nonatomic) IBOutlet NSTextField *currentETA;
+@property (readwrite, weak, nonatomic) IBOutlet NSTextField *elapsed;
+@property (readwrite, weak, nonatomic) IBOutlet NSTextField *processingLabel;
 
 // Items remaining in the queue, to be processed
 @property (readwrite, strong, nonatomic) NSMutableArray *currentQueue;
@@ -493,7 +493,6 @@ static NSMutableString *stdErrorString;
                 }
                 script = [[NSAppleScript alloc] initWithSource:@"tell application \"System Events\" to sleep"];
                 [script executeAndReturnError:&errorInfo];
-                [script release];
                 break;
                 
             case ACTION_SHUTDOWN:
@@ -509,7 +508,6 @@ static NSMutableString *stdErrorString;
                 }
                 script = [[NSAppleScript alloc] initWithSource:@"tell application \"Finder\" to shut down"];
                 [script executeAndReturnError:&errorInfo];
-                [script release];
                 [NSApp terminate: nil];
                 break;
         }
@@ -588,7 +586,7 @@ static NSMutableString *stdErrorString;
 
 // Called when the alert sheet is dismissed
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    if ([(NSString *)contextInfo isEqual:@"Warning"]) {
+    if ([(__bridge NSString *)contextInfo isEqual:@"Warning"]) {
         if (returnCode == NSAlertDefaultReturn) {
             [self startConversion];
             return;

@@ -16,14 +16,14 @@
 
 @interface HBBAppDelegate ()
 
-@property (readwrite, assign, nonatomic) IBOutlet NSTableView *fileNamesView;
-@property (readwrite, assign, nonatomic) IBOutlet RSRTVArrayController *fileNamesController;
-@property (readwrite, assign, nonatomic) IBOutlet NSArrayController *presetNamesController;
-@property (readwrite, assign, nonatomic) IBOutlet NSPopUpButton *presetPopUp;
-@property (readwrite, assign, nonatomic) IBOutlet HBBDropView *dropView;
-@property (readwrite, assign, nonatomic) IBOutlet NSView *leftPaneView;
-@property (readwrite, assign, nonatomic) IBOutlet NSButton *chooseOutputFolder;
-@property (readwrite, assign, nonatomic) IBOutlet NSWindow *window;
+@property (readwrite, weak, nonatomic) IBOutlet NSTableView *fileNamesView;
+@property (readwrite, weak, nonatomic) IBOutlet RSRTVArrayController *fileNamesController;
+@property (readwrite, weak, nonatomic) IBOutlet NSArrayController *presetNamesController;
+@property (readwrite, weak, nonatomic) IBOutlet NSPopUpButton *presetPopUp;
+@property (readwrite, weak, nonatomic) IBOutlet HBBDropView *dropView;
+@property (readwrite, weak, nonatomic) IBOutlet NSView *leftPaneView;
+@property (readwrite, weak, nonatomic) IBOutlet NSButton *chooseOutputFolder;
+@property (readwrite, weak, nonatomic) IBOutlet NSWindow *window;
 
 @property (readwrite, strong, nonatomic) NSMutableArray *inputFiles;
 @property (readwrite, strong, nonatomic) NSArray *presets;

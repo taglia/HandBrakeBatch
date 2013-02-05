@@ -10,6 +10,8 @@
 
 #import "HBBPreferencesController.h"
 
+#import "HBBLangData.h"
+
 @interface HBBPreferencesController ()
 
 @property (readwrite, weak, nonatomic) IBOutlet NSButton *maintainTimestamps;

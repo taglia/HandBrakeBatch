@@ -10,9 +10,11 @@
 
 #import "HBBAppDelegate.h"
 #import "HBBInputFile.h"
-#import "HBBProgressController.h"
 #import "HBBPresets.h"
 #import "HBBDropView.h"
+#import "HBBProgressController.h"
+#import "HBBPreferencesController.h"
+#import "RSRTVArrayController.h"
 
 @interface HBBAppDelegate ()
 

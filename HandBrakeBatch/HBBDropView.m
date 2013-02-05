@@ -10,6 +10,10 @@
 
 #import "HBBDropView.h"
 
+#import "RSRTVArrayController.h"
+#import "HBBInputFile.h"
+#import "HBBAppDelegate.h"
+
 @interface HBBDropView ()
 
 @property (readwrite, weak, nonatomic) IBOutlet RSRTVArrayController *fileNamesController;

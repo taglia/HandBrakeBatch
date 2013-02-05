@@ -9,7 +9,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "HBBInputFile.h"
 
 #define COMPLETE_NOTIFICATION @ "HBBConversionCompleted"
 #define PROCESSED_QUEUE_KEY	  @ "HBBProcessedQueue"

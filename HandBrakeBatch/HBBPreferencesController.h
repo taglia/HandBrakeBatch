@@ -9,7 +9,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "HBBLangData.h"
 
 @interface HBBPreferencesController : NSWindowController <NSComboBoxDataSource>
 

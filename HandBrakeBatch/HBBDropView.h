@@ -9,9 +9,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "RSRTVArrayController.h"
-#import "HBBInputFile.h"
-#import "HBBAppDelegate.h"
 
 @interface HBBDropView : NSView
 

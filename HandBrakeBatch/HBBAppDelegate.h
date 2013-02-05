@@ -10,9 +10,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import <Growl/Growl.h>
-#import "HBBProgressController.h"
-#import "HBBPreferencesController.h"
-#import "RSRTVArrayController.h"
+
+@class HBBProgressController, HBBPreferencesController, RSRTVArrayController;
 
 @class HBBDropView;
 

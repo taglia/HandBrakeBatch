@@ -13,6 +13,7 @@
 #import "HBBProgressController.h"
 #import "HBBPresets.h"
 #import "HBBLangData.h"
+#import "HBBInputFile.h"
 
 #define FILES_OK			0
 #define FILE_EXISTS			1

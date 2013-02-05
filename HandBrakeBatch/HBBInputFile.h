@@ -23,19 +23,19 @@
     NSInteger size;
 }
 
-@property (readonly)NSString *name;
-@property (readonly)NSString *inputPath;
-@property (readonly)NSString *outputPath;
-@property (readonly)NSString *tempOutputPath;
-@property (assign)NSURL *inputURL;
-@property (assign)NSURL *outputURL;
-@property (assign)NSURL *tempOutputURL;
-@property (readonly)NSInteger size;
-@property (readonly)NSArray *audioLanguages;
-@property (readonly)NSArray *subtitleLanguages;
+@property (readonly) NSString *name;
+@property (readonly) NSString *inputPath;
+@property (readonly) NSString *outputPath;
+@property (readonly) NSString *tempOutputPath;
+@property (assign) NSURL *inputURL;
+@property (assign) NSURL *outputURL;
+@property (assign) NSURL *tempOutputURL;
+@property (readonly) NSInteger size;
+@property (readonly) NSArray *audioLanguages;
+@property (readonly) NSArray *subtitleLanguages;
 
-- (id)initWithURL:(NSURL *)u;
--(id)initWithCoder:(NSCoder *)decoder;
--(void)encodeWithCoder:(NSCoder *)coder;
+- (id)initWithURL:(NSURL *)url;
+- (id)initWithCoder:(NSCoder *)decoder;
+- (void)encodeWithCoder:(NSCoder *)coder;
 
 @end

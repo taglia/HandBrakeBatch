@@ -48,6 +48,6 @@
 - (IBAction)showPreferences:(id)sender;
 - (IBAction)donate:(id)sender;
 
--(void)processFiles:(NSURL *)url;
+- (void)processFiles:(NSURL *)url;
 
 @end

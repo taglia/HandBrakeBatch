@@ -12,7 +12,7 @@
 
 @implementation HBBPreferencesController
 
-- (void)toggleLanguage: (bool)enable {
+- (void)toggleLanguage:(bool)enable {
     if (enable) {
         [subtitleBox setEnabled:true];
         [audioBox setEnabled:true];
@@ -26,8 +26,7 @@
     }
 }
 
-- (id)init
-{
+- (id)init {
 	self = [super initWithWindowNibName:@"Preferences"];
     
     // Language radio buttons initialization
@@ -49,20 +48,16 @@
 	return self;
 }
 
-- (id)initWithWindow:(NSWindow *)window
-{
+- (id)initWithWindow:(NSWindow *)window {
     self = [super initWithWindow:window];
     if (self) {
         // Initialization code here.
     }
-    
     return self;
 }
 
-- (void)windowDidLoad
-{
+- (void)windowDidLoad {
     [super windowDidLoad];
-    
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBScanEnabled"]) {
         [self toggleLanguage:true];
     } else {
@@ -78,22 +73,23 @@
     return [languages objectAtIndex:index];
 }
 
--(IBAction)languageSelected:(id)sender {
+- (IBAction)languageSelected:(id)sender {
     NSComboBox *box = sender;
     
-    if ( [languages containsObject:[box stringValue]] )
+    if ([languages containsObject:[box stringValue]]) {
         return;
-    
+	}
     NSBeginAlertSheet(@"Unknown Language!", @"Ok", nil, nil, [self window], nil, NULL, NULL, NULL, @"Please select a language from the dropdown list.");
     [box setStringValue:@"English"];
     
-    if (sender == audioBox)
+    if (sender == audioBox) {
         [[NSUserDefaults standardUserDefaults] setValue:@"English" forKey:@"HBBAudioPreferredLanguage"];
-    else
+    } else {
         [[NSUserDefaults standardUserDefaults] setValue:@"English" forKey:@"HBBSubtitlePreferredLanguage"];
+	}
 }
 
--(IBAction)toggleLanguageScan:(id)sender {
+- (IBAction)toggleLanguageScan:(id)sender {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBScanEnabled"]) {
         [self toggleLanguage:true];
     } else {

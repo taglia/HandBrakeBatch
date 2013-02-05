@@ -59,8 +59,8 @@
 
 @property (assign) NSArray *queue;
 
-- (IBAction) cancelButtonAction:(id)sender;
-- (IBAction) pauseButtonAction:(id)sender;
-- (void) processQueue;
+- (IBAction)cancelButtonAction:(id)sender;
+- (IBAction)pauseButtonAction:(id)sender;
+- (void)processQueue;
 
 @end

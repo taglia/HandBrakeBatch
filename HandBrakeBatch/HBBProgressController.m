@@ -34,7 +34,7 @@ static long int currentFile = 1;
 
 static NSMutableString *stdErrorString;
 
-- (id) init {
+- (id)init {
     self = [super initWithWindowNibName:@"HBBProgressWindow"];
 
     processedQueue = [[NSMutableArray alloc] init];
@@ -44,8 +44,7 @@ static NSMutableString *stdErrorString;
     return self;
 }
 
-- (void)windowDidLoad
-{
+- (void)windowDidLoad {
     [super windowDidLoad];
 }
 
@@ -124,7 +123,7 @@ static NSMutableString *stdErrorString;
         } else { // Preferred language (if available)
             NSString *bCode = [[HBBLangData defaultHBBLangData] langBCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBAudioPreferredLanguage"]];
             NSString *tCode = [[HBBLangData defaultHBBLangData] langTCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBAudioPreferredLanguage"]];
-            int i=1;
+            int i = 1;
             for (NSString *lang in audioLanguages) {
                 if ([lang isEqualToString:bCode] || [lang isEqualToString:tCode]) {
                     [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-a", [NSString stringWithFormat:@"%d", i], nil]];
@@ -147,15 +146,14 @@ static NSMutableString *stdErrorString;
         } else if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBSubtitleSelection"] == 1) { // Preferred language (if available)
             NSString *bCode = [[HBBLangData defaultHBBLangData] langBCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBSubtitlePreferredLanguage"]];
             NSString *tCode = [[HBBLangData defaultHBBLangData] langTCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBSubtitlePreferredLanguage"]];
-            int i=1;
+            int i = 1;
             for (NSString *lang in subtitleLanguages) {
                 if ([lang isEqualToString:bCode] || [lang isEqualToString:tCode]) {
                     [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-s", [NSString stringWithFormat:@"%d", i], nil]];
-                    
                     // Burn subtitles if required
-                    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBSubtitleBurn"])
+                    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBSubtitleBurn"]) {
                         [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"--subtitle-burn", [NSString stringWithFormat:@"%d", i], nil]];
-                        
+					}
                     break;
                 }
                 ++i;
@@ -167,9 +165,9 @@ static NSMutableString *stdErrorString;
     
     // Log arguments to CLI
     NSMutableString *args = [[NSMutableString alloc] init];
-    for (NSString *arg in allArguments)
+    for (NSString *arg in allArguments) {
         [args appendFormat:@"%@ ", arg];
-    
+    }
     NSLog(@"Calling CLI with arguments: %@", args);
     
     [backgroundTask setArguments: allArguments];
@@ -271,11 +269,11 @@ static NSMutableString *stdErrorString;
     preset = [presets objectForKey:selectedPresetName];
     // Parsing arguments from preset line
     // The MPEG-4 file extension can be configured in the preferences
-    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBMPEG4Extension"] == M4V_EXTENSION)
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBMPEG4Extension"] == M4V_EXTENSION) {
         fileExtension = @"m4v";
-    else
+    } else {
         fileExtension = @"mp4";
-    
+    }
     arguments = [[NSMutableArray alloc] init];
 
     BOOL ignoreFollowing = false;
@@ -290,8 +288,9 @@ static NSMutableString *stdErrorString;
                 [arguments addObject:currentArg];
                 
                 // In case a preset specifies an mkv container as output format
-                if ([currentArg isEqualToString:@"mkv"])
+                if ([currentArg isEqualToString:@"mkv"]) {
                     fileExtension = @"mkv";
+				}
             }
         } else {
             ignoreFollowing = false;
@@ -329,7 +328,7 @@ static NSMutableString *stdErrorString;
     
     [elapsed setStringValue:[self formatTime:overallElapsedTime]];
     
-    if(suspended) {
+    if (suspended) {
         [currentETA setStringValue:@"--:--:--"];
         [pausedLabel setHidden:![pausedLabel isHidden]];
         return;
@@ -338,10 +337,10 @@ static NSMutableString *stdErrorString;
 
 #pragma mark Notification methods
 
--(void) taskCompleted:(NSNotification *)notification {
-    if ([notification object] != backgroundTask || cancel || [currentQueue count] == 0)
+- (void)taskCompleted:(NSNotification *)notification {
+    if ([notification object] != backgroundTask || cancel || [currentQueue count] == 0) {
         return;
-    
+    }
     // Removing observers for stdout and stderr
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSFileHandleReadCompletionNotification object:[[backgroundTask standardOutput] fileHandleForReading]];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSFileHandleReadCompletionNotification object:[[backgroundTask standardError]  fileHandleForReading]];
@@ -350,8 +349,7 @@ static NSMutableString *stdErrorString;
     NSFileHandle *file = [[backgroundTask standardError] fileHandleForReading];
     NSData *data = [file readDataToEndOfFile];
     
-    if ([data length])
-    {
+    if ([data length]) {
         NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         [stdErrorString appendString:message];
     }
@@ -409,7 +407,7 @@ static NSMutableString *stdErrorString;
     // Check if all files have been processed
     if ([currentQueue count] == 0) {
         // Growl notification
-        if ( ![[NSUserDefaults standardUserDefaults] boolForKey:@"HBBNotificationsDisabled"] ) {
+        if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HBBNotificationsDisabled"]) {
             [GrowlApplicationBridge notifyWithTitle:@"HandBrakeBatch"
                                         description:@"All files have been converted"
                                    notificationName:@"All files converted"
@@ -494,12 +492,10 @@ static NSMutableString *stdErrorString;
     [backgroundTask launch];
 }
 
-- (void) getData: (NSNotification *)aNotification
-{
+- (void)getData:(NSNotification *)aNotification {
     NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
     
-    if ([data length])
-    {
+    if ([data length]) {
         NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         
         // Searching percentage of progress
@@ -528,27 +524,26 @@ static NSMutableString *stdErrorString;
     }
     
     // we need to schedule the file handle go read more data in the background again.
-    if ([backgroundTask isRunning])
+    if ([backgroundTask isRunning]) {
         [[aNotification object] readInBackgroundAndNotify];
+	}
 }
 
-- (void) storestdErrorString: (NSNotification *)aNotification
-{
+- (void)storestdErrorString:(NSNotification *)aNotification {
     NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
-    
-    if ([data length])
-    {
+    if ([data length]) {
         NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         [stdErrorString appendString:message];
     }
     
     // we need to schedule the file handle go read more data in the background again.
-    if ([backgroundTask isRunning])
+    if ([backgroundTask isRunning]) {
         [[aNotification object] readInBackgroundAndNotify];
+	}
 }
 
 // Called when the alert sheet is dismissed
--(void) sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     if ([(NSString *)contextInfo isEqual:@"Warning"]) {
         if (returnCode == NSAlertDefaultReturn) {
             [self startConversion];

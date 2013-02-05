@@ -15,10 +15,10 @@
     sqlite3 *dbHandle;
 }
 
-+(HBBLangData *)defaultHBBLangData;
--(NSArray *)languageList;
--(NSString *)langTCode: (NSString *)langName;
--(NSString *)langBCode: (NSString *)langName;
--(NSString *)langName: (NSString *)langCode;
++ (HBBLangData *)defaultHBBLangData;
+- (NSArray *)languageList;
+- (NSString *)langTCode:(NSString *)langName;
+- (NSString *)langBCode:(NSString *)langName;
+- (NSString *)langName:(NSString *)langCode;
 
 @end

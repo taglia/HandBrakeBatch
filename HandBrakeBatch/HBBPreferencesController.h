@@ -26,7 +26,7 @@
 
 }
 
--(IBAction)languageSelected:(id)sender;
--(IBAction)toggleLanguageScan:(id)sender;
+- (IBAction)languageSelected:(id)sender;
+- (IBAction)toggleLanguageScan:(id)sender;
 
 @end

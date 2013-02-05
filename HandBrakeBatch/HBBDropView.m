@@ -15,8 +15,7 @@
 static bool drawFocusRing = false;
 static bool dropping = false;
 
-- (id)initWithFrame:(NSRect)frame
-{
+- (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
@@ -81,9 +80,8 @@ static bool dropping = false;
 	return YES;
 }
 
--(void) processDraggedItems:(NSArray *)items {
-    dropping=true;
-    
+- (void) processDraggedItems:(NSArray *)items {
+    dropping = true;
     [startButton setEnabled:NO];
     [startButton setTitle:@"Processing…"];
     [progressIndicator setHidden:NO];

@@ -14,11 +14,10 @@ static HBBLangData *instance = nil;
 
 @implementation HBBLangData
 
-+(HBBLangData *)defaultHBBLangData {
++ (HBBLangData *)defaultHBBLangData {
     if (instance == nil) {
         instance = [[HBBLangData alloc] init];
     }
-    
     return instance;
 }
 
@@ -85,17 +84,17 @@ static HBBLangData *instance = nil;
     return result;
 }
 
--(NSString *)langBCode: (NSString *)langName {
+- (NSString *)langBCode: (NSString *)langName {
     NSString *statementString = [NSString stringWithFormat:@"SELECT Part2B FROM ISO_639_2 WHERE Ref_Name_EN = '%@'", langName];
     return [self execSimpleStatement:statementString];
 }
 
--(NSString *)langTCode: (NSString *)langName {
+- (NSString *)langTCode: (NSString *)langName {
     NSString *statementString = [NSString stringWithFormat:@"SELECT Part2T FROM ISO_639_2 WHERE Ref_Name_EN = '%@'", langName];
     return [self execSimpleStatement:statementString];
 }
 
--(NSString *)langName: (NSString *)langCode {
+- (NSString *)langName: (NSString *)langCode {
     NSString *statementString = [NSString stringWithFormat:@"SELECT Ref_Name_EN FROM ISO_639_2 WHERE Part2B = '%@' OR Part2T = '%@'", langCode, langCode];
     return [self execSimpleStatement:statementString];
 }

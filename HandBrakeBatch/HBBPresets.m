@@ -16,8 +16,7 @@
 
 static HBBPresets *instance;
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
         [self initPresets];
@@ -85,8 +84,9 @@ static HBBPresets *instance;
        	}
         
         // Preset file probably corrupted
-        if ( [tempDict count] == 0 )
+        if ( [tempDict count] == 0 ) {
             NSBeginAlertSheet(@"Unable to read HandBrake custom presets", @"Ok", nil, nil, nil, nil, NULL, NULL, NULL, @"The custom preset file might be corrupted, the application will show the default presets only.");
+		}
     }
     
     // If no presets, use the default ones
@@ -103,11 +103,10 @@ static HBBPresets *instance;
 
 + (id)hbbPresets {
     
-    if(instance)
+    if (instance) {
         return instance;
-    
-    @synchronized(self)
-    {
+    }
+    @synchronized(self) {
         instance = [[self alloc] init];
     }
     return instance;

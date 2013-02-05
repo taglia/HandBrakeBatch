@@ -16,11 +16,11 @@
     NSMutableArray *subtitleLanguages;
 }
 
-@property (assign)NSString *fileName;
-@property (readonly)NSArray *audioLanguages;
-@property (readonly)NSArray *subtitleLanguages;
+@property (assign) NSString *fileName;
+@property (readonly) NSArray *audioLanguages;
+@property (readonly) NSArray *subtitleLanguages;
 
--(id)initWithFile:(NSString *)path;
--(void)scan;
+- (id)initWithFile:(NSString *)path;
+- (void)scan;
 
 @end

@@ -49,9 +49,9 @@
     presets = [[[[HBBPresets hbbPresets] presets] allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     
     // Store first launch date in the preferences
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"HBBFirstLaunchDate"] == nil)
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"HBBFirstLaunchDate"] == nil) {
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"HBBFirstLaunchDate"];
-    
+    }
     return self;
 }
 
@@ -64,8 +64,7 @@
     [GrowlApplicationBridge setGrowlDelegate:self];
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [dropView setAppDelegate:self];
     [dropView registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
     
@@ -120,16 +119,16 @@
     [panel setCanCreateDirectories:YES];
     NSString *outputFolder = [[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"];
     
-    BOOL outputFolderExists = false;
+    BOOL outputFolderExists = NO;
     if (outputFolder) {
         BOOL isDir;
         outputFolderExists = [[NSFileManager defaultManager] fileExistsAtPath:outputFolder isDirectory:&isDir];
         outputFolderExists &= isDir;
     }
     
-    if (outputFolderExists)
+    if (outputFolderExists) {
         [panel setDirectoryURL:[NSURL fileURLWithPath:outputFolder]];
-
+	}
     
     if ([panel runModal] == NSOKButton) {
         NSString *path = [[panel directoryURL] path];
@@ -143,19 +142,14 @@
         NSBeginAlertSheet(@"No files to convert", @"Ok", nil, nil, [self window], nil, NULL, NULL, NULL, @"Please drag some files in the table.");
         return;
     }
-    
     // Warn the user if the output folder is not set
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"OutputFolder"] length] == 0 && ![[NSUserDefaults standardUserDefaults] objectForKey:@"HBBDestinationSameAsSource"]) {
         NSBeginAlertSheet(@"No output folder", @"Ok", nil, nil, [self window], nil, NULL, NULL, NULL, @"Please select an output folder.");
         return;
     }
-    
     progressController = [[HBBProgressController alloc] init];
-    
     [progressController loadWindow];
-    
     [[self window] orderOut:nil];
-    
     [progressController setQueue:[fileNamesController arrangedObjects]];
     [progressController processQueue];
 }
@@ -166,26 +160,26 @@
 
 - (IBAction)presetSelected:(id)sender {
     NSPopUpButton *control = sender;
-    
     NSString *selectedPreset = [[control selectedItem] title];
     [[NSUserDefaults standardUserDefaults] setObject:selectedPreset forKey:@"PresetName"];
 }
 
 #pragma mark Managing supported files
 
--(BOOL) application:(NSApplication *)sender openFile:(NSString *)filename {
+- (BOOL) application:(NSApplication *)sender openFile:(NSString *)filename {
     NSURL *completeFileName = [NSURL fileURLWithPath:filename];
     [self processFiles:completeFileName];
     return TRUE;
 }
 
 // Check if the movie is already present in the queue
--(BOOL) isDuplicate:(HBBInputFile *)file {
+- (BOOL) isDuplicate:(HBBInputFile *)file {
     NSArray *files = [fileNamesController arrangedObjects];
     
     for (HBBInputFile *f in files) {
-        if ([[f inputPath] isEqualToString:[file inputPath]])
+        if ([[f inputPath] isEqualToString:[file inputPath]]) {
             return true;
+		}
     }
     return false;
 }
@@ -201,11 +195,10 @@
         if ([[[url path] lastPathComponent] isEqualToString:@"VIDEO_TS"]) {
             // Getting the name of the enclosing folder
             NSURL *enclosingFolderURL = [NSURL fileURLWithPath:[[url path] stringByDeletingLastPathComponent]];
-            
             HBBInputFile *input = [[HBBInputFile alloc] initWithURL:enclosingFolderURL];
-            if ([self isDuplicate:input])
+            if ([self isDuplicate:input]) {
                 return;
-            
+            }
             [fileNamesController performSelectorOnMainThread:@selector(addObject:) withObject:input waitUntilDone:YES ];
             [leftPaneView setNeedsDisplay:YES];
             [leftPaneView display];
@@ -213,14 +206,15 @@
             NSDirectoryEnumerationOptions options = NSDirectoryEnumerationSkipsHiddenFiles | NSDirectoryEnumerationSkipsPackageDescendants | NSDirectoryEnumerationSkipsSubdirectoryDescendants;
             NSDirectoryEnumerator *dirEnum = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:options errorHandler:nil];
             NSURL *itemURL;
-            while (itemURL = [dirEnum nextObject])
+            while (itemURL = [dirEnum nextObject]) {
                 [self processFiles:itemURL];
+			}
         }
     } else if ([fileType isEqualToString:NSFileTypeRegular] && [videoExtensions containsObject:[[[url path] pathExtension] lowercaseString]]) {
         HBBInputFile *input = [[HBBInputFile alloc] initWithURL:url];
-        if ([self isDuplicate:input])
+        if ([self isDuplicate:input]){
             return;
-        
+        }
         [fileNamesController performSelectorOnMainThread:@selector(addObject:) withObject:input waitUntilDone:YES ];
         [leftPaneView setNeedsDisplay:YES];
         [leftPaneView display];
@@ -245,10 +239,9 @@
 }
 
 #pragma mark Other
--(void) conversionCompleted:(NSNotification *)notification {
+- (void) conversionCompleted:(NSNotification *)notification {
     [[self window] makeKeyAndOrderFront:nil];
     NSArray *processed = [[notification userInfo] objectForKey:PROCESSED_QUEUE_KEY];
-    
     [fileNamesController removeObjects:processed];
 }
 
@@ -258,10 +251,10 @@
 //                                   //
 ///////////////////////////////////////
 
-- (IBAction)showPreferences:(id)sender
-{
-    if (!preferencesController)
+- (IBAction)showPreferences:(id)sender {
+    if (!preferencesController) {
         preferencesController = [[HBBPreferencesController alloc] init];
+	}
     [preferencesController showWindow:self];
 }
 

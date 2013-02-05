@@ -15,17 +15,17 @@
 @implementation HBBInputFile
 @synthesize inputURL, outputURL, tempOutputURL, size, audioLanguages, subtitleLanguages;
 
-- (id)initWithURL:(NSURL *)u {
-    self = [super init];
+- (id)initWithURL:(NSURL *)url {
+    self = [self init];
     
     if (self) {
-        [self setInputURL:u];
+        [self setInputURL:url];
         NSFileManager *man = [[NSFileManager alloc] init];
-        NSDictionary *attrs = [man attributesOfItemAtPath: [u path] error: NULL];
+        NSDictionary *attrs = [man attributesOfItemAtPath: [url path] error: NULL];
         size = (NSInteger)[attrs fileSize];
 
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBScanEnabled"]) {
-            HBBVideoScan *scan = [[HBBVideoScan alloc] initWithFile:[u path]];
+            HBBVideoScan *scan = [[HBBVideoScan alloc] initWithFile:[url path]];
         
             [scan scan];
         
@@ -86,7 +86,7 @@
 }
 
 // NSCoding methods
--(id)initWithCoder:(NSCoder *)coder{
+- (id)initWithCoder:(NSCoder *)coder {
     if (self=[super init]) {
         [self setInputURL:[coder decodeObject]];
         [self setOutputURL:[coder decodeObject]];
@@ -111,7 +111,7 @@
     return self;
 }
 
--(void)encodeWithCoder:(NSCoder *)coder{
+- (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:inputURL];
     [coder encodeObject:outputURL];
     [coder encodeObject:tempOutputURL];

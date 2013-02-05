@@ -18,7 +18,7 @@
 
 @property (assign) NSDictionary *presets;
 
-+(id)hbbPresets;
--(void)initPresets;
++ (id)hbbPresets;
+- (void)initPresets;
 
 @end

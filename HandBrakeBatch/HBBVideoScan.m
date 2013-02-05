@@ -14,7 +14,7 @@
 
 @synthesize fileName, audioLanguages, subtitleLanguages;
 
--(id)initWithFile:(NSString *)path {
+- (id)initWithFile:(NSString *)path {
     self = [self init];
     
     [self setFileName:path];
@@ -33,7 +33,7 @@
     return self;
 }
 
--(void)scan {
+- (void)scan {
     NSTask *task = [[NSTask alloc] init];
     NSPipe *stdOutPipe = [NSPipe pipe];
     
@@ -53,9 +53,9 @@
     }
     
     // If the scan is not completed in 5 seconds, let's kill it
-    if ([task isRunning])
+    if ([task isRunning]) {
         [task terminate];
-    
+    }
     NSData *output = [[stdOutPipe fileHandleForReading] readDataToEndOfFile];
     
     NSString *stringData = [NSString stringWithCString:[output bytes] encoding:NSASCIIStringEncoding];

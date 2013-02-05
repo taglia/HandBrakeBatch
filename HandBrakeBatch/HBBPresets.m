@@ -10,6 +10,11 @@
 
 #import "HBBPresets.h"
 
+@interface HBBPresets ()
+
+@property (readwrite, strong, nonatomic) NSDictionary *presets;
+
+@end
 
 @implementation HBBPresets
 @synthesize presets;
@@ -98,7 +103,7 @@ static HBBPresets *instance;
     }
     
     // Initialize the preset dictionary
-    [self setPresets:tempDict];
+    self.presets = tempDict;
 }
 
 + (id)hbbPresets {

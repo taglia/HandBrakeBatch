@@ -10,13 +10,9 @@
 
 #import <Foundation/Foundation.h>
 
+@interface HBBPresets : NSObject
 
-@interface HBBPresets : NSObject {
-@private
-    NSDictionary *presets;
-}
-
-@property (assign) NSDictionary *presets;
+@property (readonly, strong, nonatomic) NSDictionary *presets;
 
 + (id)hbbPresets;
 - (void)initPresets;

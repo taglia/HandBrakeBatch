@@ -11,31 +11,21 @@
 
 #import <Foundation/Foundation.h>
 
-@interface HBBInputFile : NSObject <NSCoding> {
-    NSURL *inputURL;
-    NSURL *outputURL;
-    NSURL *tempOutputURL;
-    
-    NSArray *audioLanguages;
-    NSArray *subtitleLanguages;
-    
-    // Used to compute the ETA
-    NSInteger size;
-}
+@interface HBBInputFile : NSObject <NSCoding>
 
-@property (readonly)NSString *name;
-@property (readonly)NSString *inputPath;
-@property (readonly)NSString *outputPath;
-@property (readonly)NSString *tempOutputPath;
-@property (assign)NSURL *inputURL;
-@property (assign)NSURL *outputURL;
-@property (assign)NSURL *tempOutputURL;
-@property (readonly)NSInteger size;
-@property (readonly)NSArray *audioLanguages;
-@property (readonly)NSArray *subtitleLanguages;
+@property (readonly, strong, nonatomic) NSString *name;
+@property (readonly, strong, nonatomic) NSString *inputPath;
+@property (readonly, strong, nonatomic) NSString *outputPath;
+@property (readonly, strong, nonatomic) NSString *tempOutputPath;
+@property (readonly, strong, nonatomic) NSURL *inputURL;
+@property (readwrite, strong, nonatomic) NSURL *outputURL;
+@property (readwrite, strong, nonatomic) NSURL *tempOutputURL;
+@property (readonly, assign, nonatomic) NSUInteger size;
+@property (readonly, strong, nonatomic) NSArray *audioLanguages;
+@property (readonly, strong, nonatomic) NSArray *subtitleLanguages;
 
-- (id)initWithURL:(NSURL *)u;
--(id)initWithCoder:(NSCoder *)decoder;
--(void)encodeWithCoder:(NSCoder *)coder;
+- (id)initWithURL:(NSURL *)url;
+- (id)initWithCoder:(NSCoder *)decoder;
+- (void)encodeWithCoder:(NSCoder *)coder;
 
 @end

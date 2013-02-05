@@ -10,95 +10,112 @@
 
 #import "HBBPreferencesController.h"
 
+#import "HBBLangData.h"
+
+@interface HBBPreferencesController ()
+
+@property (readwrite, weak, nonatomic) IBOutlet NSButton *maintainTimestamps;
+@property (readwrite, weak, nonatomic) IBOutlet NSPopUpButton *mpeg4Extension;
+
+@property (readwrite, weak, nonatomic) IBOutlet NSComboBox *audioBox;
+@property (readwrite, weak, nonatomic) IBOutlet NSComboBox *subtitleBox;
+@property (readwrite, weak, nonatomic) IBOutlet NSMatrix *audioMatrix;
+@property (readwrite, weak, nonatomic) IBOutlet NSMatrix *subtitleMatrix;
+
+@property (readwrite, strong, nonatomic) HBBLangData *langData;
+@property (readwrite, strong, nonatomic) NSArray *languages;
+
+@end
+
 @implementation HBBPreferencesController
 
-- (void)toggleLanguage: (bool)enable {
-    if (enable) {
-        [subtitleBox setEnabled:true];
-        [audioBox setEnabled:true];
-        [subtitleMatrix setEnabled:true];
-        [audioMatrix setEnabled:true];
-    } else {
-        [subtitleBox setEnabled:false];
-        [audioBox setEnabled:false];
-        [subtitleMatrix setEnabled:false];
-        [audioMatrix setEnabled:false];
-    }
+- (void)toggleLanguage:(bool)enable {
+	if (enable) {
+		[self.subtitleBox setEnabled:YES];
+		[self.audioBox setEnabled:YES];
+		[self.subtitleMatrix setEnabled:YES];
+		[self.audioMatrix setEnabled:YES];
+	} else {
+		[self.subtitleBox setEnabled:NO];
+		[self.audioBox setEnabled:NO];
+		[self.subtitleMatrix setEnabled:NO];
+		[self.audioMatrix setEnabled:NO];
+	}
 }
 
-- (id)init
-{
+- (id)init {
 	self = [super initWithWindowNibName:@"Preferences"];
-    
-    // Language radio buttons initialization
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"HBBAudioSelection"] == nil) {
-        [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"HBBAudioSelection"];
-    }
-    
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"HBBSubtitleSelection"] == nil) {
-        [[NSUserDefaults standardUserDefaults] setInteger:2 forKey:@"HBBSubtitleSelection"];
-    }
-    
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"HBBScanEnabled"] == nil) {
-        [[NSUserDefaults standardUserDefaults] setBool:true forKey:@"HBBScanEnabled"];
-    }
-    
-    langData = [HBBLangData defaultHBBLangData];
-    languages = [langData languageList];
-    
+
+	// Language radio buttons initialization
+	if ([[NSUserDefaults standardUserDefaults] objectForKey:@"HBBAudioSelection"] == nil) {
+		[[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"HBBAudioSelection"];
+	}
+
+	if ([[NSUserDefaults standardUserDefaults] objectForKey:@"HBBSubtitleSelection"] == nil) {
+		[[NSUserDefaults standardUserDefaults] setInteger:2 forKey:@"HBBSubtitleSelection"];
+	}
+
+	if ([[NSUserDefaults standardUserDefaults] objectForKey:@"HBBScanEnabled"] == nil) {
+		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HBBScanEnabled"];
+	}
+
+	self.langData = [HBBLangData defaultHBBLangData];
+	self.languages = [self.langData languageList];
+
 	return self;
 }
 
-- (id)initWithWindow:(NSWindow *)window
-{
-    self = [super initWithWindow:window];
-    if (self) {
-        // Initialization code here.
-    }
-    
-    return self;
+- (id)initWithWindow:(NSWindow *)window {
+	self = [super initWithWindow:window];
+
+	if (self) {
+		// Initialization code here.
+	}
+
+	return self;
 }
 
-- (void)windowDidLoad
-{
-    [super windowDidLoad];
-    
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBScanEnabled"]) {
-        [self toggleLanguage:true];
-    } else {
-        [self toggleLanguage:false];
-    }
+- (void)windowDidLoad {
+	[super windowDidLoad];
+
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBScanEnabled"]) {
+		[self toggleLanguage:YES];
+	} else {
+		[self toggleLanguage:NO];
+	}
 }
 
 - (NSInteger)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
-    return [languages count];
+	return [self.languages count];
 }
 
 - (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)index {
-    return [languages objectAtIndex:index];
+	return (self.languages)[index];
 }
 
--(IBAction)languageSelected:(id)sender {
-    NSComboBox *box = sender;
-    
-    if ( [languages containsObject:[box stringValue]] )
-        return;
-    
-    NSBeginAlertSheet(@"Unknown Language!", @"Ok", nil, nil, [self window], nil, NULL, NULL, NULL, @"Please select a language from the dropdown list.");
-    [box setStringValue:@"English"];
-    
-    if (sender == audioBox)
-        [[NSUserDefaults standardUserDefaults] setValue:@"English" forKey:@"HBBAudioPreferredLanguage"];
-    else
-        [[NSUserDefaults standardUserDefaults] setValue:@"English" forKey:@"HBBSubtitlePreferredLanguage"];
+- (IBAction)languageSelected:(id)sender {
+	NSComboBox *box = sender;
+
+	if ([self.languages containsObject:[box stringValue]]) {
+		return;
+	}
+
+	NSBeginAlertSheet(@"Unknown Language!", @"Ok", nil, nil, [self window], nil, NULL, NULL, NULL, @"Please select a language from the dropdown list.");
+	[box setStringValue:@"English"];
+
+	if (sender == self.audioBox) {
+		[[NSUserDefaults standardUserDefaults] setValue:@"English" forKey:@"HBBAudioPreferredLanguage"];
+	} else {
+		[[NSUserDefaults standardUserDefaults] setValue:@"English" forKey:@"HBBSubtitlePreferredLanguage"];
+	}
 }
 
--(IBAction)toggleLanguageScan:(id)sender {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBScanEnabled"]) {
-        [self toggleLanguage:true];
-    } else {
-        [self toggleLanguage:false];
-    }
+- (IBAction)toggleLanguageScan:(id)sender {
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBScanEnabled"]) {
+		[self toggleLanguage:YES];
+	} else {
+		[self toggleLanguage:NO];
+	}
 }
 
 @end

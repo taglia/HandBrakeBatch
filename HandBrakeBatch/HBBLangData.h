@@ -9,16 +9,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <sqlite3.h>
 
-@interface HBBLangData : NSObject {
-    sqlite3 *dbHandle;
-}
+@interface HBBLangData : NSObject
 
-+(HBBLangData *)defaultHBBLangData;
--(NSArray *)languageList;
--(NSString *)langTCode: (NSString *)langName;
--(NSString *)langBCode: (NSString *)langName;
--(NSString *)langName: (NSString *)langCode;
++ (HBBLangData *)defaultHBBLangData;
+- (NSArray *)languageList;
+- (NSString *)langTCode:(NSString *)langName;
+- (NSString *)langBCode:(NSString *)langName;
+- (NSString *)langName:(NSString *)langCode;
 
 @end

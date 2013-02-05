@@ -31,7 +31,7 @@
 		0EEC80401369B4EA00D05124 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EEC803F1369B4EA00D05124 /* Cocoa.framework */; };
 		0EEC804A1369B4EA00D05124 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80481369B4EA00D05124 /* InfoPlist.strings */; };
 		0EEC804D1369B4EA00D05124 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC804C1369B4EA00D05124 /* main.m */; };
-		0EEC80531369B4EA00D05124 /* HandBrakeBatchAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */; };
+		0EEC80531369B4EA00D05124 /* HBBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC80521369B4EA00D05124 /* HBBAppDelegate.m */; };
 		0EEC80561369B4EA00D05124 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80541369B4EA00D05124 /* MainMenu.xib */; };
 		0EF72315136CFCE100D223F4 /* gpl-3.0.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0EF72314136CFCE100D223F4 /* gpl-3.0.txt */; };
 		0EF8EF95136CFEB700884AE8 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0EF8EF93136CFEB700884AE8 /* Credits.rtf */; };
@@ -66,11 +66,11 @@
 
 /* Begin PBXFileReference section */
 		0E108B69136C47F200168057 /* HBBProgressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBProgressController.h; sourceTree = "<group>"; };
-		0E108B6A136C47F200168057 /* HBBProgressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBProgressController.m; sourceTree = "<group>"; };
+		0E108B6A136C47F200168057 /* HBBProgressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HBBProgressController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0E18546A136C4222004B5558 /* HBBProgressWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HBBProgressWindow.xib; sourceTree = "<group>"; };
 		0E337A4515144FCC006150DD /* RSRTVArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSRTVArrayController.h; sourceTree = "<group>"; };
 		0E337A4615144FCC006150DD /* RSRTVArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSRTVArrayController.m; sourceTree = "<group>"; };
-		0E49A75B137642B700FB3B77 /* generator.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = generator.rb; sourceTree = "<group>"; };
+		0E49A75B137642B700FB3B77 /* generator.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; lineEnding = 0; path = generator.rb; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		0E49A75C137642B700FB3B77 /* parser.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = parser.rb; sourceTree = "<group>"; };
 		0E49A75E137642B700FB3B77 /* plist.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = plist.rb; sourceTree = "<group>"; };
 		0E49A76613764A1500FB3B77 /* HBBPresets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBPresets.h; sourceTree = "<group>"; };
@@ -85,13 +85,13 @@
 		0E933F9C14C47C8000A5BB1D /* HBBVideoScan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBVideoScan.m; sourceTree = "<group>"; };
 		0E987E2013E4062C00A99716 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		0E987E2213E4083900A99716 /* HBBPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBPreferencesController.h; sourceTree = "<group>"; };
-		0E987E2313E4083900A99716 /* HBBPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBPreferencesController.m; sourceTree = "<group>"; };
+		0E987E2313E4083900A99716 /* HBBPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HBBPreferencesController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0E9B4909136C874000FCDC68 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		0EB54A431596B7FD00EE2AB4 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		0EB54A441596B7FD00EE2AB4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0EB54A4A1596CDBC00EE2AB4 /* HBBDropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBDropView.h; sourceTree = "<group>"; };
-		0EB54A4B1596CDBC00EE2AB4 /* HBBDropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBDropView.m; sourceTree = "<group>"; };
-		0EC6D60315C002F70016775D /* manicure.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = manicure.rb; sourceTree = "<group>"; };
+		0EB54A4B1596CDBC00EE2AB4 /* HBBDropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HBBDropView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		0EC6D60315C002F70016775D /* manicure.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; lineEnding = 0; path = manicure.rb; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		0EDBC5731390AFB300D88A0B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
 		0EDBC5761390B05500D88A0B /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		0EE562F115BFFD8F0054359B /* HandBrakeCLI */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = HandBrakeCLI; sourceTree = "<group>"; };
@@ -104,8 +104,8 @@
 		0EEC80491369B4EA00D05124 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0EEC804B1369B4EA00D05124 /* HandBrakeBatch-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HandBrakeBatch-Prefix.pch"; sourceTree = "<group>"; };
 		0EEC804C1369B4EA00D05124 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		0EEC80511369B4EA00D05124 /* HandBrakeBatchAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandBrakeBatchAppDelegate.h; sourceTree = "<group>"; };
-		0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HandBrakeBatchAppDelegate.m; sourceTree = "<group>"; };
+		0EEC80511369B4EA00D05124 /* HBBAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HBBAppDelegate.h; sourceTree = "<group>"; };
+		0EEC80521369B4EA00D05124 /* HBBAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HBBAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0EEC80551369B4EA00D05124 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		0EF72314136CFCE100D223F4 /* gpl-3.0.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "gpl-3.0.txt"; sourceTree = "<group>"; };
 		0EF8EF94136CFEB700884AE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
@@ -210,11 +210,10 @@
 			isa = PBXGroup;
 			children = (
 				0E337A4415144FCC006150DD /* RSRTVArrayController */,
-				0EEC804C1369B4EA00D05124 /* main.m */,
+				0EEC80511369B4EA00D05124 /* HBBAppDelegate.h */,
+				0EEC80521369B4EA00D05124 /* HBBAppDelegate.m */,
 				0E54925D136C49890094563F /* HBBInputFile.h */,
 				0E54925E136C49890094563F /* HBBInputFile.m */,
-				0EEC80511369B4EA00D05124 /* HandBrakeBatchAppDelegate.h */,
-				0EEC80521369B4EA00D05124 /* HandBrakeBatchAppDelegate.m */,
 				0EB54A4A1596CDBC00EE2AB4 /* HBBDropView.h */,
 				0EB54A4B1596CDBC00EE2AB4 /* HBBDropView.m */,
 				0E987E2213E4083900A99716 /* HBBPreferencesController.h */,
@@ -227,6 +226,7 @@
 				0E108B6A136C47F200168057 /* HBBProgressController.m */,
 				0E933F9B14C47C8000A5BB1D /* HBBVideoScan.h */,
 				0E933F9C14C47C8000A5BB1D /* HBBVideoScan.m */,
+				0EEC804C1369B4EA00D05124 /* main.m */,
 				0E549260136C49BD0094563F /* xib */,
 				0EEC80461369B4EA00D05124 /* Supporting Files */,
 			);
@@ -326,7 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EEC804D1369B4EA00D05124 /* main.m in Sources */,
-				0EEC80531369B4EA00D05124 /* HandBrakeBatchAppDelegate.m in Sources */,
+				0EEC80531369B4EA00D05124 /* HBBAppDelegate.m in Sources */,
 				0E108B6B136C47F200168057 /* HBBProgressController.m in Sources */,
 				0E54925F136C49890094563F /* HBBInputFile.m in Sources */,
 				0E49A76813764A1500FB3B77 /* HBBPresets.m in Sources */,
@@ -418,7 +418,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -427,7 +430,6 @@
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_ENABLE_OBJC_GC = required;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HandBrakeBatch/HandBrakeBatch-Prefix.pch";
 				INFOPLIST_FILE = "HandBrakeBatch/HandBrakeBatch-Info.plist";
@@ -442,7 +444,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -451,7 +456,6 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_ENABLE_OBJC_GC = required;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HandBrakeBatch/HandBrakeBatch-Prefix.pch";
 				INFOPLIST_FILE = "HandBrakeBatch/HandBrakeBatch-Info.plist";

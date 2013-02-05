@@ -10,78 +10,96 @@
 
 #import "HBBVideoScan.h"
 
+@interface HBBVideoScan ()
+
+@property (readwrite, strong, nonatomic) NSString *fileName;
+@property (readwrite, strong, nonatomic) NSMutableArray *mutableAudioLanguages;
+@property (readwrite, strong, nonatomic) NSMutableArray *mutableSubtitleLanguages;
+
+@end
+
 @implementation HBBVideoScan
 
 @synthesize fileName, audioLanguages, subtitleLanguages;
 
--(id)initWithFile:(NSString *)path {
-    self = [self init];
-    
-    [self setFileName:path];
-    
-    return self;
+- (id)initWithFile:(NSString *)path {
+	self = [self init];
+
+	[self setFileName:path];
+
+	return self;
 }
 
 - (id)init {
-    self = [super init];
+	self = [super init];
 
-    if (self) {
-        audioLanguages = [[NSMutableArray alloc] init];
-        subtitleLanguages = [[NSMutableArray alloc] init];
-    }
-    
-    return self;
+	if (self) {
+		self.mutableAudioLanguages = [[NSMutableArray alloc] init];
+		self.mutableSubtitleLanguages = [[NSMutableArray alloc] init];
+	}
+
+	return self;
 }
 
--(void)scan {
-    NSTask *task = [[NSTask alloc] init];
-    NSPipe *stdOutPipe = [NSPipe pipe];
-    
-    [task setStandardOutput:stdOutPipe];
-    [task setStandardError: [task standardOutput]];
-    
-    // No perf issues here, so we always use the 32 bit version
-    [task setLaunchPath:[[NSBundle mainBundle] pathForResource:@"HandBrakeCLI_32" ofType:@""]];
-    
-    // Setting arguments
-    [task setArguments:[NSArray arrayWithObjects:@"--scan", @"-i", fileName, nil]];
-    
-    // Executing scan
-    [task launch];
-    for (int i = 0; i < 10 && [task isRunning]; ++i) {
-        [NSThread sleepForTimeInterval: .5];
-    }
-    
-    // If the scan is not completed in 5 seconds, let's kill it
-    if ([task isRunning])
-        [task terminate];
-    
-    NSData *output = [[stdOutPipe fileHandleForReading] readDataToEndOfFile];
-    
-    NSString *stringData = [NSString stringWithCString:[output bytes] encoding:NSASCIIStringEncoding];
+- (NSArray *)audioLanguages {
+	return [self.mutableAudioLanguages copy];
+}
 
-    NSArray *outputLines = [stringData componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-    
-    NSUInteger audioIndex = [outputLines indexOfObject:@"  + audio tracks:"];
-    NSUInteger subtitleIndex = [outputLines indexOfObject:@"  + subtitle tracks:"];
-    
-    // Reset languages
-    [audioLanguages removeAllObjects];
-    [subtitleLanguages removeAllObjects];
-    
-    if (audioIndex != NSNotFound) {
-        while ([[outputLines objectAtIndex:++audioIndex] characterAtIndex:4] == '+') {
-            NSRange range = [[outputLines objectAtIndex:audioIndex] rangeOfString:@"iso639-2: "];
-            [audioLanguages addObject:[[outputLines objectAtIndex:audioIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
-        }
-    }
-    
-    if (subtitleIndex != NSNotFound) {
-        while ([[outputLines objectAtIndex:++subtitleIndex] characterAtIndex:4] == '+') {
-            NSRange range = [[outputLines objectAtIndex:subtitleIndex] rangeOfString:@"iso639-2: "];
-            [subtitleLanguages addObject:[[outputLines objectAtIndex:subtitleIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
-        }
-    }
+- (NSArray *)subtitleLanguages {
+	return [self.mutableSubtitleLanguages copy];
+}
+
+- (void)scan {
+	NSTask *task = [[NSTask alloc] init];
+	NSPipe *stdOutPipe = [NSPipe pipe];
+
+	[task setStandardOutput:stdOutPipe];
+	[task setStandardError:[task standardOutput]];
+
+	// No perf issues here, so we always use the 32 bit version
+	[task setLaunchPath:[[NSBundle mainBundle] pathForResource:@"HandBrakeCLI_32" ofType:@""]];
+
+	// Setting arguments
+	[task setArguments:@[@"--scan", @"-i", fileName]];
+
+	// Executing scan
+	[task launch];
+
+	for (int i = 0; i < 10 && [task isRunning]; ++i) {
+		[NSThread sleepForTimeInterval:.5];
+	}
+
+	// If the scan is not completed in 5 seconds, let's kill it
+	if ([task isRunning]) {
+		[task terminate];
+	}
+
+	NSData *output = [[stdOutPipe fileHandleForReading] readDataToEndOfFile];
+
+	NSString *stringData = [NSString stringWithCString:[output bytes] encoding:NSASCIIStringEncoding];
+
+	NSArray *outputLines = [stringData componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+
+	NSUInteger audioIndex = [outputLines indexOfObject:@"  + audio tracks:"];
+	NSUInteger subtitleIndex = [outputLines indexOfObject:@"  + subtitle tracks:"];
+
+	// Reset languages
+	[self.mutableAudioLanguages removeAllObjects];
+	[self.mutableSubtitleLanguages removeAllObjects];
+
+	if (audioIndex != NSNotFound) {
+		while ([outputLines[++audioIndex] characterAtIndex:4] == '+') {
+			NSRange range = [outputLines[audioIndex] rangeOfString:@"iso639-2: "];
+			[self.mutableAudioLanguages addObject:[outputLines[audioIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
+		}
+	}
+
+	if (subtitleIndex != NSNotFound) {
+		while ([outputLines[++subtitleIndex] characterAtIndex:4] == '+') {
+			NSRange range = [outputLines[subtitleIndex] rangeOfString:@"iso639-2: "];
+			[self.mutableSubtitleLanguages addObject:[outputLines[subtitleIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
+		}
+	}
 }
 
 @end

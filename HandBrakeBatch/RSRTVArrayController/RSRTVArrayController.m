@@ -20,7 +20,7 @@ NSString *kRSRTVMovedRowsType = @"com.red-sweater.RSRTVArrayController";
 
 - (void) awakeFromNib
 {
-	[oTableView registerForDraggedTypes:[NSArray arrayWithObjects:kRSRTVMovedRowsType, nil]];
+	[oTableView registerForDraggedTypes:@[kRSRTVMovedRowsType]];
 	[self setDraggingEnabled:YES];	
 }
 
@@ -40,7 +40,7 @@ NSString *kRSRTVMovedRowsType = @"com.red-sweater.RSRTVArrayController";
 	if ([self draggingEnabled] == YES)
 	{
 		// Declare our "moved rows" drag type
-		[pboard declareTypes:[NSArray arrayWithObjects:kRSRTVMovedRowsType, nil] owner:self];
+		[pboard declareTypes:@[kRSRTVMovedRowsType] owner:self];
 		
 		// Just add the rows themselves to the pasteboard
 		[pboard setPropertyList:rows forType:kRSRTVMovedRowsType];
@@ -51,7 +51,7 @@ NSString *kRSRTVMovedRowsType = @"com.red-sweater.RSRTVArrayController";
 
 - (BOOL) tableObjectsSupportCopying
 {
-	return [[[self arrangedObjects] objectAtIndex:0] conformsToProtocol:@protocol(NSCopying)];
+	return [[self arrangedObjects][0] conformsToProtocol:@protocol(NSCopying)];
 }
 
 - (NSDragOperation)tableView:(NSTableView*)tv validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)op
@@ -135,8 +135,8 @@ NSString *kRSRTVMovedRowsType = @"com.red-sweater.RSRTVArrayController";
 		{
 			copyIndex = copyFromIndex;
 		}
-		object = [objects objectAtIndex:copyIndex];
-		[self insertObject:[[object copy] autorelease] atArrangedObjectIndex:insertIndex];
+		object = objects[copyIndex];
+		[self insertObject:[object copy] atArrangedObjectIndex:insertIndex];
 		
 		copyFromIndex = [indexSet indexLessThanIndex:copyFromIndex];
     }
@@ -166,13 +166,11 @@ NSString *kRSRTVMovedRowsType = @"com.red-sweater.RSRTVArrayController";
 		}
 		
 		// Get the object we're moving
-		object = [objects objectAtIndex:removeIndex];
+		object = objects[removeIndex];
 
 		// In case nobody else is retaining the object, we need to keep it alive while we move it 		
-		[object retain];
 		[self removeObjectAtArrangedObjectIndex:removeIndex];
 		[self insertObject:object atArrangedObjectIndex:insertIndex];
-		[object release];
 		
 		thisIndex = [indexSet indexLessThanIndex:thisIndex];
     }

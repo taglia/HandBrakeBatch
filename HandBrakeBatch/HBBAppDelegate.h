@@ -15,31 +15,12 @@
 #import "RSRTVArrayController.h"
 @class HBBDropView;
 
-@interface HBBAppDelegate : NSObject <NSApplicationDelegate, NSSplitViewDelegate, NSWindowDelegate, GrowlApplicationBridgeDelegate> {
-@private
-    NSWindow *window;
-    
-    NSMutableArray *inputFiles;
-    IBOutlet NSTableView *fileNamesView;
-    IBOutlet RSRTVArrayController *fileNamesController;
-    
-    NSArray *presets;
-    IBOutlet NSArrayController *presetNamesController;
-    IBOutlet NSPopUpButton *presetPopUp;
-    
-    IBOutlet HBBDropView *dropView;
-    IBOutlet NSView *leftPaneView;
-    
-    HBBProgressController *progressController;
-    HBBPreferencesController *preferencesController;
-    
-    IBOutlet NSButton *chooseOutputFolder;
-    
-    NSString *appSupportFolder;
-}
+@interface HBBAppDelegate : NSObject <NSApplicationDelegate, NSSplitViewDelegate, NSWindowDelegate, GrowlApplicationBridgeDelegate> 
 
-@property (assign) IBOutlet NSWindow *window;
-@property (assign) NSMutableArray *inputFiles;
+@property (readonly, strong, nonatomic) NSMutableArray *inputFiles;
+@property (readonly, strong, nonatomic) NSArray *presets;
+@property (readonly, strong, nonatomic) HBBProgressController *progressController;
+@property (readonly, strong, nonatomic) HBBPreferencesController *preferencesController;
 
 - (IBAction)chooseOutputFolder:(id)sender;
 - (IBAction)startConversion:(id)sender;

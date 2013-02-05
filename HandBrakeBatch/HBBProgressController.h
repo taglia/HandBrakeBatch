@@ -17,7 +17,8 @@
 
 @interface HBBProgressController : NSWindowController
 
-@property (readonly, strong, nonatomic) NSArray *queue;
+@property (readwrite, strong, nonatomic) NSArray *queue;
+
 // Items remaining in the queue, to be processed
 @property (readonly, strong, nonatomic) NSMutableArray *currentQueue;
 

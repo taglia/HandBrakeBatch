@@ -14,30 +14,46 @@
 #import "HBBPresets.h"
 #import "HBBDropView.h"
 
-@implementation HBBAppDelegate
+@interface HBBAppDelegate ()
 
-@synthesize window, inputFiles;
+@property (readwrite, assign, nonatomic) IBOutlet NSTableView *fileNamesView;
+@property (readwrite, assign, nonatomic) IBOutlet RSRTVArrayController *fileNamesController;
+@property (readwrite, assign, nonatomic) IBOutlet NSArrayController *presetNamesController;
+@property (readwrite, assign, nonatomic) IBOutlet NSPopUpButton *presetPopUp;
+@property (readwrite, assign, nonatomic) IBOutlet HBBDropView *dropView;
+@property (readwrite, assign, nonatomic) IBOutlet NSView *leftPaneView;
+@property (readwrite, assign, nonatomic) IBOutlet NSButton *chooseOutputFolder;
+@property (readwrite, assign, nonatomic) IBOutlet NSWindow *window;
+
+@property (readwrite, strong, nonatomic) NSMutableArray *inputFiles;
+@property (readwrite, strong, nonatomic) NSArray *presets;
+@property (readwrite, strong, nonatomic) HBBProgressController *progressController;
+@property (readwrite, strong, nonatomic) HBBPreferencesController *preferencesController;
+@property (readwrite, strong, nonatomic) NSString *appSupportFolder;
+
++ (NSString *)appSupportFolder;
+
+@end
+
+@implementation HBBAppDelegate
 
 #pragma mark Initialization
 
 - (id) init {
     // Initialize application directory
 	NSFileManager *fm = [NSFileManager defaultManager];
-	appSupportFolder = [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES)
-                         objectAtIndex:0] stringByAppendingPathComponent:@"HandBrakeBatch"];
-	
-	if ( ![fm fileExistsAtPath:appSupportFolder] ) {
 		[fm createDirectoryAtPath:[[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES)
                                     objectAtIndex:0] stringByAppendingPathComponent:@"HandBrakeBatch"]
+	if ( ![fm fileExistsAtPath:[[self class] appSupportFolder]] ) {
       withIntermediateDirectories:NO attributes:nil error:NULL];
     }
     
     // Load queue
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[appSupportFolder stringByAppendingPathComponent:@"SavedQueue.data"]]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[self class] appSupportFolder] stringByAppendingPathComponent:@"SavedQueue.data"]]) {
         NSLog(@"Loading queue…");
-        inputFiles = [NSKeyedUnarchiver unarchiveObjectWithFile:[appSupportFolder stringByAppendingPathComponent:@"SavedQueue.data"]];
+        self.inputFiles = [NSKeyedUnarchiver unarchiveObjectWithFile:[[[self class] appSupportFolder] stringByAppendingPathComponent:@"SavedQueue.data"]];
     } else {
-        inputFiles = [[NSMutableArray alloc] init];
+        self.inputFiles = [[NSMutableArray alloc] init];
     }
     
     self = [super init];
@@ -46,13 +62,18 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(conversionCompleted:) name:COMPLETE_NOTIFICATION object:nil];
     
     // Initialize sorted preset names
-    presets = [[[[HBBPresets hbbPresets] presets] allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    self.presets = [[[[HBBPresets hbbPresets] presets] allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     
     // Store first launch date in the preferences
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"HBBFirstLaunchDate"] == nil) {
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"HBBFirstLaunchDate"];
     }
     return self;
+}
+
+	return [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES)
+	  objectAtIndex:0] stringByAppendingPathComponent:@"HandBrakeBatch"];
++ (NSString *)appSupportFolder {
 }
 
 - (NSDictionary *)registrationDictionaryForGrowl {
@@ -65,11 +86,10 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    [dropView setAppDelegate:self];
-    [dropView registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
+    [self.dropView registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
     
     NSString *selectedPreset = [[NSUserDefaults standardUserDefaults] objectForKey:@"PresetName"];
-    [presetPopUp selectItemWithTitle:selectedPreset];
+    [self.presetPopUp selectItemWithTitle:selectedPreset];
     
     // Donation Nag window (every 2 days)
     if ( ![[NSUserDefaults standardUserDefaults] boolForKey:@"HBBNoDonation"] ) {
@@ -95,7 +115,7 @@
     }
     
     // Add observer for arrangedObjects
-    [fileNamesController addObserver:self forKeyPath:@"arrangedObjects" options:NSKeyValueObservingOptionNew context:nil];
+    [self.fileNamesController addObserver:self forKeyPath:@"arrangedObjects" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
@@ -138,7 +158,7 @@
 
 - (IBAction)startConversion:(id)sender {
     // Warn the user if there are no files to convert
-    if ([inputFiles count] == 0) {
+    if ([self.inputFiles count] == 0) {
         NSBeginAlertSheet(@"No files to convert", @"Ok", nil, nil, [self window], nil, NULL, NULL, NULL, @"Please drag some files in the table.");
         return;
     }
@@ -147,11 +167,11 @@
         NSBeginAlertSheet(@"No output folder", @"Ok", nil, nil, [self window], nil, NULL, NULL, NULL, @"Please select an output folder.");
         return;
     }
-    progressController = [[HBBProgressController alloc] init];
-    [progressController loadWindow];
+    self.progressController = [[HBBProgressController alloc] init];
+    [self.progressController loadWindow];
     [[self window] orderOut:nil];
-    [progressController setQueue:[fileNamesController arrangedObjects]];
-    [progressController processQueue];
+    [self.progressController setQueue:[self.fileNamesController arrangedObjects]];
+    [self.progressController processQueue];
 }
 
 - (IBAction)displayLicense:(id)sender {
@@ -174,7 +194,7 @@
 
 // Check if the movie is already present in the queue
 - (BOOL) isDuplicate:(HBBInputFile *)file {
-    NSArray *files = [fileNamesController arrangedObjects];
+    NSArray *files = [self.fileNamesController arrangedObjects];
     
     for (HBBInputFile *f in files) {
         if ([[f inputPath] isEqualToString:[file inputPath]]) {
@@ -199,9 +219,9 @@
             if ([self isDuplicate:input]) {
                 return;
             }
-            [fileNamesController performSelectorOnMainThread:@selector(addObject:) withObject:input waitUntilDone:YES ];
-            [leftPaneView setNeedsDisplay:YES];
-            [leftPaneView display];
+            [self.fileNamesController performSelectorOnMainThread:@selector(addObject:) withObject:input waitUntilDone:YES ];
+            [self.leftPaneView setNeedsDisplay:YES];
+            [self.leftPaneView display];
         } else {
             NSDirectoryEnumerationOptions options = NSDirectoryEnumerationSkipsHiddenFiles | NSDirectoryEnumerationSkipsPackageDescendants | NSDirectoryEnumerationSkipsSubdirectoryDescendants;
             NSDirectoryEnumerator *dirEnum = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:options errorHandler:nil];
@@ -215,9 +235,9 @@
         if ([self isDuplicate:input]){
             return;
         }
-        [fileNamesController performSelectorOnMainThread:@selector(addObject:) withObject:input waitUntilDone:YES ];
-        [leftPaneView setNeedsDisplay:YES];
-        [leftPaneView display];
+        [self.fileNamesController performSelectorOnMainThread:@selector(addObject:) withObject:input waitUntilDone:YES ];
+        [self.leftPaneView setNeedsDisplay:YES];
+        [self.leftPaneView display];
     }
 }
 
@@ -242,7 +262,7 @@
 - (void) conversionCompleted:(NSNotification *)notification {
     [[self window] makeKeyAndOrderFront:nil];
     NSArray *processed = [[notification userInfo] objectForKey:PROCESSED_QUEUE_KEY];
-    [fileNamesController removeObjects:processed];
+    [self.fileNamesController removeObjects:processed];
 }
 
 ///////////////////////////////////////
@@ -252,10 +272,10 @@
 ///////////////////////////////////////
 
 - (IBAction)showPreferences:(id)sender {
-    if (!preferencesController) {
-        preferencesController = [[HBBPreferencesController alloc] init];
+    if (!self.preferencesController) {
+        self.preferencesController = [[HBBPreferencesController alloc] init];
 	}
-    [preferencesController showWindow:self];
+    [self.preferencesController showWindow:self];
 }
 
 - (IBAction)donate:(id)sender {
@@ -269,7 +289,7 @@
 ///////////////////////////////////////
 
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    [NSKeyedArchiver archiveRootObject:[object arrangedObjects] toFile:[appSupportFolder stringByAppendingPathComponent:@"SavedQueue.data"]];
+    [NSKeyedArchiver archiveRootObject:[object arrangedObjects] toFile:[[[self class] appSupportFolder] stringByAppendingPathComponent:@"SavedQueue.data"]];
 }
 
 @end

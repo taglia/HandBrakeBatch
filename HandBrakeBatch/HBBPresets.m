@@ -54,7 +54,7 @@ static HBBPresets *instance;
        	[simpleTask setCurrentDirectoryPath:[manicure stringByDeletingLastPathComponent]];
        	
        	// Build argument array
-       	NSArray *arguments = [NSArray arrayWithObjects:manicure, @"-p", nil];
+       	NSArray *arguments = @[manicure, @"-p"];
        	[simpleTask setArguments: arguments];
        	
        	// Run task
@@ -84,7 +84,7 @@ static HBBPresets *instance;
    	            NSString *name = [[currentLine substringToIndex:separator.location] substringFromIndex:offset+2];
    	            NSString *args = [currentLine substringFromIndex:separator.location+separator.length];
 
-   	            [tempDict setObject:args forKey:name];
+   	            tempDict[name] = args;
        	    }
        	}
         
@@ -97,7 +97,7 @@ static HBBPresets *instance;
     // If no presets, use the default ones
     if ( [tempDict count] == 0 ) {
         for (NSString *currentPreset in defaultPresets) {
-            [tempDict setObject:[NSString stringWithFormat:@"--preset %@", currentPreset] forKey:currentPreset];
+            tempDict[currentPreset] = [NSString stringWithFormat:@"--preset %@", currentPreset];
             NSLog(@"Loading default preset '%@'", currentPreset);
         }
     }

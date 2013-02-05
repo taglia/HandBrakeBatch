@@ -210,11 +210,10 @@
 			isa = PBXGroup;
 			children = (
 				0E337A4415144FCC006150DD /* RSRTVArrayController */,
-				0EEC804C1369B4EA00D05124 /* main.m */,
-				0E54925D136C49890094563F /* HBBInputFile.h */,
-				0E54925E136C49890094563F /* HBBInputFile.m */,
 				0EEC80511369B4EA00D05124 /* HBBAppDelegate.h */,
 				0EEC80521369B4EA00D05124 /* HBBAppDelegate.m */,
+				0E54925D136C49890094563F /* HBBInputFile.h */,
+				0E54925E136C49890094563F /* HBBInputFile.m */,
 				0EB54A4A1596CDBC00EE2AB4 /* HBBDropView.h */,
 				0EB54A4B1596CDBC00EE2AB4 /* HBBDropView.m */,
 				0E987E2213E4083900A99716 /* HBBPreferencesController.h */,
@@ -227,6 +226,7 @@
 				0E108B6A136C47F200168057 /* HBBProgressController.m */,
 				0E933F9B14C47C8000A5BB1D /* HBBVideoScan.h */,
 				0E933F9C14C47C8000A5BB1D /* HBBVideoScan.m */,
+				0EEC804C1369B4EA00D05124 /* main.m */,
 				0E549260136C49BD0094563F /* xib */,
 				0EEC80461369B4EA00D05124 /* Supporting Files */,
 			);
@@ -418,6 +418,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -428,7 +429,6 @@
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_ENABLE_OBJC_GC = required;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HandBrakeBatch/HandBrakeBatch-Prefix.pch";
 				INFOPLIST_FILE = "HandBrakeBatch/HandBrakeBatch-Info.plist";
@@ -443,6 +443,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -453,7 +454,6 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_ENABLE_OBJC_GC = required;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HandBrakeBatch/HandBrakeBatch-Prefix.pch";
 				INFOPLIST_FILE = "HandBrakeBatch/HandBrakeBatch-Info.plist";

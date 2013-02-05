@@ -60,7 +60,7 @@
     [task setLaunchPath:[[NSBundle mainBundle] pathForResource:@"HandBrakeCLI_32" ofType:@""]];
     
     // Setting arguments
-    [task setArguments:[NSArray arrayWithObjects:@"--scan", @"-i", fileName, nil]];
+    [task setArguments:@[@"--scan", @"-i", fileName]];
     
     // Executing scan
     [task launch];
@@ -86,16 +86,16 @@
     [self.mutableSubtitleLanguages removeAllObjects];
     
     if (audioIndex != NSNotFound) {
-        while ([[outputLines objectAtIndex:++audioIndex] characterAtIndex:4] == '+') {
-            NSRange range = [[outputLines objectAtIndex:audioIndex] rangeOfString:@"iso639-2: "];
-            [self.mutableAudioLanguages addObject:[[outputLines objectAtIndex:audioIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
+        while ([outputLines[++audioIndex] characterAtIndex:4] == '+') {
+            NSRange range = [outputLines[audioIndex] rangeOfString:@"iso639-2: "];
+            [self.mutableAudioLanguages addObject:[outputLines[audioIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
         }
     }
     
     if (subtitleIndex != NSNotFound) {
-        while ([[outputLines objectAtIndex:++subtitleIndex] characterAtIndex:4] == '+') {
-            NSRange range = [[outputLines objectAtIndex:subtitleIndex] rangeOfString:@"iso639-2: "];
-            [self.mutableSubtitleLanguages addObject:[[outputLines objectAtIndex:subtitleIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
+        while ([outputLines[++subtitleIndex] characterAtIndex:4] == '+') {
+            NSRange range = [outputLines[subtitleIndex] rangeOfString:@"iso639-2: "];
+            [self.mutableSubtitleLanguages addObject:[outputLines[subtitleIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
         }
     }
 }

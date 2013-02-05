@@ -121,7 +121,7 @@ static NSMutableString *stdErrorString;
     [self.backgroundTask setStandardError:[NSPipe pipe]];
     [self.backgroundTask setLaunchPath:self.handBrakeCLI];
     
-    NSString *inputFilePath = [[self.currentQueue objectAtIndex:0] inputPath];
+    NSString *inputFilePath = [(self.currentQueue)[0] inputPath];
     
     NSString *fileName = [[inputFilePath stringByDeletingPathExtension] lastPathComponent];
     
@@ -146,7 +146,7 @@ static NSMutableString *stdErrorString;
     }
     
     // Storing output path to quickly access it to move temp file to final, and in case we need to tweek the timestamps
-	HBBInputFile *inputFile = [self.currentQueue objectAtIndex:0];
+	HBBInputFile *inputFile = (self.currentQueue)[0];
     [inputFile setOutputURL:[NSURL fileURLWithPath:outputFilePath]];
     [inputFile setTempOutputURL:[NSURL fileURLWithPath:tempOutputFilePath]];
     
@@ -155,14 +155,14 @@ static NSMutableString *stdErrorString;
     
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBScanEnabled"]) { // Process languages & subtitles only if scan enabled
         // Audio language arguments
-        NSArray *audioLanguages = [[self.currentQueue objectAtIndex:0] audioLanguages];
+        NSArray *audioLanguages = [(self.currentQueue)[0] audioLanguages];
         if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBAudioSelection"] == 0) { // All languages
             if ([audioLanguages count]) { // Leave this alone if no languages are available
                 NSMutableString *audioLanguageIDs = [NSMutableString stringWithString:@"1"];
                 for (int i = 2; i <= [audioLanguages count]; ++i) {
                     [audioLanguageIDs appendFormat:@",%d", i];
                 }
-                [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-a", audioLanguageIDs, nil]];
+                [allArguments addObjectsFromArray:@[@"-a", audioLanguageIDs]];
             }
         } else { // Preferred language (if available)
             NSString *bCode = [[HBBLangData defaultHBBLangData] langBCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBAudioPreferredLanguage"]];
@@ -170,7 +170,7 @@ static NSMutableString *stdErrorString;
             int i = 1;
             for (NSString *lang in audioLanguages) {
                 if ([lang isEqualToString:bCode] || [lang isEqualToString:tCode]) {
-                    [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-a", [NSString stringWithFormat:@"%d", i], nil]];
+                    [allArguments addObjectsFromArray:@[@"-a", [NSString stringWithFormat:@"%d", i]]];
                     break;
                 }
                 ++i;
@@ -178,14 +178,14 @@ static NSMutableString *stdErrorString;
         }
         
         // Subtitle language arguments
-        NSArray *subtitleLanguages = [[self.currentQueue objectAtIndex:0] subtitleLanguages];
+        NSArray *subtitleLanguages = [(self.currentQueue)[0] subtitleLanguages];
         if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBSubtitleSelection"] == 0) { // All languages
             if ([subtitleLanguages count]) { // Leave this alone if no subtitles are available
                 NSMutableString *subtitleLanguageIDs = [NSMutableString stringWithString:@"1"];
                 for (int i = 2; i <= [subtitleLanguages count]; ++i) {
                     [subtitleLanguageIDs appendFormat:@",%d", i];
                 }
-                [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-s", subtitleLanguageIDs, nil]];
+                [allArguments addObjectsFromArray:@[@"-s", subtitleLanguageIDs]];
             }
         } else if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBSubtitleSelection"] == 1) { // Preferred language (if available)
             NSString *bCode = [[HBBLangData defaultHBBLangData] langBCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBSubtitlePreferredLanguage"]];
@@ -193,10 +193,10 @@ static NSMutableString *stdErrorString;
             int i = 1;
             for (NSString *lang in subtitleLanguages) {
                 if ([lang isEqualToString:bCode] || [lang isEqualToString:tCode]) {
-                    [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-s", [NSString stringWithFormat:@"%d", i], nil]];
+                    [allArguments addObjectsFromArray:@[@"-s", [NSString stringWithFormat:@"%d", i]]];
                     // Burn subtitles if required
                     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBSubtitleBurn"]) {
-                        [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"--subtitle-burn", [NSString stringWithFormat:@"%d", i], nil]];
+                        [allArguments addObjectsFromArray:@[@"--subtitle-burn", [NSString stringWithFormat:@"%d", i]]];
 					}
                     break;
                 }
@@ -205,7 +205,7 @@ static NSMutableString *stdErrorString;
         } // Else no subtitle, thus no need for any arguments
     }
     
-    [allArguments addObjectsFromArray:[NSArray arrayWithObjects:@"-i", inputFilePath, @"-o", tempOutputFilePath, nil]];
+    [allArguments addObjectsFromArray:@[@"-i", inputFilePath, @"-o", tempOutputFilePath]];
     
     // Log arguments to CLI
     NSMutableString *args = [[NSMutableString alloc] init];
@@ -228,7 +228,7 @@ static NSMutableString *stdErrorString;
                                                object: nil];
     
     // Set the current file name in the progress window
-    [self.messageField setStringValue:[[self.currentQueue objectAtIndex:0] name]];
+    [self.messageField setStringValue:[(self.currentQueue)[0] name]];
     
     self.currentStartDate = [NSDate date];
     
@@ -310,7 +310,7 @@ static NSMutableString *stdErrorString;
     // Build HandBrakeCLI arguments
     self.presets = [[HBBPresets hbbPresets] presets];
     self.selectedPresetName = [[NSUserDefaults standardUserDefaults] objectForKey:@"PresetName"];
-    self.preset = [self.presets objectForKey:self.selectedPresetName];
+    self.preset = (self.presets)[self.selectedPresetName];
     // Parsing arguments from preset line
     // The MPEG-4 file extension can be configured in the preferences
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"HBBMPEG4Extension"] == M4V_EXTENSION) {
@@ -400,9 +400,9 @@ static NSMutableString *stdErrorString;
     
     // Check whether the conversion was successful and write log file if necessary
     NSData *stdErrData = [stdErrorString dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *logFilePath = [[[[self.currentQueue objectAtIndex:0] outputPath] stringByDeletingPathExtension] stringByAppendingPathExtension:@"log"];
+    NSString *logFilePath = [[[(self.currentQueue)[0] outputPath] stringByDeletingPathExtension] stringByAppendingPathExtension:@"log"];
     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[self.currentQueue objectAtIndex:0] tempOutputURL] path]]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[[(self.currentQueue)[0] tempOutputURL] path]]) {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBWriteConversionLog"]) {
             [stdErrData writeToURL:[NSURL fileURLWithPath:logFilePath] atomically:NO];
         }
@@ -410,39 +410,39 @@ static NSMutableString *stdErrorString;
         // Modify timestamps if required
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBMaintainTimestamps"]) {
             NSFileManager *fm = [NSFileManager defaultManager];
-            NSDictionary *sourceAttrs = [fm attributesOfItemAtPath:[[self.currentQueue objectAtIndex:0] inputPath] error:NULL];
-            NSDictionary *destAttrs = [fm attributesOfItemAtPath:[[self.currentQueue objectAtIndex:0] tempOutputPath] error:NULL];
+            NSDictionary *sourceAttrs = [fm attributesOfItemAtPath:[(self.currentQueue)[0] inputPath] error:NULL];
+            NSDictionary *destAttrs = [fm attributesOfItemAtPath:[(self.currentQueue)[0] tempOutputPath] error:NULL];
             
             if (sourceAttrs && destAttrs) {
-                NSDate *creationDate = [sourceAttrs objectForKey:NSFileCreationDate];
-                NSDate *modificationDate = [sourceAttrs objectForKey:NSFileModificationDate];
+                NSDate *creationDate = sourceAttrs[NSFileCreationDate];
+                NSDate *modificationDate = sourceAttrs[NSFileModificationDate];
                 
                 NSMutableDictionary *destMutableAttrs = [destAttrs mutableCopy];
-                [destMutableAttrs setObject:creationDate forKey:NSFileCreationDate];
-                [destMutableAttrs setObject:modificationDate forKey:NSFileModificationDate];
+                destMutableAttrs[NSFileCreationDate] = creationDate;
+                destMutableAttrs[NSFileModificationDate] = modificationDate;
                 
-                [fm setAttributes:destMutableAttrs ofItemAtPath:[[self.currentQueue objectAtIndex:0] tempOutputPath] error:NULL];
+                [fm setAttributes:destMutableAttrs ofItemAtPath:[(self.currentQueue)[0] tempOutputPath] error:NULL];
             }
         }
         
         // Remove destination file if it exists
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[[[self.currentQueue objectAtIndex:0] outputURL] path]]) {
-            [[NSFileManager defaultManager] removeItemAtURL:[[self.currentQueue objectAtIndex:0] outputURL] error:nil];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[[(self.currentQueue)[0] outputURL] path]]) {
+            [[NSFileManager defaultManager] removeItemAtURL:[(self.currentQueue)[0] outputURL] error:nil];
         }
         // Remove source file if needed
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBDeleteSourceFiles"]) {
-            [[NSFileManager defaultManager] removeItemAtURL:[[self.currentQueue objectAtIndex:0] inputURL] error:nil];
+            [[NSFileManager defaultManager] removeItemAtURL:[(self.currentQueue)[0] inputURL] error:nil];
         }
         
         // Moving temp output file to destination
-        [[NSFileManager defaultManager] moveItemAtURL:[[self.currentQueue objectAtIndex:0] tempOutputURL] toURL:[[self.currentQueue objectAtIndex:0] outputURL] error:nil];
+        [[NSFileManager defaultManager] moveItemAtURL:[(self.currentQueue)[0] tempOutputURL] toURL:[(self.currentQueue)[0] outputURL] error:nil];
         
-        [self.processedQueue addObject:[self.currentQueue objectAtIndex:0]];
+        [self.processedQueue addObject:(self.currentQueue)[0]];
     } else {
         // Conversion failed! Write log file and do not delete source
         [stdErrData writeToURL:[NSURL fileURLWithPath:logFilePath] atomically:NO];
         
-        [self.failedQueue addObject:[self.currentQueue objectAtIndex:0]];
+        [self.failedQueue addObject:(self.currentQueue)[0]];
     }
     
     // Remove processed file from the queue
@@ -537,7 +537,7 @@ static NSMutableString *stdErrorString;
 }
 
 - (void)getData:(NSNotification *)aNotification {
-    NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+    NSData *data = [aNotification userInfo][NSFileHandleNotificationDataItem];
     
     if ([data length]) {
         NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -574,7 +574,7 @@ static NSMutableString *stdErrorString;
 }
 
 - (void)storestdErrorString:(NSNotification *)aNotification {
-    NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+    NSData *data = [aNotification userInfo][NSFileHandleNotificationDataItem];
     if ([data length]) {
         NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         [stdErrorString appendString:message];
@@ -595,8 +595,8 @@ static NSMutableString *stdErrorString;
         }
     }
         
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.processedQueue, self.currentQueue, nil]
-                                                         forKeys:[NSArray arrayWithObjects:PROCESSED_QUEUE_KEY, CURRENT_QUEUE_KEY, nil]];
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:@[self.processedQueue, self.currentQueue]
+                                                         forKeys:@[PROCESSED_QUEUE_KEY, CURRENT_QUEUE_KEY]];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:COMPLETE_NOTIFICATION object:self userInfo:userInfo];
     [self close];

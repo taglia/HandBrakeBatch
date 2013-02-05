@@ -56,7 +56,7 @@ static HBBLangData *instance = nil;
     int status;
     while ((status = sqlite3_step(statement)) == SQLITE_ROW) {
         const char *resultBytes = (const char *)sqlite3_column_text(statement, 0);
-        [result addObject:[NSString stringWithUTF8String:resultBytes]];
+        [result addObject:@(resultBytes)];
     }
     if ( status != SQLITE_DONE ) {
         NSLog(@"Error executing SQL statement (%@): %s", statementString, sqlite3_errmsg(dbHandle));
@@ -81,7 +81,7 @@ static HBBLangData *instance = nil;
         return nil;
     }
     const char *resultBytes = (const char *)sqlite3_column_text(statement, 0);
-    NSString *result = [NSString stringWithUTF8String:resultBytes];
+    NSString *result = @(resultBytes);
     sqlite3_finalize(statement);
     return result;
 }

@@ -85,7 +85,7 @@
 }
 
 - (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)index {
-    return [self.languages objectAtIndex:index];
+    return (self.languages)[index];
 }
 
 - (IBAction)languageSelected:(id)sender {

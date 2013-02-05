@@ -10,19 +10,34 @@
 
 #import "HBBPreferencesController.h"
 
+@interface HBBPreferencesController ()
+	
+@property (readwrite, assign, nonatomic) IBOutlet NSButton * maintainTimestamps;
+@property (readwrite, assign, nonatomic) IBOutlet NSPopUpButton *mpeg4Extension;
+
+@property (readwrite, assign, nonatomic) IBOutlet NSComboBox *audioBox;
+@property (readwrite, assign, nonatomic) IBOutlet NSComboBox *subtitleBox;
+@property (readwrite, assign, nonatomic) IBOutlet NSMatrix *audioMatrix;
+@property (readwrite, assign, nonatomic) IBOutlet NSMatrix *subtitleMatrix;
+
+@property (readwrite, strong, nonatomic) HBBLangData *langData;
+@property (readwrite, strong, nonatomic) NSArray *languages;
+
+@end
+
 @implementation HBBPreferencesController
 
 - (void)toggleLanguage:(bool)enable {
     if (enable) {
-        [subtitleBox setEnabled:YES];
-        [audioBox setEnabled:YES];
-        [subtitleMatrix setEnabled:YES];
-        [audioMatrix setEnabled:YES];
+        [self.subtitleBox setEnabled:YES];
+        [self.audioBox setEnabled:YES];
+        [self.subtitleMatrix setEnabled:YES];
+        [self.audioMatrix setEnabled:YES];
     } else {
-        [subtitleBox setEnabled:NO];
-        [audioBox setEnabled:NO];
-        [subtitleMatrix setEnabled:NO];
-        [audioMatrix setEnabled:NO];
+        [self.subtitleBox setEnabled:NO];
+        [self.audioBox setEnabled:NO];
+        [self.subtitleMatrix setEnabled:NO];
+        [self.audioMatrix setEnabled:NO];
     }
 }
 
@@ -42,8 +57,8 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HBBScanEnabled"];
     }
     
-    langData = [HBBLangData defaultHBBLangData];
-    languages = [langData languageList];
+    self.langData = [HBBLangData defaultHBBLangData];
+    self.languages = [self.langData languageList];
     
 	return self;
 }
@@ -66,23 +81,22 @@
 }
 
 - (NSInteger)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
-    return [languages count];
+    return [self.languages count];
 }
 
 - (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)index {
-    return [languages objectAtIndex:index];
+    return [self.languages objectAtIndex:index];
 }
 
 - (IBAction)languageSelected:(id)sender {
     NSComboBox *box = sender;
-    
-    if ([languages containsObject:[box stringValue]]) {
+    if ([self.languages containsObject:[box stringValue]]) {
         return;
 	}
     NSBeginAlertSheet(@"Unknown Language!", @"Ok", nil, nil, [self window], nil, NULL, NULL, NULL, @"Please select a language from the dropdown list.");
     [box setStringValue:@"English"];
     
-    if (sender == audioBox) {
+    if (sender == self.audioBox) {
         [[NSUserDefaults standardUserDefaults] setValue:@"English" forKey:@"HBBAudioPreferredLanguage"];
     } else {
         [[NSUserDefaults standardUserDefaults] setValue:@"English" forKey:@"HBBSubtitlePreferredLanguage"];

@@ -11,20 +11,7 @@
 #import <Cocoa/Cocoa.h>
 #import "HBBLangData.h"
 
-@interface HBBPreferencesController : NSWindowController <NSComboBoxDataSource> {
-
-    IBOutlet NSButton * maintainTimestamps;
-    IBOutlet NSPopUpButton *mpeg4Extension;
-    
-    IBOutlet NSComboBox *audioBox;
-    IBOutlet NSComboBox *subtitleBox;
-    IBOutlet NSMatrix *audioMatrix;
-    IBOutlet NSMatrix *subtitleMatrix;
-    
-    HBBLangData *langData;
-    NSArray *languages;
-
-}
+@interface HBBPreferencesController : NSWindowController <NSComboBoxDataSource>
 
 - (IBAction)languageSelected:(id)sender;
 - (IBAction)toggleLanguageScan:(id)sender;

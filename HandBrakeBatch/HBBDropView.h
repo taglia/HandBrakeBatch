@@ -13,14 +13,6 @@
 #import "HBBInputFile.h"
 #import "HBBAppDelegate.h"
 
-@interface HBBDropView : NSView {
-    IBOutlet RSRTVArrayController *fileNamesController;
-    IBOutlet NSButton *startButton;
-    IBOutlet NSProgressIndicator *progressIndicator;
-    
-    HBBAppDelegate *appDelegate;
-}
-
-@property (assign) HBBAppDelegate *appDelegate;
+@interface HBBDropView : NSView
 
 @end

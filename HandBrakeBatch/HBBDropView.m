@@ -10,12 +10,19 @@
 
 #import "HBBDropView.h"
 
+@interface HBBDropView ()
+
+@property (readwrite, assign, nonatomic) IBOutlet RSRTVArrayController *fileNamesController;
+@property (readwrite, assign, nonatomic) IBOutlet NSButton *startButton;
+@property (readwrite, assign, nonatomic) IBOutlet NSProgressIndicator *progressIndicator;
+@property (readwrite, assign, nonatomic) IBOutlet HBBAppDelegate *appDelegate;
+
+@property (readwrite, assign, nonatomic) BOOL drawFocusRing;
+@property (readwrite, assign, nonatomic) BOOL dropping;
+
+@end
+
 @implementation HBBDropView
-
-@synthesize appDelegate;
-
-static bool drawFocusRing = NO;
-static bool dropping = NO;
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
@@ -29,7 +36,7 @@ static bool dropping = NO;
 - (void)drawRect:(NSRect)rect {
     [super drawRect:rect];
     
-    if (drawFocusRing) {
+    if (self.drawFocusRing) {
         [NSGraphicsContext saveGraphicsState];
         
         [[NSColor blueColor] set];
@@ -50,22 +57,22 @@ static bool dropping = NO;
 
 // Validate Drop
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
-    if (dropping)
+    if (self.dropping) {
         return NSDragOperationNone;
-    
-    drawFocusRing = YES;
+    }
+    self.drawFocusRing = YES;
     [self display];
     return NSDragOperationEvery;
 }
 
 - (void)draggingExited:(id <NSDraggingInfo>)sender {
-    drawFocusRing = NO;
+    self.drawFocusRing = NO;
     [self display];
 }
 
 // Accept Drop
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
-    drawFocusRing = NO;
+    self.drawFocusRing = NO;
     [self display];
     NSPasteboard *pboard;
     NSDragOperation sourceDragMask;
@@ -83,21 +90,20 @@ static bool dropping = NO;
 }
 
 - (void) processDraggedItems:(NSArray *)items {
-    dropping = YES;
-    [startButton setEnabled:NO];
-    [startButton setTitle:@"Processing…"];
-    [progressIndicator setHidden:NO];
-    [progressIndicator startAnimation:self];
+    self.dropping = YES;
+    [self.startButton setEnabled:NO];
+    [self.startButton setTitle:@"Processing…"];
+    [self.progressIndicator setHidden:NO];
+    [self.progressIndicator startAnimation:self];
     for (NSString *item in items) {
         NSURL *completeFileName = [NSURL fileURLWithPath:item];
-    
-        [appDelegate processFiles:completeFileName];
+        [self.appDelegate processFiles:completeFileName];
     }
-    [startButton setEnabled:YES];
-    [startButton setTitle:@"Start"];
-    [progressIndicator setHidden:YES];
-    [progressIndicator stopAnimation:self];
-    dropping=NO;
+    [self.startButton setEnabled:YES];
+    [self.startButton setTitle:@"Start"];
+    [self.progressIndicator setHidden:YES];
+    [self.progressIndicator stopAnimation:self];
+    self.dropping = NO;
 }
 
 @end

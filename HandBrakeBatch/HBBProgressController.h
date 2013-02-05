@@ -11,9 +11,9 @@
 #import <Cocoa/Cocoa.h>
 #import "HBBInputFile.h"
 
-#define COMPLETE_NOTIFICATION @"HBBConversionCompleted"
-#define PROCESSED_QUEUE_KEY @"HBBProcessedQueue"
-#define CURRENT_QUEUE_KEY @"HBBCurrentQueue"
+#define COMPLETE_NOTIFICATION @ "HBBConversionCompleted"
+#define PROCESSED_QUEUE_KEY	  @ "HBBProcessedQueue"
+#define CURRENT_QUEUE_KEY	  @ "HBBCurrentQueue"
 
 @interface HBBProgressController : NSWindowController
 

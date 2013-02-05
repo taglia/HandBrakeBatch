@@ -25,27 +25,28 @@
 @implementation HBBDropView
 
 - (id)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code here.
-    }
-    
-    return self;
+	self = [super initWithFrame:frame];
+
+	if (self) {
+		// Initialization code here.
+	}
+
+	return self;
 }
 
 - (void)drawRect:(NSRect)rect {
-    [super drawRect:rect];
-    
-    if (self.drawFocusRing) {
-        [NSGraphicsContext saveGraphicsState];
-        
-        [[NSColor blueColor] set];
-        
-        NSSetFocusRingStyle(NSFocusRingBelow);
-        [[NSBezierPath bezierPathWithRect:[self bounds]] fill];
-        
-        [NSGraphicsContext restoreGraphicsState];
-    }
+	[super drawRect:rect];
+
+	if (self.drawFocusRing) {
+		[NSGraphicsContext saveGraphicsState];
+
+		[[NSColor blueColor] set];
+
+		NSSetFocusRingStyle(NSFocusRingBelow);
+		[[NSBezierPath bezierPathWithRect:[self bounds]] fill];
+
+		[NSGraphicsContext restoreGraphicsState];
+	}
 }
 
 
@@ -57,51 +58,54 @@
 
 // Validate Drop
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
-    if (self.dropping) {
-        return NSDragOperationNone;
-    }
-    self.drawFocusRing = YES;
-    [self display];
-    return NSDragOperationEvery;
+	if (self.dropping) {
+		return NSDragOperationNone;
+	}
+
+	self.drawFocusRing = YES;
+	[self display];
+	return NSDragOperationEvery;
 }
 
 - (void)draggingExited:(id <NSDraggingInfo>)sender {
-    self.drawFocusRing = NO;
-    [self display];
+	self.drawFocusRing = NO;
+	[self display];
 }
 
 // Accept Drop
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
-    self.drawFocusRing = NO;
-    [self display];
-    NSPasteboard *pboard;
-    NSDragOperation sourceDragMask;
-    
-    sourceDragMask = [sender draggingSourceOperationMask];
-    pboard = [sender draggingPasteboard];
-    
-    NSArray* draggedItems = [pboard propertyListForType:NSFilenamesPboardType];
-    
-    [NSThread detachNewThreadSelector:@selector(processDraggedItems:) toTarget:self withObject:draggedItems];
-	
+	self.drawFocusRing = NO;
+	[self display];
+	NSPasteboard *pboard;
+	NSDragOperation sourceDragMask;
+
+	sourceDragMask = [sender draggingSourceOperationMask];
+	pboard = [sender draggingPasteboard];
+
+	NSArray *draggedItems = [pboard propertyListForType:NSFilenamesPboardType];
+
+	[NSThread detachNewThreadSelector:@selector(processDraggedItems:) toTarget:self withObject:draggedItems];
+
 	return YES;
 }
 
-- (void) processDraggedItems:(NSArray *)items {
-    self.dropping = YES;
-    [self.startButton setEnabled:NO];
-    [self.startButton setTitle:@"Processing…"];
-    [self.progressIndicator setHidden:NO];
-    [self.progressIndicator startAnimation:self];
-    for (NSString *item in items) {
-        NSURL *completeFileName = [NSURL fileURLWithPath:item];
-        [self.appDelegate processFiles:completeFileName];
-    }
-    [self.startButton setEnabled:YES];
-    [self.startButton setTitle:@"Start"];
-    [self.progressIndicator setHidden:YES];
-    [self.progressIndicator stopAnimation:self];
-    self.dropping = NO;
+- (void)processDraggedItems:(NSArray *)items {
+	self.dropping = YES;
+	[self.startButton setEnabled:NO];
+	[self.startButton setTitle:@"Processing…"];
+	[self.progressIndicator setHidden:NO];
+	[self.progressIndicator startAnimation:self];
+
+	for (NSString *item in items) {
+		NSURL *completeFileName = [NSURL fileURLWithPath:item];
+		[self.appDelegate processFiles:completeFileName];
+	}
+
+	[self.startButton setEnabled:YES];
+	[self.startButton setTitle:@"Start"];
+	[self.progressIndicator setHidden:YES];
+	[self.progressIndicator stopAnimation:self];
+	self.dropping = NO;
 }
 
 @end

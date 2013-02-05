@@ -23,22 +23,22 @@
 @synthesize fileName, audioLanguages, subtitleLanguages;
 
 - (id)initWithFile:(NSString *)path {
-    self = [self init];
-    
-    [self setFileName:path];
-    
-    return self;
+	self = [self init];
+
+	[self setFileName:path];
+
+	return self;
 }
 
 - (id)init {
-    self = [super init];
+	self = [super init];
 
-    if (self) {
-        self.mutableAudioLanguages = [[NSMutableArray alloc] init];
-        self.mutableSubtitleLanguages = [[NSMutableArray alloc] init];
-    }
-    
-    return self;
+	if (self) {
+		self.mutableAudioLanguages = [[NSMutableArray alloc] init];
+		self.mutableSubtitleLanguages = [[NSMutableArray alloc] init];
+	}
+
+	return self;
 }
 
 - (NSArray *)audioLanguages {
@@ -50,54 +50,56 @@
 }
 
 - (void)scan {
-    NSTask *task = [[NSTask alloc] init];
-    NSPipe *stdOutPipe = [NSPipe pipe];
-    
-    [task setStandardOutput:stdOutPipe];
-    [task setStandardError: [task standardOutput]];
-    
-    // No perf issues here, so we always use the 32 bit version
-    [task setLaunchPath:[[NSBundle mainBundle] pathForResource:@"HandBrakeCLI_32" ofType:@""]];
-    
-    // Setting arguments
-    [task setArguments:@[@"--scan", @"-i", fileName]];
-    
-    // Executing scan
-    [task launch];
-    for (int i = 0; i < 10 && [task isRunning]; ++i) {
-        [NSThread sleepForTimeInterval: .5];
-    }
-    
-    // If the scan is not completed in 5 seconds, let's kill it
-    if ([task isRunning]) {
-        [task terminate];
-    }
-    NSData *output = [[stdOutPipe fileHandleForReading] readDataToEndOfFile];
-    
-    NSString *stringData = [NSString stringWithCString:[output bytes] encoding:NSASCIIStringEncoding];
+	NSTask *task = [[NSTask alloc] init];
+	NSPipe *stdOutPipe = [NSPipe pipe];
 
-    NSArray *outputLines = [stringData componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-    
-    NSUInteger audioIndex = [outputLines indexOfObject:@"  + audio tracks:"];
-    NSUInteger subtitleIndex = [outputLines indexOfObject:@"  + subtitle tracks:"];
-    
-    // Reset languages
-    [self.mutableAudioLanguages removeAllObjects];
-    [self.mutableSubtitleLanguages removeAllObjects];
-    
-    if (audioIndex != NSNotFound) {
-        while ([outputLines[++audioIndex] characterAtIndex:4] == '+') {
-            NSRange range = [outputLines[audioIndex] rangeOfString:@"iso639-2: "];
-            [self.mutableAudioLanguages addObject:[outputLines[audioIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
-        }
-    }
-    
-    if (subtitleIndex != NSNotFound) {
-        while ([outputLines[++subtitleIndex] characterAtIndex:4] == '+') {
-            NSRange range = [outputLines[subtitleIndex] rangeOfString:@"iso639-2: "];
-            [self.mutableSubtitleLanguages addObject:[outputLines[subtitleIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
-        }
-    }
+	[task setStandardOutput:stdOutPipe];
+	[task setStandardError:[task standardOutput]];
+
+	// No perf issues here, so we always use the 32 bit version
+	[task setLaunchPath:[[NSBundle mainBundle] pathForResource:@"HandBrakeCLI_32" ofType:@""]];
+
+	// Setting arguments
+	[task setArguments:@[@"--scan", @"-i", fileName]];
+
+	// Executing scan
+	[task launch];
+
+	for (int i = 0; i < 10 && [task isRunning]; ++i) {
+		[NSThread sleepForTimeInterval:.5];
+	}
+
+	// If the scan is not completed in 5 seconds, let's kill it
+	if ([task isRunning]) {
+		[task terminate];
+	}
+
+	NSData *output = [[stdOutPipe fileHandleForReading] readDataToEndOfFile];
+
+	NSString *stringData = [NSString stringWithCString:[output bytes] encoding:NSASCIIStringEncoding];
+
+	NSArray *outputLines = [stringData componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+
+	NSUInteger audioIndex = [outputLines indexOfObject:@"  + audio tracks:"];
+	NSUInteger subtitleIndex = [outputLines indexOfObject:@"  + subtitle tracks:"];
+
+	// Reset languages
+	[self.mutableAudioLanguages removeAllObjects];
+	[self.mutableSubtitleLanguages removeAllObjects];
+
+	if (audioIndex != NSNotFound) {
+		while ([outputLines[++audioIndex] characterAtIndex:4] == '+') {
+			NSRange range = [outputLines[audioIndex] rangeOfString:@"iso639-2: "];
+			[self.mutableAudioLanguages addObject:[outputLines[audioIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
+		}
+	}
+
+	if (subtitleIndex != NSNotFound) {
+		while ([outputLines[++subtitleIndex] characterAtIndex:4] == '+') {
+			NSRange range = [outputLines[subtitleIndex] rangeOfString:@"iso639-2: "];
+			[self.mutableSubtitleLanguages addObject:[outputLines[subtitleIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
+		}
+	}
 }
 
 @end

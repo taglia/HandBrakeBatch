@@ -13,9 +13,10 @@
 #import "HBBProgressController.h"
 #import "HBBPreferencesController.h"
 #import "RSRTVArrayController.h"
+
 @class HBBDropView;
 
-@interface HBBAppDelegate : NSObject <NSApplicationDelegate, NSSplitViewDelegate, NSWindowDelegate, GrowlApplicationBridgeDelegate> 
+@interface HBBAppDelegate : NSObject <NSApplicationDelegate, NSSplitViewDelegate, NSWindowDelegate, GrowlApplicationBridgeDelegate>
 
 @property (readonly, strong, nonatomic) NSMutableArray *inputFiles;
 @property (readonly, strong, nonatomic) NSArray *presets;

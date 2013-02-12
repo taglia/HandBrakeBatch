@@ -57,7 +57,7 @@
 	[task setStandardError:[task standardOutput]];
 
 	// No perf issues here, so we always use the 32 bit version
-	[task setLaunchPath:[[NSBundle mainBundle] pathForResource:@"HandBrakeCLI_32" ofType:@""]];
+	[task setLaunchPath:[[NSBundle mainBundle] pathForResource:@"HandBrakeCLI" ofType:@""]];
 
 	// Setting arguments
 	[task setArguments:@[@"--scan", @"-i", fileName]];
@@ -88,14 +88,14 @@
 	[self.mutableSubtitleLanguages removeAllObjects];
 
 	if (audioIndex != NSNotFound) {
-		while ([outputLines[++audioIndex] characterAtIndex:4] == '+') {
+		while ([outputLines[++audioIndex] length] > 4 && [outputLines[audioIndex] characterAtIndex:4] == '+') {
 			NSRange range = [outputLines[audioIndex] rangeOfString:@"iso639-2: "];
 			[self.mutableAudioLanguages addObject:[outputLines[audioIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
 		}
 	}
 
 	if (subtitleIndex != NSNotFound) {
-		while ([outputLines[++subtitleIndex] characterAtIndex:4] == '+') {
+		while ([outputLines[++audioIndex] length] > 4 && [outputLines[subtitleIndex] characterAtIndex:4] == '+') {
 			NSRange range = [outputLines[subtitleIndex] rangeOfString:@"iso639-2: "];
 			[self.mutableSubtitleLanguages addObject:[outputLines[subtitleIndex] substringWithRange:NSMakeRange(range.location + range.length, 3)]];
 		}

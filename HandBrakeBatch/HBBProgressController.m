@@ -300,7 +300,7 @@ static NSMutableString *stdErrorString;
 	[self prepareTask];
 
 	totalFiles = [queue count];
-	currentFile = 0;
+	currentFile = 1;
 	[self.processingLabel setStringValue:[NSString stringWithFormat:@"Processing 1 / %ld", totalFiles]];
 
 	[self.backgroundTask launch];

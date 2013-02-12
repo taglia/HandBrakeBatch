@@ -30,19 +30,17 @@ static HBBLangData *instance = nil;
 	return instance;
 }
 
+- (int)dbOpen {
+    NSString *dbFileName = [[NSBundle mainBundle] pathForResource:@"iso639-2" ofType:@"db"];
+    sqlite3 *dbHandle = self.dbHandle;
+    int status = sqlite3_open_v2([dbFileName cStringUsingEncoding:NSUTF8StringEncoding], &dbHandle, SQLITE_OPEN_READONLY, NULL);
+    self.dbHandle = dbHandle;
+    
+    return status;
+}
+
 - (id)init {
 	self = [super init];
-
-	if (self) {
-		NSString *dbFileName = [[NSBundle mainBundle] pathForResource:@"iso639-2" ofType:@"db"];
-		sqlite3 *dbHandle = self.dbHandle;
-		int status = sqlite3_open_v2([dbFileName cStringUsingEncoding:NSUTF8StringEncoding], &dbHandle, SQLITE_OPEN_READONLY, NULL);
-
-		if (status != SQLITE_OK) {
-			NSLog(@"Error opening language list database: %s", sqlite3_errmsg(dbHandle));
-			return nil;
-		}
-	}
 
 	return self;
 }
@@ -52,7 +50,7 @@ static HBBLangData *instance = nil;
 	const char *unused;
 	sqlite3_stmt *statement;
 	sqlite3 *dbHandle = self.dbHandle;
-
+    
 	if (sqlite3_prepare_v2(dbHandle, [statementString cStringUsingEncoding:NSUTF8StringEncoding], (int)[statementString length], &statement, &unused) != SQLITE_OK) {
 		NSLog(@"Error preparing SQL statement (%@): %s", statementString, sqlite3_errmsg(dbHandle));
 		return nil;
@@ -79,8 +77,14 @@ static HBBLangData *instance = nil;
 - (NSString *)execSimpleStatement:(NSString *)statementString {
 	const char *unused;
 	sqlite3_stmt *statement;
-	sqlite3 *dbHandle = self.dbHandle;
-
+    
+    if ([self dbOpen] != SQLITE_OK) {
+        NSLog(@"Error opening language list database: %s", sqlite3_errmsg([self dbHandle]));
+        return nil;
+    }
+    
+    sqlite3 *dbHandle = self.dbHandle;
+    
 	if (sqlite3_prepare_v2(dbHandle, [statementString cStringUsingEncoding:NSUTF8StringEncoding], (int)[statementString length], &statement, &unused) != SQLITE_OK) {
 		NSLog(@"Error preparing SQL statement (%@): %s", statementString, sqlite3_errmsg(dbHandle));
 		return nil;

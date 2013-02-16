@@ -25,8 +25,8 @@
 @property (readwrite, weak, nonatomic) IBOutlet HBBDropView *dropView;
 @property (readwrite, weak, nonatomic) IBOutlet NSView *leftPaneView;
 @property (readwrite, weak, nonatomic) IBOutlet NSButton *chooseOutputFolder;
-@property (readwrite, weak, nonatomic) IBOutlet NSWindow *window;
 
+@property (readwrite, strong, nonatomic) IBOutlet NSWindow *window;
 @property (readwrite, strong, nonatomic) NSMutableArray *inputFiles;
 @property (readwrite, strong, nonatomic) NSArray *presets;
 @property (readwrite, strong, nonatomic) HBBProgressController *progressController;

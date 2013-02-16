@@ -21,6 +21,7 @@
 @property (readonly, strong, nonatomic) NSArray *presets;
 @property (readonly, strong, nonatomic) HBBProgressController *progressController;
 @property (readonly, strong, nonatomic) HBBPreferencesController *preferencesController;
+@property (readonly, strong, nonatomic) NSWindow *window;
 
 - (IBAction)chooseOutputFolder:(id)sender;
 - (IBAction)startConversion:(id)sender;

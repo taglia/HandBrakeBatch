@@ -18,10 +18,10 @@
 		0E54925F136C49890094563F /* HBBInputFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E54925E136C49890094563F /* HBBInputFile.m */; };
 		0E6C285C14C288BC004A0FE5 /* iso639-2.db in Resources */ = {isa = PBXBuildFile; fileRef = 0E6C285B14C288BC004A0FE5 /* iso639-2.db */; };
 		0E6C286214C29515004A0FE5 /* HBBLangData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E6C286114C29515004A0FE5 /* HBBLangData.m */; };
+		0E7B648D16CF339700D04227 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E7B648C16CF339700D04227 /* Icon.icns */; };
 		0E933F9D14C47C8000A5BB1D /* HBBVideoScan.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E933F9C14C47C8000A5BB1D /* HBBVideoScan.m */; };
 		0E987E2113E4062C00A99716 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E987E2013E4062C00A99716 /* Preferences.xib */; };
 		0E987E2413E4083900A99716 /* HBBPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E987E2313E4083900A99716 /* HBBPreferencesController.m */; };
-		0E9B490A136C874000FCDC68 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E9B4909136C874000FCDC68 /* Icon.icns */; };
 		0EB54A4C1596CDBC00EE2AB4 /* HBBDropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB54A4B1596CDBC00EE2AB4 /* HBBDropView.m */; };
 		0EC6D60415C002F70016775D /* manicure.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0EC6D60315C002F70016775D /* manicure.rb */; };
 		0EDBC5741390AFB300D88A0B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EDBC5731390AFB300D88A0B /* Growl.framework */; };
@@ -81,12 +81,12 @@
 		0E6C285B14C288BC004A0FE5 /* iso639-2.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iso639-2.db"; sourceTree = "<group>"; };
 		0E6C286014C29515004A0FE5 /* HBBLangData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBLangData.h; sourceTree = "<group>"; };
 		0E6C286114C29515004A0FE5 /* HBBLangData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBLangData.m; sourceTree = "<group>"; };
+		0E7B648C16CF339700D04227 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Icon.icns; path = ../Icon.icns; sourceTree = "<group>"; };
 		0E933F9B14C47C8000A5BB1D /* HBBVideoScan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBVideoScan.h; sourceTree = "<group>"; };
 		0E933F9C14C47C8000A5BB1D /* HBBVideoScan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBVideoScan.m; sourceTree = "<group>"; };
 		0E987E2013E4062C00A99716 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		0E987E2213E4083900A99716 /* HBBPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBPreferencesController.h; sourceTree = "<group>"; };
 		0E987E2313E4083900A99716 /* HBBPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HBBPreferencesController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		0E9B4909136C874000FCDC68 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		0EB54A431596B7FD00EE2AB4 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		0EB54A441596B7FD00EE2AB4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0EB54A4A1596CDBC00EE2AB4 /* HBBDropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBDropView.h; sourceTree = "<group>"; };
@@ -240,9 +240,9 @@
 				0EE562F115BFFD8F0054359B /* HandBrakeCLI */,
 				0EF8EF93136CFEB700884AE8 /* Credits.rtf */,
 				0EF72314136CFCE100D223F4 /* gpl-3.0.txt */,
-				0E9B4909136C874000FCDC68 /* Icon.icns */,
 				0EEC80471369B4EA00D05124 /* HandBrakeBatch-Info.plist */,
 				0EEC80481369B4EA00D05124 /* InfoPlist.strings */,
+				0E7B648C16CF339700D04227 /* Icon.icns */,
 				0EEC804B1369B4EA00D05124 /* HandBrakeBatch-Prefix.pch */,
 				0EDBC5761390B05500D88A0B /* Growl Registration Ticket.growlRegDict */,
 				0E6C285B14C288BC004A0FE5 /* iso639-2.db */,
@@ -306,7 +306,6 @@
 				0EEC804A1369B4EA00D05124 /* InfoPlist.strings in Resources */,
 				0EEC80561369B4EA00D05124 /* MainMenu.xib in Resources */,
 				0E18546B136C4222004B5558 /* HBBProgressWindow.xib in Resources */,
-				0E9B490A136C874000FCDC68 /* Icon.icns in Resources */,
 				0EF72315136CFCE100D223F4 /* gpl-3.0.txt in Resources */,
 				0EF8EF95136CFEB700884AE8 /* Credits.rtf in Resources */,
 				0E49A762137642B700FB3B77 /* plist.rb in Resources */,
@@ -315,6 +314,7 @@
 				0E6C285C14C288BC004A0FE5 /* iso639-2.db in Resources */,
 				0EE562F215BFFD8F0054359B /* HandBrakeCLI in Resources */,
 				0EC6D60415C002F70016775D /* manicure.rb in Resources */,
+				0E7B648D16CF339700D04227 /* Icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,7 +429,7 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -455,7 +455,7 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";

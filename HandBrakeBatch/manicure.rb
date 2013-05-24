@@ -12,7 +12,7 @@
 require 'optparse'
 require 'ostruct'
 require 'rubygems'
-require 'plist'
+require './plist'
 
 # CLI options: (code based on http://www.ruby-doc.org/stdlib/libdoc/optparse/rdoc/index.html )
 def readOptions
@@ -248,7 +248,7 @@ class Display
     (depth+1).times do
       commandString << "<"
     end
-    commandString << " " << hash["PresetName"] << "\n\n"
+    commandString << " " << hash["PresetName"] << "\n"
     puts commandString
   end
   
@@ -260,7 +260,7 @@ class Display
     (depth+1).times do
       commandString << ">"
     end
-    commandString << "\n\n"
+    commandString << "\n"
     puts commandString
   end
   
@@ -349,18 +349,28 @@ class Display
           audioEncoders << "copy:dtshd"
         when /AAC Pass/
           audioEncoders << "copy:aac"
+        when "AAC (FDK)"
+          audioEncoders << "fdk_aac"
+        when "AAC (faac)"
+          audioEncoders << "faac"
         when "AAC (ffmpeg)"
           audioEncoders << "ffaac"
-        when /AAC/
-          audioEncoders << "faac"
+        when "AAC (CoreAudio)"
+          audioEncoders << "ca_aac"
+        when "HE-AAC (FDK)"
+          audioEncoders << "fdk_haac"
+        when "HE-AAC (CoreAudio)"
+          audioEncoders << "ca_haac"
         when /Vorbis/
           audioEncoders << "vorbis"
         when /MP3 Pass/
           audioEncoders << "copy:mp3"
         when /MP3/
           audioEncoders << "lame"
-        when /FLAC/
+        when "FLAC (ffmpeg)"
           audioEncoders << "ffflac"
+        when "FLAC (24-bit)"
+          audioEncoders << "ffflac24"
         when /Auto Pass/
           audioEncoders << "copy"
       end
@@ -524,36 +534,50 @@ class Display
     if hash["UsesPictureFilters"] == 1
       
       case hash["PictureDeinterlace"]
+      when 1
+        commandString << " --deinterlace=" << hash["PictureDeinterlaceCustom"].to_s
       when 2
-        commandString << " --deinterlace=\"fast\""
+        commandString << " --deinterlace=fast"
       when 3
-        commandString << " --deinterlace=\slow\""
+        commandString << " --deinterlace=slow"
       when 4
-        commandString << " --deinterlace=\"slower\""
+        commandString << " --deinterlace=slower"
       when 5
-        commandString << " --deinterlace=\"slowest\""
+        commandString << " --deinterlace=bob"
       end
       
       case hash["PictureDenoise"]
+      when 1
+        commandString << " --denoise=" << hash["PictureDenoiseCustom"].to_s
       when 2
-        commandString << " --denoise=\"weak\""
+        commandString << " --denoise=weak"
       when 3
-        commandString << " --denoise=\"medium\""
+        commandString << " --denoise=medium"
       when 4
-        commandString << " --denoise=\"strong\""
+        commandString << " --denoise=strong"
       end
       
       case hash["PictureDecomb"]
       when 1
-        commandString << " --decomb=\\\"" << hash["PictureDecombCustom"].to_s << "\\\""
+        commandString << " --decomb=" << hash["PictureDecombCustom"].to_s
       when 2
         commandString << " --decomb"
       when 3
-        commandString << " --decomb=\\\"7:2:6:9:1:80\\\""
+        commandString << " --decomb=fast"
+      when 4
+        commandString << " --decomb=bob"
       end
-      
-      if hash["PictureDetelecine"] == 2 then commandString << " --detelecine" end
-      if hash["PictureDeblock"] != 0 then commandString << " --deblock=" << hash["PictureDeblock"].to_s end
+
+      case hash["PictureDetelecine"]
+        when 1
+          commandString << " --detelecine=" << hash["PictureDetelecineCustom"].to_s
+        when 2
+          commandString << " --detelecine"
+      end
+
+      if hash["PictureDeblock"] != 0
+        commandString << " --deblock=" << hash["PictureDeblock"].to_s
+      end
       
     end
     
@@ -578,17 +602,34 @@ class Display
     if hash["VideoTurboTwoPass"] == 1 then commandString << " -T" end
 
     #Advanced Options
-    if hash["x264Option"] != ""
+    if hash["x264UseAdvancedOptions"] != 1
+      if hash["x264Preset"] != ""
+        commandString << " --x264-preset "
+        commandString << hash["x264Preset"]
+      end
+      if hash["x264Tune"] != "" && hash["x264Tune"] != "none"
+        commandString << " --x264-tune "
+        commandString << hash["x264Tune"]
+      end
+      if hash["h264Profile"] != "" && hash["h264Profile"] != "auto"
+        commandString << " --h264-profile "
+        commandString << hash["h264Profile"]
+      end
+      if hash["h264Level"] != "" && hash["h264Level"] != "auto"
+        commandString << " --h264-level "
+        commandString << hash["h264Level"]
+      end
+      if hash["x264OptionExtra"] != ""
+        commandString << " -x "
+        commandString << hash["x264OptionExtra"]
+      end
+    elsif hash["x264Option"] != ""
       commandString << " -x "
       commandString << hash["x264Option"]
     end
     
     # That's it, print to screen now
     puts commandString
-    
-    #puts "*" * @columnWidth
-
-    puts  "\n"
   end
   
   def generateCLIFolderParse( hash, depth ) # Shows the folder for wrappers to parse
@@ -599,7 +640,7 @@ class Display
     (depth+1).times do
       commandString << "<"
     end
-    commandString << " " << hash["PresetName"] << "\n\n"
+    commandString << " " << hash["PresetName"] << "\n"
     puts commandString
   end
   
@@ -611,7 +652,7 @@ class Display
     (depth+1).times do
       commandString << ">"
     end
-    commandString << "\n\n"
+    commandString << "\n"
     puts commandString
   end
   
@@ -692,18 +733,28 @@ class Display
           audioEncoders << "copy:dtshd"
         when /AAC Pass/
           audioEncoders << "copy:aac"
+        when "AAC (FDK)"
+          audioEncoders << "fdk_aac"
+        when "AAC (faac)"
+          audioEncoders << "faac"
         when "AAC (ffmpeg)"
           audioEncoders << "ffaac"
-        when /AAC/
-          audioEncoders << "faac"
+        when "AAC (CoreAudio)"
+          audioEncoders << "ca_aac"
+        when "HE-AAC (FDK)"
+          audioEncoders << "fdk_haac"
+        when "HE-AAC (CoreAudio)"
+          audioEncoders << "ca_haac"
         when /Vorbis/
           audioEncoders << "vorbis"
         when /MP3 Pass/
           audioEncoders << "copy:mp3"
         when /MP3/
           audioEncoders << "lame"
-        when /FLAC/
+        when "FLAC (ffmpeg)"
           audioEncoders << "ffflac"
+        when "FLAC (24-bit)"
+          audioEncoders << "ffflac24"
         when /Auto Pass/
           audioEncoders << "copy"
       end
@@ -867,37 +918,51 @@ class Display
     if hash["UsesPictureFilters"] == 1
       
       case hash["PictureDeinterlace"]
+      when 1
+        commandString << " --deinterlace=" << hash["PictureDeinterlaceCustom"].to_s
       when 2
-        commandString << " --deinterlace=\"fast\""
+        commandString << " --deinterlace=fast"
       when 3
-        commandString << " --deinterlace=\slow\""
+        commandString << " --deinterlace=slow"
       when 4
-        commandString << " --deinterlace=\"slower\""
+        commandString << " --deinterlace=slower"
       when 5
-        commandString << " --deinterlace=\"slowest\""
+        commandString << " --deinterlace=bob"
       end
       
       case hash["PictureDenoise"]
+      when 1
+        commandString << " --denoise=" << hash["PictureDenoiseCustom"].to_s
       when 2
-        commandString << " --denoise=\"weak\""
+        commandString << " --denoise=weak"
       when 3
-        commandString << " --denoise=\"medium\""
+        commandString << " --denoise=medium"
       when 4
-        commandString << " --denoise=\"strong\""
+        commandString << " --denoise=strong"
       end
       
       case hash["PictureDecomb"]
       when 1
-        commandString << " --decomb=\\\"" << hash["PictureDecombCustom"].to_s << "\\\""
+        commandString << " --decomb=" << hash["PictureDecombCustom"].to_s
       when 2
         commandString << " --decomb"
       when 3
-        commandString << " --decomb=\\\"7:2:6:9:1:80\\\""
+        commandString << " --decomb=fast"
+      when 4
+        commandString << " --decomb=bob"
       end
-      
-      if hash["PictureDetelecine"] == 2 then commandString << " --detelecine" end
-      if hash["PictureDeblock"] != 0 then commandString << " --deblock=" << hash["PictureDeblock"].to_s end
-      
+
+      case hash["PictureDetelecine"]
+        when 1
+          commandString << " --detelecine=" << hash["PictureDetelecineCustom"].to_s
+        when 2
+          commandString << " --detelecine"
+      end
+
+      if hash["PictureDeblock"] != 0
+        commandString << " --deblock=" << hash["PictureDeblock"].to_s
+      end
+
     end
 
     #Anamorphic
@@ -913,7 +978,7 @@ class Display
     if hash["PictureModulus"]
       commandString << " --modulus " << hash["PictureModulus"].to_s
     end
-    
+
     #Booleans
     if hash["ChapterMarkers"] == 1 then commandString << " -m" end
     if hash["VideoGrayScale"] == 1 then commandString << " -g" end
@@ -921,22 +986,39 @@ class Display
     if hash["VideoTurboTwoPass"] == 1 then commandString << " -T" end
 
     #Advanced Options
-    if hash["x264Option"] != ""
+    if hash["x264UseAdvancedOptions"] != 1
+      if hash["x264Preset"] != "" and !hash["x264Preset"].nil?
+        commandString << " --x264-preset "
+        commandString << hash["x264Preset"]
+      end
+      if hash["x264Tune"] != "" && hash["x264Tune"] != "none"  && !hash["x264Tune"].nil?
+        commandString << " --x264-tune "
+        commandString << hash["x264Tune"]
+      end
+      if hash["h264Profile"] != "" && hash["h264Profile"] != "auto" && !hash["h264Profile"].nil?
+        commandString << " --h264-profile "
+        commandString << hash["h264Profile"]
+      end
+      if hash["h264Level"] != "" && hash["h264Level"] != "auto" && !hash["h264Level"].nil?
+        commandString << " --h264-level "
+        commandString << hash["h264Level"]
+      end
+      if hash["x264OptionExtra"] != "" && !hash["x264OptionExtra"].nil?
+        commandString << " -x "
+        commandString << hash["x264OptionExtra"]
+      end
+    elsif hash["x264Option"] != "" && !hash["x264Option"].nil?
       commandString << " -x "
       commandString << hash["x264Option"]
     end
     
     # That's it, print to screen now
     puts commandString
-    
-    #puts "*" * @columnWidth
-
-    puts  "\n"
   end
 
   def generateAPIcalls(hash) # Makes a C version of the preset ready for coding into the CLI
     
-    commandString = "if (!strcmp(preset_name, \"" << hash["PresetName"] << "\"))\n{\n    "
+    commandString = "if (!strcasecmp(preset_name, \"" << hash["PresetName"] << "\"))\n{\n    "
     
     #Filename suffix
     commandString << "if( !mux )\n    "
@@ -995,8 +1077,9 @@ class Display
       elsif hash["VideoFramerate"] == "29.97 (NTSC Video)"
         commandString << "job->vrate_base = " << "900900;\n    "
       elsif hash["VideoFramerate"] == "25 (PAL Film/Video)"
-        commandString << "job->vrate_base = " << "1080000\n    "
-      # Gotta add the rest of the framerates for completion's sake.
+        commandString << "job->vrate_base = " << "1080000;\n    "
+      else
+        commandString << "job->vrate_base = " << (27000000 / hash["VideoFramerate"].to_i).to_s << ";\n    "
       end
       # not same as source: pfr, else default (cfr)
       if hash["VideoFramerateMode"] == "pfr"
@@ -1036,18 +1119,28 @@ class Display
           audioEncoders << "copy:dtshd"
         when /AAC Pass/
           audioEncoders << "copy:aac"
+        when "AAC (FDK)"
+          audioEncoders << "fdk_aac"
+        when "AAC (faac)"
+          audioEncoders << "faac"
         when "AAC (ffmpeg)"
           audioEncoders << "ffaac"
-        when /AAC/
-          audioEncoders << "faac"
+        when "AAC (CoreAudio)"
+          audioEncoders << "ca_aac"
+        when "HE-AAC (FDK)"
+          audioEncoders << "fdk_haac"
+        when "HE-AAC (CoreAudio)"
+          audioEncoders << "ca_haac"
         when /Vorbis/
           audioEncoders << "vorbis"
         when /MP3 Pass/
           audioEncoders << "copy:mp3"
         when /MP3/
           audioEncoders << "lame"
-        when /FLAC/
+        when "FLAC (ffmpeg)"
           audioEncoders << "ffflac"
+        when "FLAC (24-bit)"
+          audioEncoders << "ffflac24"
         when /Auto Pass/
           audioEncoders << "copy"
       end
@@ -1152,24 +1245,33 @@ class Display
     
     case hash["AudioEncoderFallback"]
       when /AC3/
-        audioEncoderFallback << "HB_ACODEC_AC3"
+        audioEncoderFallback << "ffac3"
+      when "AAC (FDK)"
+        audioEncoderFallback << "fdk_aac"
+      when "AAC (faac)"
+        audioEncoderFallback << "faac"
       when "AAC (ffmpeg)"
-        audioEncoderFallback << "HB_ACODEC_FFAAC"
-      when /AAC/
-        audioEncoderFallback << "HB_ACODEC_FAAC"
+        audioEncoderFallback << "ffaac"
+      when "AAC (CoreAudio)"
+        audioEncoderFallback << "ca_aac"
+      when "HE-AAC (FDK)"
+        audioEncoderFallback << "fdk_haac"
+      when "HE-AAC (CoreAudio)"
+        audioEncoderFallback << "ca_haac"
       when /Vorbis/
-        audioEncoderFallback << "HB_ACODEC_VORBIS"
+        audioEncoderFallback << "vorbis"
       when /MP3/
-        audioEncoderFallback << "HB_ACODEC_LAME"
-      when /FLAC/
-        audioEncoderFallback << "HB_ACODEC_FFFLAC"
+        audioEncoderFallback << "lame"
+      when "FLAC (ffmpeg)"
+        audioEncoderFallback << "ffflac"
+      when "FLAC (24-bit)"
+        audioEncoderFallback << "ffflac24"
     end
     
     if audioEncoderFallback.size > 0
-      commandString << "if( !acodec_fallback )\n    "
+      commandString << "if( acodec_fallback == NULL )\n    "
       commandString << "{\n    "
-      commandString << "    acodec_fallback = " << audioEncoderFallback
-      commandString << ";\n    "
+      commandString << "    acodec_fallback = \"" << audioEncoderFallback << "\";\n    "
       commandString << "}\n    "
     end
     
@@ -1202,8 +1304,45 @@ class Display
     end
     
     #Advanced Options
-    if hash["x264Option"] != ""
-      commandString << "if( !advanced_opts )\n    "
+    if hash["x264UseAdvancedOptions"] != 1
+      if hash["x264Preset"] != ""
+        commandString << "if (x264_preset == NULL)\n    "
+        commandString << "{\n    "
+        commandString << "    x264_preset = strdup(\""
+        commandString << hash["x264Preset"] << "\");\n    "
+        commandString << "}\n    "
+      end
+      if hash["x264Tune"] != "" && hash["x264Tune"] != "none"
+        commandString << "if (x264_tune == NULL)\n    "
+        commandString << "{\n    "
+        commandString << "    x264_tune = strdup(\""
+        commandString << hash["x264Tune"]
+        commandString << "\");\n    "
+        commandString << "}\n    "
+      end
+      if hash["h264Profile"] != "" && hash["h264Profile"] != "auto"
+        commandString << "if (h264_profile == NULL)\n    "
+        commandString << "{\n    "
+        commandString << "    h264_profile = strdup(\""
+        commandString << hash["h264Profile"] << "\");\n    "
+        commandString << "}\n    "
+      end
+      if hash["h264Level"] != "" && hash["h264Level"] != "auto"
+        commandString << "if (h264_level == NULL)\n    "
+        commandString << "{\n    "
+        commandString << "    h264_level = strdup(\""
+        commandString << hash["h264Level"] << "\");\n    "
+        commandString << "}\n    "
+      end
+      if hash["x264OptionExtra"] != ""
+        commandString << "if (advanced_opts == NULL)\n    "
+        commandString << "{\n    "
+        commandString << "    advanced_opts = strdup(\""
+        commandString << hash["x264OptionExtra"] << "\");\n    "
+        commandString << "}\n    "
+      end
+    elsif hash["x264Option"] != ""
+      commandString << "if (advanced_opts == NULL)\n    "
       commandString << "{\n    "
       commandString << "    advanced_opts = strdup(\""
       commandString << hash["x264Option"] << "\");\n    "
@@ -1213,50 +1352,64 @@ class Display
     #Video Filters
     if hash["UsesPictureFilters"] == 1
       
+      if hash["PictureDeinterlace"].to_i != 0
+        commandString << "deinterlace = 1;\n    "
+      end
+
       case hash["PictureDeinterlace"]
+      when 1
+        commandString << "deinterlace_opt = \"" << hash["PictureDeinterlaceCustom"].to_s << "\";\n    "
       when 2
-        commandString << "deinterlace = 1;\n    "
-        commandString << "deinterlace_opt = \"-1\";\n    "
-      when 3
-        commandString << "deinterlace = 1;\n    "
-        commandString << "deinterlace_opt = \"2\";\n    "
-      when 4
-        commandString << "deinterlace = 1;\n    "
         commandString << "deinterlace_opt = \"0\";\n    "
+      when 3
+        commandString << "deinterlace_opt = \"1\";\n    "
+      when 4
+        commandString << "deinterlace_opt = \"3\";\n    "
       when 5
-        commandString << "deinterlace = 1;\n    "
-        commandString << "deinterlace_opt = \"1:-1:1\";\n    "
+        commandString << "deinterlace_opt = \"15\";\n    "
       end
       
-      case hash["PictureDenoise"]
-      when 2
+      if hash["PictureDenoise"].to_i != 0
         commandString << "denoise = 1;\n    "
+      end
+
+      case hash["PictureDenoise"]
+      when 1
+        commandString << "denoise_opt = \"" << hash["PictureDenoiseCustom"].to_s << "\";\n    "
+      when 2
         commandString << "denoise_opt = \"2:1:2:3\";\n    "
       when 3
-        commandString << "denoise = 1;\n    "
         commandString << "denoise_opt = \"3:2:2:3\";\n    "
       when 4
-        commandString << "denoise = 1;\n    "
         commandString << "denoise_opt = \"7:7:5:5\";\n    "
       end
       
+      if hash["PictureDecomb"].to_i != 0
+        commandString << "decomb = 1;\n    "
+      end
+
       case hash["PictureDecomb"]
       when 1
-        commandString << "decomb = 1;\n    "
-        commandString << "decomb_opt = strdup(\"" << hash["PictureDecombCustom"].to_s << "\");\n    "
-      when 2
-        commandString << "decomb = 1;\n    "
+        commandString << "decomb_opt = \"" << hash["PictureDecombCustom"].to_s << "\";\n    "
       when 3
-        commandString << "decomb = 1;\n    "
-        commandString << "decomb_opt = strdup(\"7:2:6:9:1:80\");\n    "
+        commandString << "decomb_opt = \"7:2:6:9:1:80\";\n    "
+      when 4
+        commandString << "decomb_opt = \"455\";\n    "
       end
-      
-      if hash["PictureDetelecine"] == 2 then commandString << "detelecine = 1;\n    " end
+
+      if hash["PictureDetelecine"].to_i != 0
+        commandString << "detelecine = 1;\n    "
+      end
+
+      case hash["PictureDetelecine"]
+        when 1
+          commandString << "detelecine_opt = \"" << hash["PictureDetelecineCustom"].to_s << "\";\n    "
+      end
+
       if hash["PictureDeblock"] != 0
-        then
-          commandString << "deblock = 1;\n    "
-          commandString << "deblock_opt = \"" << hash["PictureDeblock"].to_s << "\";\n    "
-        end
+        commandString << "deblock = 1;\n    "
+        commandString << "deblock_opt = \"" << hash["PictureDeblock"].to_s << "\";\n    "
+      end
       
     end
     
@@ -1278,19 +1431,30 @@ class Display
     if hash["PictureModulus"]
       commandString << "modulus = " << hash["PictureModulus"].to_s << ";\n    "
     end
-    
+
     #Booleans
-    if hash["ChapterMarkers"] == 1 then commandString << "job->chapter_markers = 1;\n    " end
-    if hash["VideoGrayScale"] == 1 then commandString << "job->grayscale = 1;\n    " end
-    if hash["VideoTwoPass"] == 1 then commandString << "twoPass = 1;\n    " end
-    if hash["VideoTurboTwoPass"] == 1 then commandString << "turbo_opts_enabled = 1;\n" end
-    commandString << "\n"
-    commandString << "}"
-    
+    if hash["ChapterMarkers"] == 1
+      commandString << "job->chapter_markers = 1;\n    "
+    end
+
+    if hash["VideoGrayScale"] == 1
+      commandString << "job->grayscale = 1;\n    "
+    end
+
+    if hash["VideoTwoPass"] == 1
+      commandString << "twoPass = 1;\n    "
+    end
+
+    if hash["VideoTurboTwoPass"] == 1
+      commandString << "turbo_opts_enabled = 1;\n    "
+    end
+
+    #Finish
+    commandString = commandString.rstrip
+    commandString << "\n}"
+
     # That's it, print to screen now
     puts commandString
-    #puts "*" * @columnWidth
-    puts  "\n"
   end
   
   def generateAPIFolderList( hash, depth )
@@ -1304,7 +1468,7 @@ class Display
       commandString << "<"
     end
     commandString << " " << hash["PresetName"]
-    commandString << "\\n\");\n\n"    
+    commandString << "\\n\");\n"    
     puts commandString
   end
   
@@ -1318,7 +1482,7 @@ class Display
     (depth+1).times do
       commandString << ">"
     end
-    commandString << "\\n\");\n\n"    
+    commandString << "\\n\");\n"
     puts commandString
   end
   
@@ -1401,18 +1565,28 @@ class Display
           audioEncoders << "copy:dtshd"
         when /AAC Pass/
           audioEncoders << "copy:aac"
+        when "AAC (FDK)"
+          audioEncoders << "fdk_aac"
+        when "AAC (faac)"
+          audioEncoders << "faac"
         when "AAC (ffmpeg)"
           audioEncoders << "ffaac"
-        when /AAC/
-          audioEncoders << "faac"
+        when "AAC (CoreAudio)"
+          audioEncoders << "ca_aac"
+        when "HE-AAC (FDK)"
+          audioEncoders << "fdk_haac"
+        when "HE-AAC (CoreAudio)"
+          audioEncoders << "ca_haac"
         when /Vorbis/
           audioEncoders << "vorbis"
         when /MP3 Pass/
           audioEncoders << "copy:mp3"
         when /MP3/
           audioEncoders << "lame"
-        when /FLAC/
+        when "FLAC (ffmpeg)"
           audioEncoders << "ffflac"
+        when "FLAC (24-bit)"
+          audioEncoders << "ffflac24"
         when /Auto Pass/
           audioEncoders << "copy"
       end
@@ -1576,37 +1750,51 @@ class Display
     if hash["UsesPictureFilters"] == 1
       
       case hash["PictureDeinterlace"]
+      when 1
+        commandString << " --deinterlace=" << hash["PictureDeinterlaceCustom"].to_s
       when 2
-        commandString << " --deinterlace=\\\"fast\\\""
+        commandString << " --deinterlace=fast"
       when 3
-        commandString << " --deinterlace=\\\slow\\\""
+        commandString << " --deinterlace=slow"
       when 4
-        commandString << " --deinterlace=\\\"slower\\\""
+        commandString << " --deinterlace=slower"
       when 5
-        commandString << " --deinterlace=\\\"slowest\\\""
+        commandString << " --deinterlace=bob"
       end
       
       case hash["PictureDenoise"]
+      when 1
+        commandString << " --denoise=" << hash["PictureDenoiseCustom"].to_s
       when 2
-        commandString << " --denoise=\\\"weak\\\""
+        commandString << " --denoise=weak"
       when 3
-        commandString << " --denoise=\\\"medium\\\""
+        commandString << " --denoise=medium"
       when 4
-        commandString << " --denoise=\\\"strong\\\""
+        commandString << " --denoise=strong"
       end
       
       case hash["PictureDecomb"]
       when 1
-        commandString << " --decomb=\\\"" << hash["PictureDecombCustom"].to_s << "\\\""
+        commandString << " --decomb=" << hash["PictureDecombCustom"].to_s
       when 2
         commandString << " --decomb"
       when 3
-        commandString << " --decomb=\\\"7:2:6:9:1:80\\\""
+        commandString << " --decomb=fast"
+      when 4
+        commandString << " --decomb=bob"
       end
-      
-      if hash["PictureDetelecine"] == 2 then commandString << " --detelecine" end
-      if hash["PictureDeblock"] != 0 then commandString << " --deblock=" << hash["PictureDeblock"].to_s end
-      
+
+      case hash["PictureDetelecine"]
+        when 1
+          commandString << " --detelecine=" << hash["PictureDetelecineCustom"].to_s
+        when 2
+          commandString << " --detelecine"
+      end
+
+      if hash["PictureDeblock"] != 0
+        commandString << " --deblock=" << hash["PictureDeblock"].to_s
+      end
+
     end
     
     #Anamorphic
@@ -1622,24 +1810,44 @@ class Display
     if hash["PictureModulus"]
       commandString << " --modulus " << hash["PictureModulus"].to_s
     end
-    
+
     #Booleans
     if hash["ChapterMarkers"] == 1 then commandString << " -m" end
     if hash["VideoGrayScale"] == 1 then commandString << " -g" end
     if hash["VideoTwoPass"] == 1 then commandString << " -2" end
     if hash["VideoTurboTwoPass"] == 1 then commandString << " -T" end
     
-      #Advanced Options
-      if hash["x264Option"] != ""
-        commandString << " -x "
-        commandString << hash["x264Option"]
+    #Advanced Options
+    if hash["x264UseAdvancedOptions"] != 1
+      if hash["x264Preset"] != ""
+        commandString << " --x264-preset "
+        commandString << hash["x264Preset"]
       end
+      if hash["x264Tune"] != "" && hash["x264Tune"] != "none"
+        commandString << " --x264-tune "
+        commandString << hash["x264Tune"]
+      end
+      if hash["h264Profile"] != "" && hash["h264Profile"] != "auto"
+        commandString << " --h264-profile "
+        commandString << hash["h264Profile"]
+      end
+      if hash["h264Level"] != "" && hash["h264Level"] != "auto"
+        commandString << " --h264-level "
+        commandString << hash["h264Level"]
+      end
+      if hash["x264OptionExtra"] != ""
+        commandString << " -x "
+        commandString << hash["x264OptionExtra"]
+      end
+    elsif hash["x264Option"] != ""
+      commandString << " -x "
+      commandString << hash["x264Option"]
+    end
     
     commandString << "\\n\");"
     
     # That's it, print to screen now
     puts commandString
-    puts  "\n"
   end
   
 end

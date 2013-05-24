@@ -66,6 +66,10 @@ static HBBPresets *instance;
 		NSData *data = [output readDataToEndOfFile];
 		NSString *rawOutput = [NSString stringWithCString:[data bytes] encoding:NSASCIIStringEncoding];
 		NSArray *outputLines = [rawOutput componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+        
+#ifdef DEBUG
+        NSLog(@"manicure.rb output:\n %@", outputLines);
+#endif
 
 		for (NSString *currentLine in outputLines) {
 			// Ignore empty lines and folders (all preset lines contain a +)

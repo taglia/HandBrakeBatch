@@ -174,15 +174,27 @@ static NSMutableString *stdErrorString;
 			NSString *bCode = [[HBBLangData defaultHBBLangData] langBCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBAudioPreferredLanguage"]];
 			NSString *tCode = [[HBBLangData defaultHBBLangData] langTCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBAudioPreferredLanguage"]];
 			int i = 1;
+            int undeterminedPosition;
+            bool undeterminedPresent = false, langAdded = false;
 
 			for (NSString *lang in audioLanguages) {
 				if ([lang isEqualToString:bCode] || [lang isEqualToString:tCode]) {
 					[allArguments addObjectsFromArray:@[@"-a", [NSString stringWithFormat:@"%d", i]]];
+                    langAdded = true;
 					break;
 				}
+                
+                if ([lang isEqualToString:@"Undetermined"]) {
+                    undeterminedPresent = true;
+                    undeterminedPosition = i;
+                }
 
 				++i;
 			}
+            if (!langAdded && undeterminedPresent) {
+                NSLog(@"Cannot find preferred audio language, using Undetermined");
+                [allArguments addObjectsFromArray:@[@"-a", [NSString stringWithFormat:@"%d", undeterminedPosition]]];
+            }
 		}
 
 		// Subtitle language arguments
@@ -202,6 +214,8 @@ static NSMutableString *stdErrorString;
 			NSString *bCode = [[HBBLangData defaultHBBLangData] langBCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBSubtitlePreferredLanguage"]];
 			NSString *tCode = [[HBBLangData defaultHBBLangData] langTCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"HBBSubtitlePreferredLanguage"]];
 			int i = 1;
+            int undeterminedPosition;
+            bool undeterminedPresent = false, langAdded = false;
 
 			for (NSString *lang in subtitleLanguages) {
 				if ([lang isEqualToString:bCode] || [lang isEqualToString:tCode]) {
@@ -211,12 +225,28 @@ static NSMutableString *stdErrorString;
 					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBSubtitleBurn"]) {
 						[allArguments addObjectsFromArray:@[@"--subtitle-burn", [NSString stringWithFormat:@"%d", i]]];
 					}
+                    
+                    if ([lang isEqualToString:@"Undetermined"]) {
+                        undeterminedPresent = true;
+                        undeterminedPosition = i;
+                    }
 
+                    langAdded = true;
 					break;
 				}
 
 				++i;
 			}
+            
+            if (!langAdded && undeterminedPresent) {
+                NSLog(@"Cannot find preferred subtitle language, using Undetermined");
+                [allArguments addObjectsFromArray:@[@"-s", [NSString stringWithFormat:@"%d", undeterminedPosition]]];
+                
+                // Burn subtitles if required
+                if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HBBSubtitleBurn"]) {
+                    [allArguments addObjectsFromArray:@[@"--subtitle-burn", [NSString stringWithFormat:@"%d", undeterminedPosition]]];
+                }
+            }
 		} // Else no subtitle, thus no need for any arguments
 
 	}

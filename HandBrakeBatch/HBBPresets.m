@@ -64,7 +64,7 @@ static HBBPresets *instance;
 
 		NSFileHandle *output = [outputPipe fileHandleForReading];
 		NSData *data = [output readDataToEndOfFile];
-		NSString *rawOutput = [NSString stringWithCString:[data bytes] encoding:NSASCIIStringEncoding];
+		NSString *rawOutput = [NSString stringWithCString:[data bytes] encoding:NSUTF8StringEncoding];
 		NSArray *outputLines = [rawOutput componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
         
 #ifdef DEBUG

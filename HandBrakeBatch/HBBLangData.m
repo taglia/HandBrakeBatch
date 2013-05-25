@@ -49,6 +49,12 @@ static HBBLangData *instance = nil;
 	NSString *statementString = @"SELECT Ref_Name_EN FROM ISO_639_2 ORDER BY Ref_Name_EN";
 	const char *unused;
 	sqlite3_stmt *statement;
+    
+    if ([self dbOpen] != SQLITE_OK) {
+        NSLog(@"Error opening language list database: %s", sqlite3_errmsg([self dbHandle]));
+        return nil;
+    }
+    
 	sqlite3 *dbHandle = self.dbHandle;
     
 	if (sqlite3_prepare_v2(dbHandle, [statementString cStringUsingEncoding:NSUTF8StringEncoding], (int)[statementString length], &statement, &unused) != SQLITE_OK) {

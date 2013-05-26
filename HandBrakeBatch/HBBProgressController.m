@@ -447,7 +447,8 @@ static NSMutableString *stdErrorString;
 
 	if ([data length]) {
 		NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-		[stdErrorString appendString:message];
+        if (message != nil)
+            [stdErrorString appendString:message];
 	}
 
 	// Check whether the conversion was successful and write log file if necessary
@@ -639,7 +640,8 @@ static NSMutableString *stdErrorString;
 
 	if ([data length]) {
 		NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-		[stdErrorString appendString:message];
+        if (message != nil)
+            [stdErrorString appendString:message];
 	}
 
 	// we need to schedule the file handle go read more data in the background again.

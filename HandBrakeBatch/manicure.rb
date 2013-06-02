@@ -603,31 +603,31 @@ class Display
 
     #Advanced Options
     if hash["x264UseAdvancedOptions"] != 1
-      if hash["x264Preset"] != ""
+      if hash["x264Preset"] != "" && !hash["x264Preset"].nil?
         commandString << " --x264-preset "
         commandString << hash["x264Preset"]
       end
-      if hash["x264Tune"] != "" && hash["x264Tune"] != "none"
+      if hash["x264Tune"] != "" && hash["x264Tune"] != "none" && !hash["x264Tune"].nil?
         commandString << " --x264-tune "
         commandString << hash["x264Tune"]
       end
-      if hash["h264Profile"] != "" && hash["h264Profile"] != "auto"
+      if hash["h264Profile"] != "" && hash["h264Profile"] != "auto" && !hash["h264Profile"].nil?
         commandString << " --h264-profile "
         commandString << hash["h264Profile"]
       end
-      if hash["h264Level"] != "" && hash["h264Level"] != "auto"
+      if hash["h264Level"] != "" && hash["h264Level"] != "auto" && !hash["h264Level"].nil?
         commandString << " --h264-level "
         commandString << hash["h264Level"]
       end
-      if hash["x264OptionExtra"] != ""
+      if hash["x264OptionExtra"] != "" && !hash["x264OptionExtra"].nil?
         commandString << " -x "
         commandString << hash["x264OptionExtra"]
       end
-    elsif hash["x264Option"] != ""
+    elsif hash["x264Option"] != "" && !hash["x264Option"].nil?
       commandString << " -x "
       commandString << hash["x264Option"]
     end
-    
+
     # That's it, print to screen now
     puts commandString
   end

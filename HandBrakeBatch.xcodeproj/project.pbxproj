@@ -168,9 +168,6 @@
 		0EEC80301369B4EA00D05124 = {
 			isa = PBXGroup;
 			children = (
-				0E3698D816C9DF31001D912F /* libsqlite3.dylib */,
-				0EB54A431596B7FD00EE2AB4 /* Quartz.framework */,
-				0EB54A441596B7FD00EE2AB4 /* QuartzCore.framework */,
 				0EEC80451369B4EA00D05124 /* HandBrakeBatch */,
 				0EEC803E1369B4EA00D05124 /* Frameworks */,
 				0EEC803C1369B4EA00D05124 /* Products */,
@@ -188,22 +185,17 @@
 		0EEC803E1369B4EA00D05124 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0EEC803F1369B4EA00D05124 /* Cocoa.framework */,
-				0EEC80411369B4EA00D05124 /* Other Frameworks */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		0EEC80411369B4EA00D05124 /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
+				0E3698D816C9DF31001D912F /* libsqlite3.dylib */,
 				0EDBC5731390AFB300D88A0B /* Growl.framework */,
 				0EF8EFB0136D981000884AE8 /* Sparkle.framework */,
 				0EEC80421369B4EA00D05124 /* AppKit.framework */,
 				0EEC80431369B4EA00D05124 /* CoreData.framework */,
 				0EEC80441369B4EA00D05124 /* Foundation.framework */,
+				0EB54A431596B7FD00EE2AB4 /* Quartz.framework */,
+				0EB54A441596B7FD00EE2AB4 /* QuartzCore.framework */,
+				0EEC803F1369B4EA00D05124 /* Cocoa.framework */,
 			);
-			name = "Other Frameworks";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		0EEC80451369B4EA00D05124 /* HandBrakeBatch */ = {

@@ -18,7 +18,6 @@
 		0E54925F136C49890094563F /* HBBInputFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E54925E136C49890094563F /* HBBInputFile.m */; };
 		0E6C285C14C288BC004A0FE5 /* iso639-2.db in Resources */ = {isa = PBXBuildFile; fileRef = 0E6C285B14C288BC004A0FE5 /* iso639-2.db */; };
 		0E6C286214C29515004A0FE5 /* HBBLangData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E6C286114C29515004A0FE5 /* HBBLangData.m */; };
-		0E7B648D16CF339700D04227 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E7B648C16CF339700D04227 /* Icon.icns */; };
 		0E933F9D14C47C8000A5BB1D /* HBBVideoScan.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E933F9C14C47C8000A5BB1D /* HBBVideoScan.m */; };
 		0E987E2113E4062C00A99716 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E987E2013E4062C00A99716 /* Preferences.xib */; };
 		0E987E2413E4083900A99716 /* HBBPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E987E2313E4083900A99716 /* HBBPreferencesController.m */; };
@@ -34,6 +33,7 @@
 		0EF8EF95136CFEB700884AE8 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0EF8EF93136CFEB700884AE8 /* Credits.rtf */; };
 		0EF8EFB1136D981000884AE8 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EF8EFB0136D981000884AE8 /* Sparkle.framework */; };
 		0EF8EFB6136D9D2200884AE8 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EF8EFB0136D981000884AE8 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4CEDF63319BD4A4C0020FCAF /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4CEDF63219BD4A4C0020FCAF /* Icon.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -77,7 +77,6 @@
 		0E6C285B14C288BC004A0FE5 /* iso639-2.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iso639-2.db"; sourceTree = "<group>"; };
 		0E6C286014C29515004A0FE5 /* HBBLangData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBLangData.h; sourceTree = "<group>"; };
 		0E6C286114C29515004A0FE5 /* HBBLangData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBLangData.m; sourceTree = "<group>"; };
-		0E7B648C16CF339700D04227 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Icon.icns; path = ../Icon.icns; sourceTree = "<group>"; };
 		0E933F9B14C47C8000A5BB1D /* HBBVideoScan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBVideoScan.h; sourceTree = "<group>"; };
 		0E933F9C14C47C8000A5BB1D /* HBBVideoScan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBBVideoScan.m; sourceTree = "<group>"; };
 		0E987E2013E4062C00A99716 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
@@ -104,6 +103,7 @@
 		0EF72314136CFCE100D223F4 /* gpl-3.0.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "gpl-3.0.txt"; sourceTree = "<group>"; };
 		0EF8EF94136CFEB700884AE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		0EF8EFB0136D981000884AE8 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		4CEDF63219BD4A4C0020FCAF /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Icon.icns; path = Icon/Icon.icns; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,12 +221,12 @@
 			isa = PBXGroup;
 			children = (
 				0E49A7581376428F00FB3B77 /* hb_manicure */,
+				4CEDF63219BD4A4C0020FCAF /* Icon.icns */,
 				0EF8EF93136CFEB700884AE8 /* Credits.rtf */,
 				0EF72314136CFCE100D223F4 /* gpl-3.0.txt */,
 				0EEC80471369B4EA00D05124 /* HandBrakeBatch-Info.plist */,
 				0EDF16D1174F6DC000EC3DF3 /* HandBrakeCLI */,
 				0EEC80481369B4EA00D05124 /* InfoPlist.strings */,
-				0E7B648C16CF339700D04227 /* Icon.icns */,
 				0EEC804B1369B4EA00D05124 /* HandBrakeBatch-Prefix.pch */,
 				0E6C285B14C288BC004A0FE5 /* iso639-2.db */,
 			);
@@ -290,12 +290,12 @@
 				0EEC80561369B4EA00D05124 /* MainMenu.xib in Resources */,
 				0E18546B136C4222004B5558 /* HBBProgressWindow.xib in Resources */,
 				0EF72315136CFCE100D223F4 /* gpl-3.0.txt in Resources */,
+				4CEDF63319BD4A4C0020FCAF /* Icon.icns in Resources */,
 				0EF8EF95136CFEB700884AE8 /* Credits.rtf in Resources */,
 				0E49A762137642B700FB3B77 /* plist.rb in Resources */,
 				0E987E2113E4062C00A99716 /* Preferences.xib in Resources */,
 				0E6C285C14C288BC004A0FE5 /* iso639-2.db in Resources */,
 				0EC6D60415C002F70016775D /* manicure.rb in Resources */,
-				0E7B648D16CF339700D04227 /* Icon.icns in Resources */,
 				0EDF16D2174F6DC000EC3DF3 /* HandBrakeCLI in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

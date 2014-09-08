@@ -14,7 +14,7 @@
 #define PROCESSED_QUEUE_KEY	  @ "HBBProcessedQueue"
 #define CURRENT_QUEUE_KEY	  @ "HBBCurrentQueue"
 
-@interface HBBProgressController : NSWindowController
+@interface HBBProgressController : NSWindowController<NSUserNotificationCenterDelegate>
 
 @property (readwrite, strong, nonatomic) NSArray *queue;
 

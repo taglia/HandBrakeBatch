@@ -24,9 +24,6 @@
 		0E987E2413E4083900A99716 /* HBBPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E987E2313E4083900A99716 /* HBBPreferencesController.m */; };
 		0EB54A4C1596CDBC00EE2AB4 /* HBBDropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB54A4B1596CDBC00EE2AB4 /* HBBDropView.m */; };
 		0EC6D60415C002F70016775D /* manicure.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0EC6D60315C002F70016775D /* manicure.rb */; };
-		0EDBC5741390AFB300D88A0B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EDBC5731390AFB300D88A0B /* Growl.framework */; };
-		0EDBC5771390B05500D88A0B /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 0EDBC5761390B05500D88A0B /* Growl Registration Ticket.growlRegDict */; };
-		0EDBC5781390B57600D88A0B /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EDBC5731390AFB300D88A0B /* Growl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0EDF16D2174F6DC000EC3DF3 /* HandBrakeCLI in Resources */ = {isa = PBXBuildFile; fileRef = 0EDF16D1174F6DC000EC3DF3 /* HandBrakeCLI */; };
 		0EEC80401369B4EA00D05124 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EEC803F1369B4EA00D05124 /* Cocoa.framework */; };
 		0EEC804A1369B4EA00D05124 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80481369B4EA00D05124 /* InfoPlist.strings */; };
@@ -58,7 +55,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				0EF8EFB6136D9D2200884AE8 /* Sparkle.framework in CopyFiles */,
-				0EDBC5781390B57600D88A0B /* Growl.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,8 +88,6 @@
 		0EB54A4A1596CDBC00EE2AB4 /* HBBDropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBDropView.h; sourceTree = "<group>"; };
 		0EB54A4B1596CDBC00EE2AB4 /* HBBDropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HBBDropView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0EC6D60315C002F70016775D /* manicure.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; lineEnding = 0; path = manicure.rb; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		0EDBC5731390AFB300D88A0B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
-		0EDBC5761390B05500D88A0B /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		0EDF16D1174F6DC000EC3DF3 /* HandBrakeCLI */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = HandBrakeCLI; sourceTree = "<group>"; };
 		0EEC803B1369B4EA00D05124 /* HandBrakeBatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HandBrakeBatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EEC803F1369B4EA00D05124 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -120,7 +114,6 @@
 				0E3698D916C9DF31001D912F /* libsqlite3.dylib in Frameworks */,
 				0EEC80401369B4EA00D05124 /* Cocoa.framework in Frameworks */,
 				0EF8EFB1136D981000884AE8 /* Sparkle.framework in Frameworks */,
-				0EDBC5741390AFB300D88A0B /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,7 +179,6 @@
 			isa = PBXGroup;
 			children = (
 				0E3698D816C9DF31001D912F /* libsqlite3.dylib */,
-				0EDBC5731390AFB300D88A0B /* Growl.framework */,
 				0EF8EFB0136D981000884AE8 /* Sparkle.framework */,
 				0EEC80421369B4EA00D05124 /* AppKit.framework */,
 				0EEC80431369B4EA00D05124 /* CoreData.framework */,
@@ -236,7 +228,6 @@
 				0EEC80481369B4EA00D05124 /* InfoPlist.strings */,
 				0E7B648C16CF339700D04227 /* Icon.icns */,
 				0EEC804B1369B4EA00D05124 /* HandBrakeBatch-Prefix.pch */,
-				0EDBC5761390B05500D88A0B /* Growl Registration Ticket.growlRegDict */,
 				0E6C285B14C288BC004A0FE5 /* iso639-2.db */,
 			);
 			name = "Supporting Files";
@@ -301,7 +292,6 @@
 				0EF72315136CFCE100D223F4 /* gpl-3.0.txt in Resources */,
 				0EF8EF95136CFEB700884AE8 /* Credits.rtf in Resources */,
 				0E49A762137642B700FB3B77 /* plist.rb in Resources */,
-				0EDBC5771390B05500D88A0B /* Growl Registration Ticket.growlRegDict in Resources */,
 				0E987E2113E4062C00A99716 /* Preferences.xib in Resources */,
 				0E6C285C14C288BC004A0FE5 /* iso639-2.db in Resources */,
 				0EC6D60415C002F70016775D /* manicure.rb in Resources */,
@@ -387,7 +377,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
@@ -418,7 +408,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};

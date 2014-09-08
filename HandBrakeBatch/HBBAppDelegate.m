@@ -78,15 +78,6 @@
 	return [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"HandBrakeBatch"];
 }
 
-- (NSDictionary *)registrationDictionaryForGrowl {
-	return [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Growl Registration Ticket" ofType:@"growlRegDict"]];
-}
-
-- (void)awakeFromNib {
-	// Workaround for Growl bug (need a delegate defined)
-	[GrowlApplicationBridge setGrowlDelegate:self];
-}
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	[self.dropView registerForDraggedTypes:@[NSFilenamesPboardType]];
 

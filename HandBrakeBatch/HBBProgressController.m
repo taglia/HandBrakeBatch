@@ -9,7 +9,6 @@
 //
 
 #import <Foundation/NSAppleScript.h>
-#import <Growl/Growl.h>
 #import "HBBProgressController.h"
 #import "HBBPresets.h"
 #import "HBBLangData.h"
@@ -280,17 +279,12 @@ static NSMutableString *stdErrorString;
 
 	self.currentStartDate = [NSDate date];
 
-	// Growl notification
-	if ( ![[NSUserDefaults standardUserDefaults] boolForKey:@"HBBNotificationsDisabled"] ) {
-		[GrowlApplicationBridge notifyWithTitle:@"HandBrakeBatch"
-									description:[NSString stringWithFormat:@"Starting conversion of %@", [inputFilePath lastPathComponent]]
-							   notificationName:@"Starting new video conversion"
-									   iconData:nil
-									   priority:-1
-									   isSticky:NO
-								   clickContext:nil];
-	}
-
+	// Notification
+	NSUserNotification *notification = [[NSUserNotification alloc] init];
+	notification.title = @"HandBrakeBatch";
+	notification.informativeText = [NSString stringWithFormat:@"Starting conversion of %@", [inputFilePath lastPathComponent]];
+	[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+	
 	// We tell the file handle to go ahead and read in the background asynchronously, and notify
 	// us via the callback registered above when we signed up as an observer.  The file handle will
 	// send a NSFileHandleReadCompletionNotification when it has data that is available.
@@ -504,52 +498,34 @@ static NSMutableString *stdErrorString;
 
 	// Check if all files have been processed
 	if ([self.currentQueue count] == 0) {
-		// Growl notification
-		if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HBBNotificationsDisabled"]) {
-			[GrowlApplicationBridge notifyWithTitle:@"HandBrakeBatch"
-										description:@"All files have been converted"
-								   notificationName:@"All files converted"
-										   iconData:nil
-										   priority:-1
-										   isSticky:NO
-									   clickContext:nil];
-		}
-
+		
+		NSUserNotification *notification = [[NSUserNotification alloc] init];
+		notification.title = @"HandBrakeBatch";
+		notification.informativeText = @"All files have been converted";
+		[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+		
 		// Deal with after conversion actions
 		NSInteger actionIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"HBBAfterConversion"];
 		NSAppleScript *script;
 		NSDictionary *errorInfo;
 
+		NSUserNotification *actionNotification = [[NSUserNotification alloc] init];
+		actionNotification.title = @"HandBrakeBatch";
+		
 		switch (actionIndex) {
 			case ACTION_QUIT:
 				NSLog(@"Conversion completed - Quitting HBB");
 
-				if ( ![[NSUserDefaults standardUserDefaults] boolForKey:@"HBBNotificationsDisabled"] ) {
-					[GrowlApplicationBridge notifyWithTitle:@"HandBrakeBatch"
-												description:[NSString stringWithFormat:@"HandBrakeBatch is quitting after completing the conversion"]
-										   notificationName:@"Quitting HandBrakeBatch"
-												   iconData:nil
-												   priority:-1
-												   isSticky:NO
-											   clickContext:nil];
-				}
-
+				actionNotification.informativeText = [NSString stringWithFormat:@"HandBrakeBatch is quitting after completing the conversion"];
+				
 				[NSApp terminate:nil];
 				break;
 
 			case ACTION_SLEEP:
 				NSLog(@"Conversion completed - Putting the Mac to sleep");
 
-				if ( ![[NSUserDefaults standardUserDefaults] boolForKey:@"HBBNotificationsDisabled"] ) {
-					[GrowlApplicationBridge notifyWithTitle:@"HandBrakeBatch"
-												description:[NSString stringWithFormat:@"HandBrakeBatch is asking your Mac to sleep after completing the conversion"]
-										   notificationName:@"Putting the Mac to sleep"
-												   iconData:nil
-												   priority:-1
-												   isSticky:NO
-											   clickContext:nil];
-				}
-
+				actionNotification.informativeText = [NSString stringWithFormat:@"HandBrakeBatch is asking your Mac to sleep after completing the conversion"];
+				
 				script = [[NSAppleScript alloc] initWithSource:@"tell application \"System Events\" to sleep"];
 				[script executeAndReturnError:&errorInfo];
 				break;
@@ -557,21 +533,15 @@ static NSMutableString *stdErrorString;
 			case ACTION_SHUTDOWN:
 				NSLog(@"Conversion completed - Shutting down the Mac");
 
-				if ( ![[NSUserDefaults standardUserDefaults] boolForKey:@"HBBNotificationsDisabled"] ) {
-					[GrowlApplicationBridge notifyWithTitle:@"HandBrakeBatch"
-												description:[NSString stringWithFormat:@"HandBrakeBatch is shutting down your Mac after completing the conversion"]
-										   notificationName:@"Shutting down this Mac"
-												   iconData:nil
-												   priority:-1
-												   isSticky:NO
-											   clickContext:nil];
-				}
+				actionNotification.informativeText = [NSString stringWithFormat:@"HandBrakeBatch is shutting down your Mac after completing the conversion"];
 
 				script = [[NSAppleScript alloc] initWithSource:@"tell application \"Finder\" to shut down"];
 				[script executeAndReturnError:&errorInfo];
 				[NSApp terminate:nil];
 				break;
 		}
+		
+		[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:actionNotification];
 
 		[self.progressWheel stopAnimation:self];
 		[self.timer invalidate];
@@ -664,6 +634,14 @@ static NSMutableString *stdErrorString;
 
 	[[NSNotificationCenter defaultCenter] postNotificationName:COMPLETE_NOTIFICATION object:self userInfo:userInfo];
 	[self close];
+}
+
+#pragma mark NSUserNotificationCenterDelegate
+
+- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification
+{
+	// Always show notifications, regardless of app status (hidden, in foreground, etc.)
+	return YES;
 }
 
 @end

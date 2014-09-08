@@ -9,13 +9,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <Growl/Growl.h>
 
 @class HBBProgressController, HBBPreferencesController, RSRTVArrayController;
 
 @class HBBDropView;
 
-@interface HBBAppDelegate : NSObject <NSApplicationDelegate, NSSplitViewDelegate, NSWindowDelegate, GrowlApplicationBridgeDelegate>
+@interface HBBAppDelegate : NSObject <NSApplicationDelegate, NSSplitViewDelegate, NSWindowDelegate>
 
 @property (readonly, strong, nonatomic) NSMutableArray *inputFiles;
 @property (readonly, strong, nonatomic) NSArray *presets;

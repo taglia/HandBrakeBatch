@@ -263,6 +263,11 @@
 			attributes = {
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "";
+				TargetAttributes = {
+					0EEC803A1369B4EA00D05124 = {
+						DevelopmentTeam = WEY78UNE2S;
+					};
+				};
 			};
 			buildConfigurationList = 0EEC80351369B4EA00D05124 /* Build configuration list for PBXProject "HandBrakeBatch" */;
 			compatibilityVersion = "Xcode 3.2";

@@ -115,15 +115,15 @@ class Display
     @hashMasterList.each do |hash|
     
       # Check to see whether we've got a preset or afolder
-      if !hash["Folder"]
+      if hash["Folder"] == 0
         # It's a top-level preset
-       displayIndividualPreset(hash, 0) 
+       displayIndividualPreset(hash, 0)
       else
         # It's a folder, yay
         displayFolder( hash, 0 )
         hash["ChildrenArray"].each do |subhash|
           # Drill down to see its contents
-          if !subhash["Folder"]
+          if subhash["Folder"] == 0
             # It's a preset
             displayIndividualPreset(subhash, 1)
           else
@@ -131,7 +131,7 @@ class Display
             displayFolder( subhash, 1 )
             subhash["ChildrenArray"].each do |subsubhash|
               # At this point we're far enough down we won't try to drill further
-              if !subsubhash["Folder"]
+              if subsubhash["Folder"] == 0
                 displayIndividualPreset(subsubhash, 2)
               end
             end

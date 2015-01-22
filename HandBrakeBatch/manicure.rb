@@ -14,6 +14,10 @@ require 'ostruct'
 require 'rubygems'
 require './plist'
 
+def xml_is_true?(value)
+  return ((!!value == value) && value) || (value.to_i == 1)
+end
+
 # CLI options: (code based on http://www.ruby-doc.org/stdlib/libdoc/optparse/rdoc/index.html )
 def readOptions
   
@@ -803,29 +807,29 @@ class Display
     
     #Auto Passthru Mask
     audioCopyMask = ""
-    
-    if hash["AudioAllowAACPass"].to_i == 1
+
+    if xml_is_true?(hash["AudioAllowAACPass"])
       audioCopyMask << "aac"
     end
-    if hash["AudioAllowAC3Pass"].to_i == 1
+    if xml_is_true?(hash["AudioAllowAC3Pass"])
       if audioCopyMask.size > 0
         audioCopyMask << ","
       end
       audioCopyMask << "ac3"
     end
-    if hash["AudioAllowDTSHDPass"].to_i == 1
+    if xml_is_true?(hash["AudioAllowDTSHDPass"])
       if audioCopyMask.size > 0
         audioCopyMask << ","
       end
       audioCopyMask << "dtshd"
     end
-    if hash["AudioAllowDTSPass"].to_i == 1
+    if xml_is_true?(hash["AudioAllowDTSPass"])
       if audioCopyMask.size > 0
         audioCopyMask << ","
       end
       audioCopyMask << "dts"
     end
-    if hash["AudioAllowMP3Pass"].to_i == 1
+    if xml_is_true?(hash["AudioAllowMP3Pass"])
       if audioCopyMask.size > 0
         audioCopyMask << ","
       end

@@ -11,6 +11,7 @@
 		0E18546B136C4222004B5558 /* HBBProgressWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E18546A136C4222004B5558 /* HBBProgressWindow.xib */; };
 		0E337A4715144FCC006150DD /* RSRTVArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E337A4615144FCC006150DD /* RSRTVArrayController.m */; };
 		0E3698D916C9DF31001D912F /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E3698D816C9DF31001D912F /* libsqlite3.dylib */; };
+		0E42F49C1A7DF0AA00AF4589 /* HandBrakeCLI in Resources */ = {isa = PBXBuildFile; fileRef = 0E42F49B1A7DF0AA00AF4589 /* HandBrakeCLI */; };
 		0E49A762137642B700FB3B77 /* plist.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0E49A75E137642B700FB3B77 /* plist.rb */; };
 		0E49A7641376437400FB3B77 /* generator.rb in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E49A75B137642B700FB3B77 /* generator.rb */; };
 		0E49A7651376437400FB3B77 /* parser.rb in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E49A75C137642B700FB3B77 /* parser.rb */; };
@@ -23,7 +24,6 @@
 		0E987E2413E4083900A99716 /* HBBPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E987E2313E4083900A99716 /* HBBPreferencesController.m */; };
 		0EB54A4C1596CDBC00EE2AB4 /* HBBDropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB54A4B1596CDBC00EE2AB4 /* HBBDropView.m */; };
 		0EC6D60415C002F70016775D /* manicure.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0EC6D60315C002F70016775D /* manicure.rb */; };
-		0EDF16D2174F6DC000EC3DF3 /* HandBrakeCLI in Resources */ = {isa = PBXBuildFile; fileRef = 0EDF16D1174F6DC000EC3DF3 /* HandBrakeCLI */; };
 		0EEC80401369B4EA00D05124 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EEC803F1369B4EA00D05124 /* Cocoa.framework */; };
 		0EEC804A1369B4EA00D05124 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC80481369B4EA00D05124 /* InfoPlist.strings */; };
 		0EEC804D1369B4EA00D05124 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC804C1369B4EA00D05124 /* main.m */; };
@@ -67,6 +67,7 @@
 		0E337A4515144FCC006150DD /* RSRTVArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSRTVArrayController.h; sourceTree = "<group>"; };
 		0E337A4615144FCC006150DD /* RSRTVArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSRTVArrayController.m; sourceTree = "<group>"; };
 		0E3698D816C9DF31001D912F /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		0E42F49B1A7DF0AA00AF4589 /* HandBrakeCLI */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = HandBrakeCLI; sourceTree = "<group>"; };
 		0E49A75B137642B700FB3B77 /* generator.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; lineEnding = 0; path = generator.rb; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		0E49A75C137642B700FB3B77 /* parser.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = parser.rb; sourceTree = "<group>"; };
 		0E49A75E137642B700FB3B77 /* plist.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = plist.rb; sourceTree = "<group>"; };
@@ -87,7 +88,6 @@
 		0EB54A4A1596CDBC00EE2AB4 /* HBBDropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBBDropView.h; sourceTree = "<group>"; };
 		0EB54A4B1596CDBC00EE2AB4 /* HBBDropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HBBDropView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0EC6D60315C002F70016775D /* manicure.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; lineEnding = 0; path = manicure.rb; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		0EDF16D1174F6DC000EC3DF3 /* HandBrakeCLI */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = HandBrakeCLI; sourceTree = "<group>"; };
 		0EEC803B1369B4EA00D05124 /* HandBrakeBatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HandBrakeBatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EEC803F1369B4EA00D05124 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		0EEC80421369B4EA00D05124 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -225,7 +225,7 @@
 				0EF8EF93136CFEB700884AE8 /* Credits.rtf */,
 				0EF72314136CFCE100D223F4 /* gpl-3.0.txt */,
 				0EEC80471369B4EA00D05124 /* HandBrakeBatch-Info.plist */,
-				0EDF16D1174F6DC000EC3DF3 /* HandBrakeCLI */,
+				0E42F49B1A7DF0AA00AF4589 /* HandBrakeCLI */,
 				0EEC80481369B4EA00D05124 /* InfoPlist.strings */,
 				0EEC804B1369B4EA00D05124 /* HandBrakeBatch-Prefix.pch */,
 				0E6C285B14C288BC004A0FE5 /* iso639-2.db */,
@@ -299,9 +299,9 @@
 				0EF8EF95136CFEB700884AE8 /* Credits.rtf in Resources */,
 				0E49A762137642B700FB3B77 /* plist.rb in Resources */,
 				0E987E2113E4062C00A99716 /* Preferences.xib in Resources */,
+				0E42F49C1A7DF0AA00AF4589 /* HandBrakeCLI in Resources */,
 				0E6C285C14C288BC004A0FE5 /* iso639-2.db in Resources */,
 				0EC6D60415C002F70016775D /* manicure.rb in Resources */,
-				0EDF16D2174F6DC000EC3DF3 /* HandBrakeCLI in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

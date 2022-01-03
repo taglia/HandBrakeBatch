@@ -366,7 +366,7 @@ static NSMutableString *stdErrorString;
 
 	BOOL ignoreFollowing = NO;
 
-	for (NSString *currentArg in [self.preset componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceCharacterSet]]) {
+	for (NSString *currentArg in [self.preset componentsSeparatedByString :@"\a"]) {
 
 		// We filter out the -a x,y,z argument: added later depending on the audio language preferences
 		if (!ignoreFollowing) {

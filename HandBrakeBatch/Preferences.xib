@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6206.9" systemVersion="13F31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment defaultVersion="1070" identifier="macosx"/>
-        <development version="5100" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6206.9"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="HBBPreferencesController">
@@ -19,17 +19,17 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <window title="HBB - Preferences" allowsToolTipsWhenApplicationIsInactive="NO" oneShot="NO" releasedWhenClosed="NO" frameAutosaveName="HBBPreferenceWindow" animationBehavior="default" id="1">
+        <window title="HBB - Preferences" allowsToolTipsWhenApplicationIsInactive="NO" releasedWhenClosed="NO" frameAutosaveName="HBBPreferenceWindow" animationBehavior="default" id="1">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <rect key="contentRect" x="196" y="240" width="431" height="309"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1080"/>
             <value key="minSize" type="size" width="431" height="309"/>
             <value key="maxSize" type="size" width="431" height="309"/>
             <view key="contentView" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="431" height="309"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <tabView initialItem="44" id="43">
+                    <tabView fixedFrame="YES" initialItem="44" translatesAutoresizingMaskIntoConstraints="NO" id="43">
                         <rect key="frame" x="13" y="10" width="405" height="293"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <font key="font" metaFont="system"/>
@@ -39,7 +39,7 @@
                                     <rect key="frame" x="10" y="33" width="385" height="247"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <button toolTip="If checked, the converted file will have the same &quot;Creation Date&quot; and &quot;Modification Date&quot; as the original file" id="3">
+                                        <button toolTip="If checked, the converted file will have the same &quot;Creation Date&quot; and &quot;Modification Date&quot; as the original file" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3">
                                             <rect key="frame" x="23" y="199" width="334" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Keep original file Creation and Modification dates" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="4">
@@ -50,7 +50,7 @@
                                                 <binding destination="15" name="value" keyPath="values.HBBMaintainTimestamps" id="16"/>
                                             </connections>
                                         </button>
-                                        <popUpButton verticalHuggingPriority="750" id="5">
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5">
                                             <rect key="frame" x="22" y="169" width="89" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="6">
@@ -67,7 +67,7 @@
                                                 <binding destination="15" name="selectedIndex" keyPath="values.HBBMPEG4Extension" id="22"/>
                                             </connections>
                                         </popUpButton>
-                                        <textField toolTip="Extension to be used for MPEG-4 files: iTunes and iOS devices use m4v, older programs might require mp4." verticalHuggingPriority="750" id="11">
+                                        <textField toolTip="Extension to be used for MPEG-4 files: iTunes and iOS devices use m4v, older programs might require mp4." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="11">
                                             <rect key="frame" x="113" y="175" width="144" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="MPEG-4 file extension" id="12">
@@ -76,7 +76,7 @@
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <button id="25">
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="25">
                                             <rect key="frame" x="23" y="106" width="334" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Automatically check for updates" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="26">
@@ -87,7 +87,7 @@
                                                 <binding destination="24" name="value" keyPath="automaticallyChecksForUpdates" id="29"/>
                                             </connections>
                                         </button>
-                                        <button id="126">
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="126">
                                             <rect key="frame" x="23" y="140" width="334" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Write conversion log" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="127">
@@ -98,14 +98,11 @@
                                                 <binding destination="15" name="value" keyPath="values.HBBWriteConversionLog" id="129"/>
                                             </connections>
                                         </button>
-                                        <box autoresizesSubviews="NO" verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="30">
+                                        <box autoresizesSubviews="NO" verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="30">
                                             <rect key="frame" x="17" y="131" width="346" height="5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <font key="titleFont" metaFont="system"/>
                                         </box>
-                                        <popUpButton verticalHuggingPriority="750" id="31">
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="31">
                                             <rect key="frame" x="266" y="101" width="100" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="32">
@@ -133,22 +130,19 @@
                                     <rect key="frame" x="10" y="33" width="385" height="247"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <box autoresizesSubviews="NO" borderType="line" id="118">
+                                        <box autoresizesSubviews="NO" borderType="line" translatesAutoresizingMaskIntoConstraints="NO" id="118">
                                             <rect key="frame" x="5" y="8" width="374" height="223"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <view key="contentView">
-                                                <rect key="frame" x="1" y="1" width="372" height="207"/>
+                                            <view key="contentView" id="cZG-bF-rI5">
+                                                <rect key="frame" x="3" y="3" width="368" height="205"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <box autoresizesSubviews="NO" horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="48">
-                                                        <rect key="frame" x="191" y="14" width="5" height="183"/>
+                                                    <box autoresizesSubviews="NO" horizontalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="48">
+                                                        <rect key="frame" x="191" y="12" width="5" height="183"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                        <font key="titleFont" metaFont="system"/>
                                                     </box>
-                                                    <textField verticalHuggingPriority="750" id="49">
-                                                        <rect key="frame" x="15" y="172" width="41" height="17"/>
+                                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="49">
+                                                        <rect key="frame" x="15" y="170" width="41" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Audio" id="50">
                                                             <font key="font" metaFont="system"/>
@@ -156,8 +150,8 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField verticalHuggingPriority="750" id="51">
-                                                        <rect key="frame" x="199" y="172" width="59" height="17"/>
+                                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="51">
+                                                        <rect key="frame" x="199" y="170" width="59" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Subtitles" id="52">
                                                             <font key="font" metaFont="system"/>
@@ -165,8 +159,8 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" id="53">
-                                                        <rect key="frame" x="18" y="126" width="153" height="38"/>
+                                                    <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="53">
+                                                        <rect key="frame" x="18" y="124" width="153" height="38"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         <size key="cellSize" width="153" height="18"/>
@@ -191,8 +185,8 @@
                                                             <binding destination="15" name="selectedIndex" keyPath="values.HBBAudioSelection" id="81"/>
                                                         </connections>
                                                     </matrix>
-                                                    <comboBox verticalHuggingPriority="750" id="62">
-                                                        <rect key="frame" x="18" y="10" width="156" height="26"/>
+                                                    <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="62">
+                                                        <rect key="frame" x="18" y="8" width="156" height="26"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" usesDataSource="YES" numberOfVisibleItems="5" id="63">
                                                             <font key="font" metaFont="system"/>
@@ -205,8 +199,8 @@
                                                             <outlet property="dataSource" destination="-2" id="92"/>
                                                         </connections>
                                                     </comboBox>
-                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="68">
-                                                        <rect key="frame" x="15" y="42" width="173" height="34"/>
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="169" translatesAutoresizingMaskIntoConstraints="NO" id="68">
+                                                        <rect key="frame" x="15" y="40" width="173" height="34"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Preferred language for audio (if not available, the default language of each file will be used)" id="69">
                                                             <font key="font" metaFont="miniSystem"/>
@@ -214,8 +208,8 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" id="70">
-                                                        <rect key="frame" x="202" y="106" width="153" height="58"/>
+                                                    <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="70">
+                                                        <rect key="frame" x="202" y="104" width="153" height="58"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         <size key="cellSize" width="153" height="18"/>
@@ -244,8 +238,8 @@
                                                             <binding destination="15" name="selectedIndex" keyPath="values.HBBSubtitleSelection" id="91"/>
                                                         </connections>
                                                     </matrix>
-                                                    <comboBox verticalHuggingPriority="750" id="71">
-                                                        <rect key="frame" x="202" y="10" width="156" height="26"/>
+                                                    <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="71">
+                                                        <rect key="frame" x="202" y="8" width="156" height="26"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" usesDataSource="YES" numberOfVisibleItems="5" id="74">
                                                             <font key="font" metaFont="system"/>
@@ -258,8 +252,8 @@
                                                             <outlet property="dataSource" destination="-2" id="94"/>
                                                         </connections>
                                                     </comboBox>
-                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="72">
-                                                        <rect key="frame" x="199" y="42" width="159" height="34"/>
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="155" translatesAutoresizingMaskIntoConstraints="NO" id="72">
+                                                        <rect key="frame" x="199" y="40" width="159" height="34"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Preferred language for subtitles (if not available, no subtitles will be used)" id="73">
                                                             <font key="font" metaFont="miniSystem"/>
@@ -267,8 +261,8 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <button toolTip="Only works with DVD VobSub subtitles (from DVD, MP4 and MKV sources) and ASS/SSA subtitles (from MKV sources)" id="134">
-                                                        <rect key="frame" x="202" y="82" width="109" height="18"/>
+                                                    <button toolTip="Only works with DVD VobSub subtitles (from DVD, MP4 and MKV sources) and ASS/SSA subtitles (from MKV sources)" translatesAutoresizingMaskIntoConstraints="NO" id="134">
+                                                        <rect key="frame" x="202" y="80" width="109" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="check" title="Burn subtitles" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="135">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -281,10 +275,8 @@
                                                     </button>
                                                 </subviews>
                                             </view>
-                                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </box>
-                                        <button id="119">
+                                        <button translatesAutoresizingMaskIntoConstraints="NO" id="119">
                                             <rect key="frame" x="6" y="228" width="145" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Scan for Languages" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="120">
@@ -303,6 +295,7 @@
                     </tabView>
                 </subviews>
             </view>
+            <point key="canvasLocation" x="140" y="144"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="15"/>
         <customObject id="24" customClass="SUUpdater"/>

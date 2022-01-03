@@ -1115,19 +1115,19 @@
 	<string>2.25</string>
 	<key>HandBrakePresets</key>
 	<array>
-		<string>Universal</string>
-		<string>iPod</string>
-		<string>iPhone &amp; iPod Touch</string>
-		<string>iPhone4</string>
-		<string>iPad</string>
-		<string>AppleTV</string>
-		<string>AppleTV 2</string>
-		<string>Normal</string>
-		<string>High Profile</string>
-		<string>Classic</string>
-		<string>AppleTV Legacy</string>
-		<string>iPhone Legacy</string>
-		<string>iPod Legacy</string>
+		<string>HQ 1080p30 Surround</string>
+		<string>Fast 1080p30</string>
+		<string>Super HQ 1080p30 Surround</string>
+		<string>Very Fast 1080p30</string>
+		<string>Discord Tiny 5 Minutes 240p30</string>
+		<string>Discord Small 2 Minutes 360p30</string>
+		<string>H.265 MF 1080p</string>
+		<string>Production Proxy 540p</string>
+		<string>Production Max</string>
+		<string>VP9 MKV 2160p60</string>
+		<string>H.265 MKV 2160p60</string>
+		<string>Apple 2160p60 4K HEVC Surround</string>
+		<string>Apple 1080p60 Surround</string>
 	</array>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.video</string>

@@ -103,7 +103,7 @@ static HBBPresets *instance;
 	// If no presets, use the default ones
 	if ( [tempDict count] == 0 ) {
 		for (NSString *currentPreset in defaultPresets) {
-			tempDict[currentPreset] = [NSString stringWithFormat:@"--preset %@", currentPreset];
+			tempDict[currentPreset] = [NSString stringWithFormat:@"--preset\a%@", currentPreset];
 			NSLog(@"Loading default preset '%@'", currentPreset);
 		}
 	}
